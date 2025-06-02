@@ -77,4 +77,30 @@ class CudaMapPoint {
     };
 }
 
+namespace LOOP_CLOSING_DATA_WRAPPER {
+
+class CudaMapPoint {
+    public:
+        CudaMapPoint();
+        CudaMapPoint(ORB_SLAM3::MapPoint* mp);
+    
+    public:
+        // For creating empty mapPoints instead of using null ptr
+        bool isEmpty;
+
+    public:
+        long unsigned int mnId;
+        bool mbBad;
+        int nObs;
+        int mObservations_size;
+        int mObservations_leftIdx[200];
+        int mObservations_rightIdx[200];
+        Eigen::Vector3f mWorldPos;
+        float mfMaxDistance;
+        float mfMinDistance;
+        Eigen::Vector3f mNormalVector;
+        uint8_t mDescriptor[32];
+    };
+}
+
 #endif // CUDA_MAPPOINT_H
