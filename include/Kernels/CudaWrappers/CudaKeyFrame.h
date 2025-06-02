@@ -78,4 +78,23 @@ class CudaKeyFrame {
     };
 }
 
+
+namespace LOOP_CLOSING_DATA_WRAPPER {
+
+#define KEYPOINTS_PER_CELL 20
+
+class CudaKeyFrame {
+    private:
+        void initializeMemory();
+    
+    public:
+        CudaKeyFrame();
+        void setMemory(ORB_SLAM3::KeyFrame &KF);
+    
+    public:
+        long unsigned int mnId;
+    
+    };
+}
+
 #endif // CUDA_KEYFRAME_H

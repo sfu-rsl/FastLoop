@@ -186,3 +186,20 @@ namespace MAPPING_DATA_WRAPPER
         checkCudaError(cudaFree((void*)mFeatVecStartIndexes),"Failed to free keyframe memory: mFeatVecStartIndexes");
     }
 }
+
+namespace LOOP_CLOSING_DATA_WRAPPER
+{
+    void CudaKeyFrame::initializeMemory(){
+        DEBUG_PRINT("Allocating GPU memory For KeyFrame...");  
+    }
+
+    CudaKeyFrame::CudaKeyFrame() {
+        initializeMemory();
+    }
+    
+    void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame &KF) {
+        DEBUG_PRINT("Filling CudaKeyFrame Memory With KeyFrame Data...");
+
+        mnId = KF.mnId;
+    }
+}
