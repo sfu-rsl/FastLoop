@@ -2,6 +2,7 @@
 #define CUDA_KEYFRAME_H
 
 #include "CudaKeyPoint.h"
+#include "CudaMapPoint.h"
 #include "CudaCamera.h"
 #include "KeyFrame.h"
 #include "../CudaUtils.h"
@@ -90,9 +91,29 @@ class CudaKeyFrame {
     public:
         CudaKeyFrame();
         void setMemory(ORB_SLAM3::KeyFrame &KF);
-    
+        void updateConnections();
+        void addConnection(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF, const int &weight);
+        void addChild(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF);
+     
     public:
         long unsigned int mnId;
+
+    private:
+        CudaMapPoint* mvpMapPoints;
+        long unsigned int mpMapId;
+        long unsigned int mpMapInitKFid;
+        bool mbBad;
+        bool mbFirstConnection;
+
+        std::map<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*,int> mConnectedKeyFrameWeights;
+        
+        CudaKeyFrame* mvpOrderedConnectedKeyFrames;
+        size_t mvpOrderedConnectedKeyFrames_size;
+
+        int* mvOrderedWeights;
+        size_t mvOrderedWeights_size;
+
+        CudaKeyFrame* mpParent;
     
     };
 }

@@ -202,4 +202,87 @@ namespace LOOP_CLOSING_DATA_WRAPPER
 
         mnId = KF.mnId;
     }
+
+    void CudaKeyFrame::updateConnections(){
+        map<CudaKeyFrame*, int> KFcounter;
+
+        LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint* vpMP;
+        vpMP = mvpMapPoints;
+
+        for(int i=0; i<2000; i++){
+            LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = vpMP[i];
+
+            if(pMP.isEmpty || pMP.isBad())
+                continue;
+
+            for(int j=0; j<40; j++){
+                LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* kf = pMP.mObsKeyFrames[j];
+                if(kf != nullptr){
+                    if(kf->mnId==mnId || kf->mbBad || kf->mpMapId != mpMapId)
+                        continue;
+                    KFcounter[kf]++;
+                }
+            }
+        }
+
+        if(KFcounter.empty())
+            return;
+        
+        int nmax=0;
+        LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKFmax=nullptr;
+        int th = 15;
+
+        std::vector<pair<int, LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*>> vPairs;
+        vPairs.reserve(KFcounter.size());
+        // if(!upParent)
+        for(map<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*, int>::iterator mit=KFcounter.begin(), mend=KFcounter.end(); mit!=mend; mit++){
+            // if()
+            if(mit->second > nmax){
+                nmax = mit->second;
+                pKFmax = mit->first;
+            }
+            if(mit->second >= th){
+                vPairs.push_back(make_pair(mit->second, mit->first));
+                (mit->first)->addConnection(this, mit->second);
+            }
+        }
+
+        if(vPairs.empty()){
+            vPairs.push_back(make_pair(nmax, pKFmax));
+            pKFmax->addConnection(this, nmax);
+        }
+
+        sort(vPairs.begin(), vPairs.end());
+        list<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*> lKFs;
+        list<int> lWs;
+        for(size_t i=0; i<vPairs.size(); i++){
+            lKFs.push_front(vPairs[i].second);
+            lWs.push_front(vPairs[i].first);
+        }
+
+        mConnectedKeyFrameWeights = KFcounter;
+
+        mvpOrderedConnectedKeyFrames_size = vector<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*>(lKFs.begin(),lKFs.end()).size();
+        std::vector<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*> tmp_mvpOrderedConnectedKeyFrames(mvpOrderedConnectedKeyFrames_size);
+        checkCudaError(cudaMemcpy((void*) mvpOrderedConnectedKeyFrames, vector<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*>(lKFs.begin(),lKFs.end()).data(), mvpOrderedConnectedKeyFrames_size * sizeof(CudaKeyFrame), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvpOrderedConnectedKeyFrames to gpu");
+        
+
+        mvOrderedWeights_size = vector<int>(lWs.begin(), lWs.end()).size();
+        std::vector<int*> tmp_mvOrderedWeights(mvOrderedWeights_size);
+        checkCudaError(cudaMemcpy((void*) mvOrderedWeights, vector<int>(lWs.begin(), lWs.end()).data(), mvOrderedWeights_size * sizeof(int), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvOrderedWeights to gpu");
+        
+        if(mbFirstConnection && mnId!=mpMapInitKFid){
+            mpParent = &mvpOrderedConnectedKeyFrames[0];
+            mpParent->addChild(this);
+            mbFirstConnection = false;
+        }
+    }
+
+    void CudaKeyFrame::addConnection(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF, const int &weight){
+        return;
+    }
+
+    void CudaKeyFrame::addChild(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF){
+        return;
+    }
 }

@@ -79,10 +79,13 @@ class CudaMapPoint {
 
 namespace LOOP_CLOSING_DATA_WRAPPER {
 
+class CudaKeyFrame;
+
 class CudaMapPoint {
     public:
         CudaMapPoint();
         CudaMapPoint(ORB_SLAM3::MapPoint* mp);
+        bool isBad();
     
     public:
         // For creating empty mapPoints instead of using null ptr
@@ -100,6 +103,7 @@ class CudaMapPoint {
         float mfMinDistance;
         Eigen::Vector3f mNormalVector;
         uint8_t mDescriptor[32];
+        CudaKeyFrame* mObsKeyFrames[40];
     };
 }
 

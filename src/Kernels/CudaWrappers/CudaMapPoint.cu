@@ -115,4 +115,8 @@ namespace LOOP_CLOSING_DATA_WRAPPER
         const cv::Mat& descriptor = mp->GetDescriptor();
         std::memcpy(mDescriptor, descriptor.ptr<uint8_t>(0), descriptor.cols * sizeof(uint8_t));
     }
+
+    bool CudaMapPoint::isBad(){
+        return mbBad;
+    }
 }
