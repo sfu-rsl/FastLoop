@@ -96,7 +96,7 @@ void LoopClosing::Run()
 
     while(1)
     {
-
+        auto start1 = std::chrono::high_resolution_clock::now();
         //NEW LOOP AND MERGE DETECTION ALGORITHM
         //----------------------------
 
@@ -112,7 +112,14 @@ void LoopClosing::Run()
             std::chrono::steady_clock::time_point time_StartPR = std::chrono::steady_clock::now();
 #endif
 
+            auto start = std::chrono::high_resolution_clock::now();
+
             bool bFindedRegion = NewDetectCommonRegions();
+
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double, std::milli> elapsed = end - start;
+
+            std::cout << "*************** NewDetectCommonRegions: " << elapsed.count() << " ms" << std::endl;
 
 #ifdef REGISTER_TIMES
             std::chrono::steady_clock::time_point time_EndPR = std::chrono::steady_clock::now();
@@ -224,6 +231,7 @@ void LoopClosing::Run()
 
                 if(mbLoopDetected)
                 {
+                    std::cout << "******************************************************\n";
                     bool bGoodLoop = true;
                     vdPR_CurrentTime.push_back(mpCurrentKF->mTimeStamp);
                     vdPR_MatchedTime.push_back(mpLoopMatchedKF->mTimeStamp);
@@ -274,7 +282,13 @@ void LoopClosing::Run()
                         nLoop += 1;
 
 #endif
+                        auto start2 = std::chrono::high_resolution_clock::now();
                         CorrectLoop();
+                        auto end2 = std::chrono::high_resolution_clock::now();
+                        std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+                        std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
+
+
 #ifdef REGISTER_TIMES
                         std::chrono::steady_clock::time_point time_EndLoop = std::chrono::steady_clock::now();
 
@@ -308,8 +322,14 @@ void LoopClosing::Run()
         }
 
         usleep(5000);
-    }
 
+        auto end1 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+        if (elapsed1.count() > 6 )
+            std::cout << "*************** Loop Closing: " << elapsed1.count() << " ms" << std::endl;
+
+    }
+    
     SetFinish();
 }
 
@@ -376,6 +396,7 @@ bool LoopClosing::NewDetectCommonRegions()
 #ifdef REGISTER_TIMES
     std::chrono::steady_clock::time_point time_StartEstSim3_1 = std::chrono::steady_clock::now();
 #endif
+    auto start4 = std::chrono::high_resolution_clock::now();
     if(mnLoopNumCoincidences > 0)
     {
         bCheckSpatial = true;
@@ -423,6 +444,9 @@ bool LoopClosing::NewDetectCommonRegions()
 
         }
     }
+    auto end4 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+    std::cout << "+ Part 4: " << elapsed4.count() << " ms" << std::endl;
 
     //Merge candidates
     bool bMergeDetectedInKF = false;
@@ -482,6 +506,7 @@ bool LoopClosing::NewDetectCommonRegions()
         return true;
     }
 
+    auto start5 = std::chrono::high_resolution_clock::now();
     //TODO: This is only necessary if we use a minimun score for pick the best candidates
     const vector<KeyFrame*> vpConnectedKeyFrames = mpCurrentKF->GetVectorCovisibleKeyFrames();
 
@@ -501,12 +526,17 @@ bool LoopClosing::NewDetectCommonRegions()
         vdDataQuery_ms.push_back(timeDataQuery);
 #endif
     }
+    auto end5 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+    std::cout << "+ Part 5: " << elapsed5.count() << " ms" << std::endl;
+
 
 #ifdef REGISTER_TIMES
         std::chrono::steady_clock::time_point time_StartEstSim3_2 = std::chrono::steady_clock::now();
 #endif
     // Check the BoW candidates if the geometric candidate list is empty
     //Loop candidates
+    auto start6 = std::chrono::high_resolution_clock::now();
     if(!bLoopDetectedInKF && !vpLoopBowCand.empty())
     {
         mbLoopDetected = DetectCommonRegionsFromBoW(vpLoopBowCand, mpLoopMatchedKF, mpLoopLastCurrentKF, mg2oLoopSlw, mnLoopNumCoincidences, mvpLoopMPs, mvpLoopMatchedMPs);
@@ -516,6 +546,10 @@ bool LoopClosing::NewDetectCommonRegions()
     {
         mbMergeDetected = DetectCommonRegionsFromBoW(vpMergeBowCand, mpMergeMatchedKF, mpMergeLastCurrentKF, mg2oMergeSlw, mnMergeNumCoincidences, mvpMergeMPs, mvpMergeMatchedMPs);
     }
+    auto end6 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    std::cout << "+ Part 6: " << elapsed6.count() << " ms" << std::endl;
+
 
 #ifdef REGISTER_TIMES
         std::chrono::steady_clock::time_point time_EndEstSim3_2 = std::chrono::steady_clock::now();
@@ -629,7 +663,8 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
             vpCovKFi[0] = pKFi;
         }
 
-
+        auto start1 = std::chrono::high_resolution_clock::now();
+    
         bool bAbortByNearKF = false;
         for(int j=0; j<vpCovKFi.size(); ++j)
         {
@@ -646,6 +681,9 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
         }
         //std::cout << "Check BoW continue because is far to the matched one " << std::endl;
 
+        auto end1 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+        std::cout << "+ Abort By Near KF: " << elapsed1.count() << " ms" << std::endl;
 
         std::vector<std::vector<MapPoint*> > vvpMatchedMPs;
         vvpMatchedMPs.resize(vpCovKFi.size());
@@ -658,6 +696,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
         std::vector<MapPoint*> vpMatchedPoints = std::vector<MapPoint*>(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
         std::vector<KeyFrame*> vpKeyFrameMatchedMP = std::vector<KeyFrame*>(mpCurrentKF->GetMapPointMatches().size(), static_cast<KeyFrame*>(NULL));
 
+        auto start2 = std::chrono::high_resolution_clock::now();
         int nIndexMostBoWMatchesKF=0;
         for(int j=0; j<vpCovKFi.size(); ++j)
         {
@@ -671,7 +710,12 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                 nIndexMostBoWMatchesKF = j;
             }
         }
+        auto end2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+        std::cout << "+ SearchByBoW: " << elapsed2.count() << " ms" << std::endl;
 
+
+        auto start3 = std::chrono::high_resolution_clock::now();
         for(int j=0; j<vpCovKFi.size(); ++j)
         {
             for(int k=0; k < vvpMatchedMPs[j].size(); ++k)
@@ -690,6 +734,10 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                 }
             }
         }
+        auto end3 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
+        std::cout << "+ Find matched KFs and MPs: " << elapsed3.count() << " ms" << std::endl;
+        
 
         //pMostBoWMatchesKF = vpCovKFi[pMostBoWMatchesKF];
 
@@ -701,18 +749,29 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                 bFixedScale=false;
 
             Sim3Solver solver = Sim3Solver(mpCurrentKF, pMostBoWMatchesKF, vpMatchedPoints, bFixedScale, vpKeyFrameMatchedMP);
+
+            auto start4 = std::chrono::high_resolution_clock::now();
             solver.SetRansacParameters(0.99, nBoWInliers, 300); // at least 15 inliers
+            auto end4 = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+            std::cout << "+ SetRansacParameters: " << elapsed4.count() << " ms" << std::endl;
+        
 
             bool bNoMore = false;
             vector<bool> vbInliers;
             int nInliers;
             bool bConverge = false;
             Eigen::Matrix4f mTcm;
+
+            auto start5 = std::chrono::high_resolution_clock::now();
             while(!bConverge && !bNoMore)
             {
                 mTcm = solver.iterate(20,bNoMore, vbInliers, nInliers, bConverge);
                 //Verbose::PrintMess("BoW guess: Solver achieve " + to_string(nInliers) + " geometrical inliers among " + to_string(nBoWInliers) + " BoW matches", Verbose::VERBOSITY_DEBUG);
             }
+            auto end5 = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+            std::cout << "+ Iterate on Solver: " << elapsed5.count() << " ms" << std::endl;
 
             if(bConverge)
             {
@@ -757,8 +816,13 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                 vpMatchedMP.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
                 vector<KeyFrame*> vpMatchedKF;
                 vpMatchedKF.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<KeyFrame*>(NULL));
+
+                auto start6 = std::chrono::high_resolution_clock::now();
                 int numProjMatches = matcher.SearchByProjection(mpCurrentKF, mScw, vpMapPoints, vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5);
                 //cout <<"BoW: " << numProjMatches << " matches between " << vpMapPoints.size() << " points with coarse Sim3" << endl;
+                auto end6 = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+                std::cout << "+ Search By Projection: " << elapsed6.count() << " ms" << std::endl;
 
                 if(numProjMatches >= nProjMatches)
                 {
@@ -769,7 +833,11 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     if(mpTracker->mSensor==System::IMU_MONOCULAR && !mpCurrentKF->GetMap()->GetIniertialBA2())
                         bFixedScale=false;
 
+                    auto start7 = std::chrono::high_resolution_clock::now();
                     int numOptMatches = Optimizer::OptimizeSim3(mpCurrentKF, pKFi, vpMatchedMP, gScm, 10, mbFixScale, mHessian7x7, true);
+                    auto end7 = std::chrono::high_resolution_clock::now();
+                    std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
+                    std::cout << "+ OptimizeSim3: " << elapsed7.count() << " ms" << std::endl;
 
                     if(numOptMatches >= nSim3Inliers)
                     {
@@ -779,7 +847,12 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
 
                         vector<MapPoint*> vpMatchedMP;
                         vpMatchedMP.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
+
+                        auto start8 = std::chrono::high_resolution_clock::now();
                         int numProjOptMatches = matcher.SearchByProjection(mpCurrentKF, mScw, vpMapPoints, vpMatchedMP, 5, 1.0);
+                        auto end8 = std::chrono::high_resolution_clock::now();
+                        std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
+                        std::cout << "+ SearchByProjection: " << elapsed8.count() << " ms" << std::endl;
 
                         if(numProjOptMatches >= nProjOptMatches)
                         {
@@ -824,6 +897,8 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                             vector<KeyFrame*> vpCurrentCovKFs = mpCurrentKF->GetBestCovisibilityKeyFrames(nNumCovisibles);
 
                             int j = 0;
+                            
+                            auto start9 = std::chrono::high_resolution_clock::now();
                             while(nNumKFs < 3 && j<vpCurrentCovKFs.size())
                             {
                                 KeyFrame* pKFj = vpCurrentCovKFs[j];
@@ -844,6 +919,9 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                 }
                                 j++;
                             }
+                            auto end9 = std::chrono::high_resolution_clock::now();
+                            std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
+                            std::cout << "+ DetectCommonRegionsFromLastKF: " << elapsed9.count() << " ms" << std::endl;
 
                             if(nNumKFs < 3)
                             {
@@ -973,13 +1051,17 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
 
 void LoopClosing::CorrectLoop()
 {
+    auto start1 = std::chrono::high_resolution_clock::now();
     //cout << "Loop detected!" << endl;
 
     // Send a stop signal to Local Mapping
     // Avoid new keyframes are inserted while correcting the loop
     mpLocalMapper->RequestStop();
     mpLocalMapper->EmptyQueue(); // Proccess keyframes in the queue
+    auto end1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
 
+    auto start2 = std::chrono::high_resolution_clock::now();
     // If a Global Bundle Adjustment is running, abort it
     if(isRunningGBA())
     {
@@ -996,6 +1078,8 @@ void LoopClosing::CorrectLoop()
         }
         cout << "  Done!!" << endl;
     }
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
 
     // Wait until Local Mapping has effectively stopped
     while(!mpLocalMapper->isStopped())
@@ -1003,12 +1087,16 @@ void LoopClosing::CorrectLoop()
         usleep(1000);
     }
 
+    auto start3 = std::chrono::high_resolution_clock::now();
     // Ensure current keyframe is updated
     //cout << "Start updating connections" << endl;
     //assert(mpCurrentKF->GetMap()->CheckEssentialGraph());
     mpCurrentKF->UpdateConnections();
     //assert(mpCurrentKF->GetMap()->CheckEssentialGraph());
+    auto end3 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
 
+    auto start4 = std::chrono::high_resolution_clock::now();
     // Retrive keyframes connected to the current keyframe and compute corrected Sim3 pose by propagation
     mvpCurrentConnectedKFs = mpCurrentKF->GetVectorCovisibleKeyFrames();
     mvpCurrentConnectedKFs.push_back(mpCurrentKF);
@@ -1028,6 +1116,9 @@ void LoopClosing::CorrectLoop()
 
     Map* pLoopMap = mpCurrentKF->GetMap();
 
+    auto end4 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+
 #ifdef REGISTER_TIMES
     /*KeyFrame* pKF = mpCurrentKF;
     int numKFinLoop = 0;
@@ -1040,11 +1131,12 @@ void LoopClosing::CorrectLoop()
 
     std::chrono::steady_clock::time_point time_StartFusion = std::chrono::steady_clock::now();
 #endif
-
+    std::chrono::duration<double, std::milli> elapsed6, elapsed7, elapsed8;
     {
         // Get Map Mutex
         unique_lock<mutex> lock(pLoopMap->mMutexMapUpdate);
 
+        auto start6 = std::chrono::high_resolution_clock::now();
         const bool bImuInit = pLoopMap->isImuInitialized();
 
         for(vector<KeyFrame*>::iterator vit=mvpCurrentConnectedKFs.begin(), vend=mvpCurrentConnectedKFs.end(); vit!=vend; vit++)
@@ -1069,7 +1161,11 @@ void LoopClosing::CorrectLoop()
                 NonCorrectedSim3[pKFi]=g2oSiw;
             }  
         }
+        auto end6 = std::chrono::high_resolution_clock::now();
+        elapsed6 = end6 - start6;
 
+
+        auto start7 = std::chrono::high_resolution_clock::now();
         // Correct all MapPoints obsrved by current keyframe and neighbors, so that they align with the other side of the loop
         for(KeyFrameAndPose::iterator mit=CorrectedSim3.begin(), mend=CorrectedSim3.end(); mit!=mend; mit++)
         {
@@ -1112,12 +1208,14 @@ void LoopClosing::CorrectLoop()
             }
 
             // Make sure connections are updated
-            pKFi->UpdateConnections();
+            // pKFi->UpdateConnections();
         }
         // TODO Check this index increasement
         mpAtlas->GetCurrentMap()->IncreaseChangeIndex();
+        auto end7 = std::chrono::high_resolution_clock::now();
+        elapsed7 = end7 - start7;
 
-
+        auto start8 = std::chrono::high_resolution_clock::now();
         // Start Loop Fusion
         // Update matched map points and replace if duplicated
         for(size_t i=0; i<mvpLoopMatchedMPs.size(); i++)
@@ -1137,14 +1235,20 @@ void LoopClosing::CorrectLoop()
                 }
             }
         }
+        auto end8 = std::chrono::high_resolution_clock::now();
+        elapsed8 = end8 - start8;
         //cout << "LC: end replacing duplicated" << endl;
     }
 
+    auto start9 = std::chrono::high_resolution_clock::now();
     // Project MapPoints observed in the neighborhood of the loop keyframe
     // into the current keyframe and neighbors using corrected poses.
     // Fuse duplications.
     SearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
+    auto end9 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
 
+    auto start10 = std::chrono::high_resolution_clock::now();
     // After the MapPoint fusion, new links in the covisibility graph will appear attaching both sides of the loop
     map<KeyFrame*, set<KeyFrame*> > LoopConnections;
 
@@ -1165,7 +1269,10 @@ void LoopClosing::CorrectLoop()
             LoopConnections[pKFi].erase(*vit2);
         }
     }
+    auto end10 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
 
+    auto start11 = std::chrono::high_resolution_clock::now();
     // Optimize graph
     bool bFixedScale = mbFixScale;
     // TODO CHECK; Solo para el monocular inertial
@@ -1194,13 +1301,22 @@ void LoopClosing::CorrectLoop()
     double timeOptEss = std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_EndOpt - time_EndFusion).count();
     vdLoopOptEss_ms.push_back(timeOptEss);
 #endif
+    auto end11 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed11 = end11 - start11;
 
+    auto start12 = std::chrono::high_resolution_clock::now();
     mpAtlas->InformNewBigChange();
+    auto end12 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed12 = end12 - start12;
 
+    auto start13 = std::chrono::high_resolution_clock::now();
     // Add loop edge
     mpLoopMatchedKF->AddLoopEdge(mpCurrentKF);
     mpCurrentKF->AddLoopEdge(mpLoopMatchedKF);
+    auto end13 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed13 = end13 - start13;
 
+    auto start14 = std::chrono::high_resolution_clock::now();
     // Launch a new thread to perform Global Bundle Adjustment (Only if few keyframes, if not it would take too much time)
     if(!pLoopMap->isImuInitialized() || (pLoopMap->KeyFramesInMap()<200 && mpAtlas->CountMaps()==1))
     {
@@ -1211,11 +1327,32 @@ void LoopClosing::CorrectLoop()
 
         mpThreadGBA = new thread(&LoopClosing::RunGlobalBundleAdjustment, this, pLoopMap, mpCurrentKF->mnId);
     }
+    auto end14 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed14 = end14 - start14;
 
+    auto start15 = std::chrono::high_resolution_clock::now();
     // Loop closed. Release Local Mapping.
     mpLocalMapper->Release();    
 
     mLastLoopKFid = mpCurrentKF->mnId; //TODO old varible, it is not use in the new algorithm
+    auto end15 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed15 = end15 - start15;
+
+    std::cout << "Part 1: " << elapsed1.count() << " ms" << std::endl;
+    std::cout << "Part 2: " << elapsed2.count() << " ms" << std::endl;
+    std::cout << "Part 3: " << elapsed3.count() << " ms" << std::endl;
+    std::cout << "Part 4: " << elapsed4.count() << " ms" << std::endl;
+    std::cout << "Part 6: " << elapsed6.count() << " ms" << std::endl;
+    std::cout << "Part 7: " << elapsed7.count() << " ms" << std::endl;
+    std::cout << "Part 8: " << elapsed8.count() << " ms" << std::endl;
+    std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
+    std::cout << "Part 10: " << elapsed10.count() << " ms" << std::endl;
+    std::cout << "Part 11: " << elapsed11.count() << " ms" << std::endl;
+    std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
+    std::cout << "Part 13: " << elapsed13.count() << " ms" << std::endl;
+    std::cout << "Part 14: " << elapsed14.count() << " ms" << std::endl;
+    std::cout << "Part 15: " << elapsed15.count() << " ms" << std::endl;
+    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 }
 
 void LoopClosing::MergeLocal()

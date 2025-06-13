@@ -1,9 +1,10 @@
 #!/bin/bash
-pathDatasetTUM_VI=$HOME/SLAM/Datasets/tumvi #Example, it is necesary to change it by the dataset path
+pathDatasetTUM_VI=$HOME/Desktop/slam3/Datasets/tum-vi #Example, it is necesary to change it by the dataset path
 
 mode=$1
 fastmap_mode=$2
-dataset_name=$3
+seq_number=4
+dataset_name=room
 version=$4
 
 if [ "$mode" -eq 2 ]; then
@@ -18,8 +19,8 @@ if [ "$mode" -eq 0 ]; then
     system_name='ORB-SLAM3'
 fi
 
-statsDir="../Results/${system_name}/${dataset_name}/${version}"
-file_name="dataset-${dataset_name}_stereoi"
+statsDir="../Results/${system_name}/${dataset_name}${seq_number}/${version}"
+file_name="dataset-${dataset_name}${seq_number}_512_stereoi"
 
 if [ ! -d "$statsDir" ]; then
     mkdir -p "$statsDir"
@@ -33,24 +34,24 @@ fi
 # ARGS="../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}_512.txt Stereo-Inertial/TUM_IMU/dataset-${dataset_name}_512.txt  ${file_name} ${statsDir} ${mode}"
 # gdb -ex "set args $ARGS" -ex "run" ./Stereo-Inertial/stereo_inertial_tum_vi
 # compute-sanitizer --tool memcheck --report-api-errors all --show-backtrace no ./Stereo-Inertial/stereo_inertial_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}_512.txt Stereo-Inertial/TUM_IMU/dataset-${dataset_name}_512.txt ${statsDir} ${mode} ${fastmap_mode}
-./Stereo-Inertial/stereo_inertial_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}_512.txt Stereo-Inertial/TUM_IMU/dataset-${dataset_name}_512.txt  ${file_name} ${statsDir} ${mode} ${fastmap_mode}
+./Stereo-Inertial/stereo_inertial_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}${seq_number}_512.txt Stereo-Inertial/TUM_IMU/dataset-${dataset_name}${seq_number}_512.txt  ${file_name} ${statsDir} ${mode} ${fastmap_mode}
 # ./Stereo/stereo_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}_512.txt ${file_name} ${statsDir} ${orbExtractionRunstatus} ${stereoMatchRunstatus} ${searchLocalPointsRunstatus} ${poseEstimationRunstatus}
 
 # echo "------------------------------------"
 
-echo "Evaluation of ${dataset_name} trajectory with Stereo-Inertial sensor"
-python3 -W ignore ../evaluation/evaluate3.py "$pathDatasetTUM_VI"/dataset-${dataset_name}_512_16//mav0/mocap0/data.csv f_${file_name}.txt --plot ${dataset_name}_512_stereoi.pdf --verbose
+echo "Evaluation of ${dataset_name}${seq_number} trajectory with Stereo-Inertial sensor"
+python3 -W ignore ../evaluation/evaluate3.py "$pathDatasetTUM_VI"/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/mocap0/data.csv f_${file_name}.txt --plot ${dataset_name}${seq_number}_512_stereoi.pdf --verbose
 echo "Plotting data"
-python3 ../plot.py "${statsDir}"
+# python3 ../plot.py "${statsDir}"
 
-files=("f_dataset-${dataset_name}_stereoi.csv"
-"f_dataset-${dataset_name}_stereoi.txt"
-"f_dataset-${dataset_name}_stereoi.png"
-"kf_dataset-${dataset_name}_stereoi.txt"
-)
-destination_directory="${statsDir}/trajectory"
-mkdir -p $destination_directory
-mv "${files[@]}" "$destination_directory"
+# files=("f_dataset-${dataset_name}${seq_number}_stereoi.csv"
+# "f_dataset-${dataset_name}${seq_number}_stereoi.txt"
+# "f_dataset-${dataset_name}${seq_number}_stereoi.png"
+# "kf_dataset-${dataset_name}${seq_number}_stereoi.txt"
+# )
+# destination_directory="${statsDir}/trajectory"
+# mkdir -p $destination_directory
+# mv "${files[@]}" "$destination_directory"
 
 
 #Multi Session Example
