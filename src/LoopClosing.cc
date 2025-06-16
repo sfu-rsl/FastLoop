@@ -27,6 +27,7 @@
 
 #include "Kernels/MappingKernelController.h"
 #include "Kernels/CudaKeyFrameStorage.h"
+#include "Kernels/LoopClosingKernelController.h"
 
 #include<mutex>
 #include<thread>
@@ -1244,7 +1245,12 @@ void LoopClosing::CorrectLoop()
     // Project MapPoints observed in the neighborhood of the loop keyframe
     // into the current keyframe and neighbors using corrected poses.
     // Fuse duplications.
-    SearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
+
+    if (LoopClosingKernelController::fuseOnGPU == 1)
+        GPUSearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
+    else 
+        SearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
+
     auto end9 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
 
@@ -2337,6 +2343,18 @@ void LoopClosing::SearchAndFuse(const vector<KeyFrame*> &vConectedKFs, vector<Ma
     //cout << "FUSE-POSE: " << total_replaces << " MPs had been fused" << endl;
 }
 
+void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vector<MapPoint*> &vpMapPoints)
+{
+    ORBmatcher matcher(0.8);
+    vector<KeyFrame*> vpNeighborKFs;
+    float threshold = 4;
+
+    for(KeyFrameAndPose::const_iterator mit=CorrectedPosesMap.begin(), mend=CorrectedPosesMap.end(); mit!=mend;mit++)
+    {
+        vpNeighborKFs.push_back(mit->first);
+    }
+    matcher.GPUFuse(vpNeighborKFs, threshold, vpMapPoints);
+}
 
 
 void LoopClosing::RequestReset()

@@ -22,6 +22,8 @@ class FuseKernel: public KernelInterface {
         void launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currKF, const float th, 
                     const bool bRight, ORB_SLAM3::GeometricCamera* pCamera, Sophus::SE3f Tcw, Eigen::Vector3f Ow, 
                     vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs);
+        void launch(std::vector<ORB_SLAM3::KeyFrame*> neighKFs, const float th, 
+                    vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs);
         void origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapPoint*> &vpMapPoints, const float th, const bool bRight);
         int origDescriptorDistance(const cv::Mat &a, const cv::Mat &b);
         void saveStats(const string &file_path) override;

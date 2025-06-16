@@ -31,6 +31,7 @@
 
 #include "Kernels/TrackingKernelController.h"
 #include "Kernels/MappingKernelController.h"
+#include "Kernels/LoopClosingKernelController.h"
 #include "Stats/TrackingStats.h"
 #include "Stats/LocalMappingStats.h"
 #include "Kernels/CudaKeyFrameStorage.h"
@@ -1626,6 +1627,21 @@ namespace ORB_SLAM3
         }
 
         return nFused;
+    }
+
+    int ORBmatcher::GPUFuse(vector<KeyFrame*> neighKFs,  const float th, vector<MapPoint*> vpMapPoints)
+    {
+        int nFused=0;
+        int numPoints = vpMapPoints.size();
+        int numNeighKFs = neighKFs.size();
+        vector<MapPoint*> validMapPoints;
+        int outSize = numPoints*numNeighKFs; 
+        int bestDists[outSize];
+        int bestIdxs[outSize];
+
+        LoopClosingKernelController::launchFuseKernel(neighKFs, th, validMapPoints, bestDists, bestIdxs);
+
+
     }
 
     int ORBmatcher::SearchBySim3(KeyFrame* pKF1, KeyFrame* pKF2, std::vector<MapPoint *> &vpMatches12, const Sophus::Sim3f &S12, const float th)

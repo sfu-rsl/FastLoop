@@ -311,6 +311,11 @@ void FuseKernel::launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currK
     // origFuse(neighKF, currKF->GetMapPointMatches(), th, bRight);
 }
 
+void FuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> neighKFs, float th, 
+                        vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs) {
+    return;
+}
+
 void FuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapPoint*> &vpMapPoints, const float th, const bool bRight) {
     ORB_SLAM3::GeometricCamera* pCamera;
     Sophus::SE3f Tcw;
