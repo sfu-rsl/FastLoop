@@ -54,7 +54,7 @@ void KFCullingKernel::launch(vector<ORB_SLAM3::KeyFrame*> vpLocalKeyFrames, int*
         
         else {
 
-            MAPPING_DATA_WRAPPER::CudaKeyFrame* d_kf = CudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
+            MAPPING_DATA_WRAPPER::CudaKeyFrame* d_kf = CudaKeyFrameStorage::getMappingCudaKeyFrame(pKF->mnId);
             if (d_kf == nullptr) {
                 cout << "[ERROR] KFCullingKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << pKF->mnId << "\n";
                 MappingKernelController::shutdownKernels(true, true);
