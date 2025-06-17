@@ -14,6 +14,10 @@ namespace MAPPING_DATA_WRAPPER {
     class CudaKeyFrame;
 }
 
+namespace LOOP_CLOSING_DATA_WRAPPER {
+    class CudaKeyFrame;
+}
+
 namespace ORB_SLAM3 {
     class KeyFrame;
     class MapPoint;
@@ -24,12 +28,15 @@ using ckd_buffer_index_t = int;
 class CudaKeyFrameStorage {
     public:
         static void initializeMemory();
-        static MAPPING_DATA_WRAPPER::CudaKeyFrame* getCudaKeyFrame(long unsigned int mnId);
+        static MAPPING_DATA_WRAPPER::CudaKeyFrame* getMappingCudaKeyFrame(long unsigned int mnId);
         static MAPPING_DATA_WRAPPER::CudaKeyFrame* addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
         static void eraseCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
         static void printStorageKeyframes();
         static void addFeatureVector(long unsigned int KF_mnId, DBoW2::FeatureVector featVec);
         static void shutdown();
+
+        static LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* getLoopClosingCudaKeyFrame(long unsigned int mnId);
+
     public:
         static MAPPING_DATA_WRAPPER::CudaKeyFrame *d_keyframes, *h_keyframes;
         static std::unordered_map<long unsigned int, ckd_buffer_index_t> mnId_to_idx; 

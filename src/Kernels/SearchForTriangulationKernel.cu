@@ -507,7 +507,7 @@ void SearchForTriangulationKernel::launch(ORB_SLAM3::KeyFrame* mpCurrentKeyFrame
     if (nn == 0)
         return;
 
-    MAPPING_DATA_WRAPPER::CudaKeyFrame* currKeyframeOnGPU = CudaKeyFrameStorage::getCudaKeyFrame(mpCurrentKeyFrame->mnId);
+    MAPPING_DATA_WRAPPER::CudaKeyFrame* currKeyframeOnGPU = CudaKeyFrameStorage::getMappingCudaKeyFrame(mpCurrentKeyFrame->mnId);
     if (currKeyframeOnGPU == nullptr) {
         cerr << "[ERROR] SearchForTriangulationKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << mpCurrentKeyFrame->mnId << "\n";
         MappingKernelController::shutdownKernels(true, true);
@@ -516,7 +516,7 @@ void SearchForTriangulationKernel::launch(ORB_SLAM3::KeyFrame* mpCurrentKeyFrame
 
     MAPPING_DATA_WRAPPER::CudaKeyFrame* neighKeyframesOnGPU[nn];
     for (size_t i = 0; i < nn; i++) {
-        neighKeyframesOnGPU[i] = CudaKeyFrameStorage::getCudaKeyFrame(vpNeighKFs[vpNeighKFsIndexes[i]]->mnId);
+        neighKeyframesOnGPU[i] = CudaKeyFrameStorage::getMappingCudaKeyFrame(vpNeighKFs[vpNeighKFsIndexes[i]]->mnId);
         if (neighKeyframesOnGPU[i] == nullptr) {
             cerr << "[ERROR] SearchForTriangulationKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << vpNeighKFs[vpNeighKFsIndexes[i]]->mnId << "\n";
             MappingKernelController::shutdownKernels(true, true);

@@ -107,7 +107,7 @@ void CudaKeyFrameStorage::eraseCudaKeyFrame(ORB_SLAM3::KeyFrame* KF) {
 #endif
 }
 
-MAPPING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getCudaKeyFrame(long unsigned int mnId){
+MAPPING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getMappingCudaKeyFrame(long unsigned int mnId){
     // std::unique_lock<std::mutex> lock(mtx);
     auto it = mnId_to_idx.find(mnId);
     if (it != mnId_to_idx.end()) {
@@ -160,4 +160,13 @@ void CudaKeyFrameStorage::shutdown() {
     
     cudaFree(d_keyframes);
     cudaFreeHost(h_keyframes);
+}
+
+LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getLoopClosingCudaKeyFrame(long unsigned int mnId){
+    // std::unique_lock<std::mutex> lock(mtx);
+    auto it = mnId_to_idx.find(mnId);
+    if (it != mnId_to_idx.end()) {
+        return &d_keyframes[it->second];
+    }
+    return nullptr;
 }
