@@ -2346,14 +2346,16 @@ void LoopClosing::SearchAndFuse(const vector<KeyFrame*> &vConectedKFs, vector<Ma
 void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vector<MapPoint*> &vpMapPoints)
 {
     ORBmatcher matcher(0.8);
-    vector<KeyFrame*> vpNeighborKFs;
+    vector<KeyFrame*> vpConnectedKFs;
+    vector<Sophus::Sim3f> vpConnectedScws;
     float threshold = 4;
 
     for(KeyFrameAndPose::const_iterator mit=CorrectedPosesMap.begin(), mend=CorrectedPosesMap.end(); mit!=mend;mit++)
     {
-        vpNeighborKFs.push_back(mit->first);
+        vpConnectedKFs.push_back(mit->first);
+        vpConnectedScws.push_back(Converter::toSophus(mit->second));
     }
-    matcher.GPUFuse(vpNeighborKFs, threshold, vpMapPoints);
+    matcher.GPUFuse(vpConnectedKFs, vpConnectedScws, threshold, vpMapPoints);
 }
 
 

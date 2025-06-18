@@ -18,11 +18,12 @@ public:
     static void initializeKernels();
 
     static void shutdownKernels();
-    
+
     static void saveKernelsStats(const std::string &file_path);
 
     static void launchFuseKernel(
-        std::vector<ORB_SLAM3::KeyFrame*> neighKFs, const float th,  
+        std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
+        std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
         std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
     );
     

@@ -18,6 +18,8 @@ ckd_buffer_index_t CudaKeyFrameStorage::first_free_idx = 0;
 std::mutex CudaKeyFrameStorage::mtx;
 std::queue<ckd_buffer_index_t> CudaKeyFrameStorage::free_idx;
 
+LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame *CudaKeyFrameStorage::d_lkeyframes, *CudaKeyFrameStorage::h_lkeyframes;
+
 
 void CudaKeyFrameStorage::initializeMemory(){   
     // std::unique_lock<std::mutex> lock(mtx);
@@ -166,7 +168,7 @@ LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getLoopClosingCuda
     // std::unique_lock<std::mutex> lock(mtx);
     auto it = mnId_to_idx.find(mnId);
     if (it != mnId_to_idx.end()) {
-        return &d_keyframes[it->second];
+        return &d_lkeyframes[it->second];
     }
     return nullptr;
 }

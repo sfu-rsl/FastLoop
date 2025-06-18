@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Kernels/FuseKernel.h"
 #include "Kernels/MappingKernelController.h"
+#include "Kernels/LoopClosingKernelController.h"
 
 void FuseKernel::initialize() {
     if (memory_is_initialized)
@@ -231,7 +232,7 @@ void FuseKernel::launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currK
     
     std::vector<ORB_SLAM3::MapPoint*> currKFMapPoints = currKF->GetMapPointMatches();
 
-    MAPPING_DATA_WRAPPER::CudaKeyFrame* d_neighKF = CudaKeyFrameStorage::getCudaKeyFrame(neighKF->mnId);
+    MAPPING_DATA_WRAPPER::CudaKeyFrame* d_neighKF = CudaKeyFrameStorage::getMappingCudaKeyFrame(neighKF->mnId);
     if (d_neighKF == nullptr) {
         cerr << "[ERROR] FuseKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << neighKF->mnId << "\n";
         MappingKernelController::shutdownKernels(true, true);
@@ -311,8 +312,71 @@ void FuseKernel::launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currK
     // origFuse(neighKF, currKF->GetMapPointMatches(), th, bRight);
 }
 
-void FuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> neighKFs, float th, 
+void FuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, float th,
+                        std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
                         vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs) {
+    
+    if (!memory_is_initialized)
+        initialize();
+
+    int connectedKFSize = connectedKFs.size();
+    if (connectedKFSize == 0 || vpMapPoints.size() == 0)
+        return;
+
+    LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* connectedKFsGPUAddress[connectedKFSize];
+
+    for (int i = 0; i < connectedKFSize; i++) {
+        connectedKFsGPUAddress[i] = CudaKeyFrameStorage::getLoopClosingCudaKeyFrame(connectedKFs[i]->mnId);
+        if (connectedKFsGPUAddress[i] == nullptr) {
+            cerr << "[ERROR] FuseKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << connectedKFs[i]->mnId << "\n";
+            LoopClosingKernelController::shutdownKernels();
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    set<ORB_SLAM3::MapPoint*> spAlreadyFound;
+    for (int i = 0; i < connectedKFSize; i++) {
+        const std::set<ORB_SLAM3::MapPoint*>& mps = connectedKFs[i]->GetMapPoints();
+        spAlreadyFound.insert(mps.begin(), mps.end());
+    }
+
+    int numValidPoints = 0;
+    LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint wrappedMapPoints[vpMapPoints.size()];
+    for (int i = 0; i < vpMapPoints.size(); i++) {
+        ORB_SLAM3::MapPoint* pMP = vpMapPoints[i];
+        if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
+            continue;
+        else {
+            wrappedMapPoints[numValidPoints] = LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint(pMP);
+            validMapPoints.push_back(pMP);
+            numValidPoints++;
+        }
+    }
+
+    if (numValidPoints == 0)
+        return;
+
+    Sophus::SE3f Tcw[connectedKFSize];
+    Eigen::Vector3f Ow[connectedKFSize];
+    for (int i = 0; i < connectedKFSize; i++) {
+        Tcw[i] = Sophus::SE3f(connectedScws[i].rotationMatrix(),connectedScws[i].translation()/connectedScws[i].scale());
+        Ow[i] = Tcw[i].inverse().translation();
+    }
+
+    checkCudaError(cudaMemcpy(d_connectedKFs, connectedKFsGPUAddress, connectedKFSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*), cudaMemcpyHostToDevice), "Failed to copy vector connectedKFsGPUAddress from host to device");
+    checkCudaError(cudaMemcpy(d_mapPoints, wrappedMapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice), "Failed to copy vector wrappedMapPoints from host to device");
+    checkCudaError(cudaMemcpy(d_Tcw, Tcw, connectedKFSize * sizeof(Sophus::SE3f), cudaMemcpyHostToDevice), "Failed to copy vector Tcw from host to device");
+    checkCudaError(cudaMemcpy(d_Ow, Ow, connectedKFSize * sizeof(Eigen::Vector3f), cudaMemcpyHostToDevice), "Failed to copy vector Ow from host to device");
+
+    int keyFramesToProcessCount = connectedKFSize;
+    int blockSize = 256;
+    int numBlocks = (numValidPoints*keyFramesToProcessCount + blockSize - 1) / blockSize;
+
+    // fuseKernel<<<numBlocks, blockSize>>>(
+    //     d_mapPoints, d_connectedKFs, numValidPoints, connectedKFSize, d_Ow, d_Tcw,
+    //     th, d_bestDists, d_bestIdxs
+    // );
+
     return;
 }
 

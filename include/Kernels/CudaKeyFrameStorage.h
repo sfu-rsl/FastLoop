@@ -45,6 +45,8 @@ class CudaKeyFrameStorage {
         static ckd_buffer_index_t first_free_idx;
         static std::mutex mtx;
         static std::queue<ckd_buffer_index_t> free_idx;
+
+        static LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame *d_lkeyframes, *h_lkeyframes;
 };
 
 #endif

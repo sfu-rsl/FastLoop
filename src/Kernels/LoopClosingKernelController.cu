@@ -61,11 +61,12 @@ void LoopClosingKernelController::saveKernelsStats(const std::string &file_path)
 }
 
 void LoopClosingKernelController::launchFuseKernel(
-    std::vector<ORB_SLAM3::KeyFrame*> neighKFs, const float th,  
+    std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
+    std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
     std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
 ) {
 
     DEBUG_PRINT("Launching Fuse Kernel");
 
-    mpFuseKernel->launch(neighKFs, th, validMapPoints, bestDists, bestIdxs);
+    mpFuseKernel->launch(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
 }

@@ -1521,6 +1521,7 @@ namespace ORB_SLAM3
         const float &cy = pKF->cy;
 
         // Decompose Scw
+        //*********************************************************************************************************************** */
         Sophus::SE3f Tcw = Sophus::SE3f(Scw.rotationMatrix(),Scw.translation()/Scw.scale());
         Eigen::Vector3f Ow = Tcw.inverse().translation();
 
@@ -1629,17 +1630,17 @@ namespace ORB_SLAM3
         return nFused;
     }
 
-    int ORBmatcher::GPUFuse(vector<KeyFrame*> neighKFs,  const float th, vector<MapPoint*> vpMapPoints)
+    int ORBmatcher::GPUFuse(vector<KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th, vector<MapPoint*> vpMapPoints)
     {
         int nFused=0;
         int numPoints = vpMapPoints.size();
-        int numNeighKFs = neighKFs.size();
+        int numconnectedKFs = connectedKFs.size();
         vector<MapPoint*> validMapPoints;
-        int outSize = numPoints*numNeighKFs; 
+        int outSize = numPoints*numconnectedKFs; 
         int bestDists[outSize];
         int bestIdxs[outSize];
 
-        LoopClosingKernelController::launchFuseKernel(neighKFs, th, validMapPoints, bestDists, bestIdxs);
+        LoopClosingKernelController::launchFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
 
 
     }
