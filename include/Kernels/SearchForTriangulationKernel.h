@@ -66,7 +66,7 @@ private:
 
 private:
     bool memory_is_initialized;
-    MAPPING_DATA_WRAPPER::CudaKeyFrame **d_neighKeyframes;
+    CudaKeyFrame **d_neighKeyframes;
     size_t *d_currFrameFeatVecIdxCorrespondences, *d_neighFramesFeatVecIdxCorrespondences;
     Eigen::Matrix3f *d_Rll, *d_Rlr, *d_Rrl, *d_Rrr;
     Eigen::Vector3f *d_tll, *d_tlr, *d_trl, *d_trr;

@@ -10,7 +10,7 @@
 #define DEBUG_PRINT(msg) do {} while (0)
 #endif
 
-MAPPING_DATA_WRAPPER::CudaKeyFrame *CudaKeyFrameStorage::d_keyframes, *CudaKeyFrameStorage::h_keyframes;
+CudaKeyFrame *CudaKeyFrameStorage::d_keyframes, *CudaKeyFrameStorage::h_keyframes;
 std::unordered_map<long unsigned int, ckd_buffer_index_t> CudaKeyFrameStorage::mnId_to_idx;
 int CudaKeyFrameStorage::num_keyframes = 0;
 bool CudaKeyFrameStorage::memory_is_initialized = false;
@@ -18,22 +18,20 @@ ckd_buffer_index_t CudaKeyFrameStorage::first_free_idx = 0;
 std::mutex CudaKeyFrameStorage::mtx;
 std::queue<ckd_buffer_index_t> CudaKeyFrameStorage::free_idx;
 
-LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame *CudaKeyFrameStorage::d_lkeyframes, *CudaKeyFrameStorage::h_lkeyframes;
-
 
 void CudaKeyFrameStorage::initializeMemory(){   
     // std::unique_lock<std::mutex> lock(mtx);
     if (memory_is_initialized) return;
-    checkCudaError(cudaMallocHost((void**)&h_keyframes, CUDA_KEYFRAME_STORAGE_SIZE * sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame)), "[CudaKeyFrameStorage::] Failed to allocate memory for h_keyframes");  
+    checkCudaError(cudaMallocHost((void**)&h_keyframes, CUDA_KEYFRAME_STORAGE_SIZE * sizeof(CudaKeyFrame)), "[CudaKeyFrameStorage::] Failed to allocate memory for h_keyframes");  
     for (int i = 0; i < CUDA_KEYFRAME_STORAGE_SIZE; ++i) {
-        h_keyframes[i] = MAPPING_DATA_WRAPPER::CudaKeyFrame();
+        h_keyframes[i] = CudaKeyFrame();
     }
 
-    checkCudaError(cudaMalloc((void**)&d_keyframes, CUDA_KEYFRAME_STORAGE_SIZE * sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame)), "[CudaKeyFrameStorage::] Failed to allocate memory for d_keyframes");
+    checkCudaError(cudaMalloc((void**)&d_keyframes, CUDA_KEYFRAME_STORAGE_SIZE * sizeof(CudaKeyFrame)), "[CudaKeyFrameStorage::] Failed to allocate memory for d_keyframes");
     memory_is_initialized = true;
 }
 
-MAPPING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF) {
+CudaKeyFrame* CudaKeyFrameStorage::addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF) {
 #ifdef REGISTER_LOCAL_MAPPING_STATS
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 #endif  
@@ -67,7 +65,7 @@ MAPPING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::addCudaKeyFrame(ORB_SLA
 
     h_keyframes[new_kf_idx].setGPUAddress(&d_keyframes[new_kf_idx]);
     h_keyframes[new_kf_idx].setMemory(KF);
-    checkCudaError(cudaMemcpy(&d_keyframes[new_kf_idx], &h_keyframes[new_kf_idx], sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame), cudaMemcpyHostToDevice), "[CudaKeyFrameStorage::] Failed to copy individual element to d_keyframes");
+    checkCudaError(cudaMemcpy(&d_keyframes[new_kf_idx], &h_keyframes[new_kf_idx], sizeof(CudaKeyFrame), cudaMemcpyHostToDevice), "[CudaKeyFrameStorage::] Failed to copy individual element to d_keyframes");
 
     mnId_to_idx.emplace(KF->mnId, new_kf_idx);
     num_keyframes += 1;
@@ -109,7 +107,7 @@ void CudaKeyFrameStorage::eraseCudaKeyFrame(ORB_SLAM3::KeyFrame* KF) {
 #endif
 }
 
-MAPPING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getMappingCudaKeyFrame(long unsigned int mnId){
+CudaKeyFrame* CudaKeyFrameStorage::getCudaKeyFrame(long unsigned int mnId){
     // std::unique_lock<std::mutex> lock(mtx);
     auto it = mnId_to_idx.find(mnId);
     if (it != mnId_to_idx.end()) {
@@ -140,7 +138,7 @@ void CudaKeyFrameStorage::addFeatureVector(long unsigned int KF_mnId, DBoW2::Fea
     int KF_idx = it->second;
     
     h_keyframes[KF_idx].addFeatureVector(featVec);
-    checkCudaError(cudaMemcpy(&d_keyframes[KF_idx], &h_keyframes[KF_idx], sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame), cudaMemcpyHostToDevice), "[CudaKeyFrameStorage::addFeatureVector: ] Failed to add feature vector");
+    checkCudaError(cudaMemcpy(&d_keyframes[KF_idx], &h_keyframes[KF_idx], sizeof(CudaKeyFrame), cudaMemcpyHostToDevice), "[CudaKeyFrameStorage::addFeatureVector: ] Failed to add feature vector");
 
     DEBUG_PRINT("addFeatureVector: " << KF_mnId << endl);
 
@@ -164,11 +162,3 @@ void CudaKeyFrameStorage::shutdown() {
     cudaFreeHost(h_keyframes);
 }
 
-LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* CudaKeyFrameStorage::getLoopClosingCudaKeyFrame(long unsigned int mnId){
-    // std::unique_lock<std::mutex> lock(mtx);
-    auto it = mnId_to_idx.find(mnId);
-    if (it != mnId_to_idx.end()) {
-        return &d_lkeyframes[it->second];
-    }
-    return nullptr;
-}

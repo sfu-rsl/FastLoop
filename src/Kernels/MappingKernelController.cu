@@ -19,7 +19,7 @@ bool MappingKernelController::loopClosingFinished = false;
 std::unique_ptr<KFCullingKernel> MappingKernelController::mpKFCullingKernel = std::make_unique<KFCullingKernel>();
 std::unique_ptr<FuseKernel> MappingKernelController::mpFuseKernel = std::make_unique<FuseKernel>();
 std::unique_ptr<SearchForTriangulationKernel> MappingKernelController::mpSearchForTriangulationKernel = std::make_unique<SearchForTriangulationKernel>();
-MAPPING_DATA_WRAPPER::CudaKeyFrame* MappingKernelController::cudaKeyFramePtr;
+CudaKeyFrame* MappingKernelController::cudaKeyFramePtr;
 std::mutex MappingKernelController::shutDownMutex;
 
 void MappingKernelController::setCUDADevice(int deviceID) {
@@ -46,7 +46,7 @@ void MappingKernelController::initializeKernels(){
     
     CudaKeyFrameStorage::initializeMemory();
 
-    cudaKeyFramePtr = new MAPPING_DATA_WRAPPER::CudaKeyFrame();
+    cudaKeyFramePtr = new CudaKeyFrame();
 
     if (keyframeCullingOnGPU == 1)
         mpKFCullingKernel->initialize();

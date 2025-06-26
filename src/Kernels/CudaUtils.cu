@@ -16,47 +16,47 @@ int CudaUtils::ORBmatcher_TH_LOW = 50;
 int CudaUtils::ORBmatcher_HISTO_LENGTH = 30;
 bool CudaUtils::cameraIsFisheye;
 
-void printKeyframeCPU(ORB_SLAM3::KeyFrame* KF) {
-    printf("[*CPU*] KF mnId: %d\n", KF->mnId);
-    vector<ORB_SLAM3::MapPoint*> h_mapPoints = KF->GetMapPointMatches();
-    int mvpMapPoints_size = h_mapPoints.size();
-    for (int i = 0; i < mvpMapPoints_size; ++i) {
-        if(h_mapPoints[i]) {
-            printf("    i:%d, mp mnId: %d\n", i, h_mapPoints[i]->mnId);
-            std::map<ORB_SLAM3::KeyFrame*,std::tuple<int,int>> observations = h_mapPoints[i]->GetObservations();
-            for(map<ORB_SLAM3::KeyFrame*, tuple<int,int>>::const_iterator mit=observations.begin(), mend=observations.end(); mit!=mend; mit++)
-            {
-                ORB_SLAM3::KeyFrame* pKFi = mit->first;
-                printf("        pKFi mnId: %d\n", pKFi->mnId);
-            }           
-        }
-    }
-}
+// void printKeyframeCPU(ORB_SLAM3::KeyFrame* KF) {
+//     printf("[*CPU*] KF mnId: %d\n", KF->mnId);
+//     vector<ORB_SLAM3::MapPoint*> h_mapPoints = KF->GetMapPointMatches();
+//     int mvpMapPoints_size = h_mapPoints.size();
+//     for (int i = 0; i < mvpMapPoints_size; ++i) {
+//         if(h_mapPoints[i]) {
+//             printf("    i:%d, mp mnId: %d\n", i, h_mapPoints[i]->mnId);
+//             std::map<ORB_SLAM3::KeyFrame*,std::tuple<int,int>> observations = h_mapPoints[i]->GetObservations();
+//             for(map<ORB_SLAM3::KeyFrame*, tuple<int,int>>::const_iterator mit=observations.begin(), mend=observations.end(); mit!=mend; mit++)
+//             {
+//                 ORB_SLAM3::KeyFrame* pKFi = mit->first;
+//                 printf("        pKFi mnId: %d\n", pKFi->mnId);
+//             }           
+//         }
+//     }
+// }
 
-__device__ void printKeyframeGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame* KF) {
-    printf("KF mnId: %lu\n", KF->mnId);
-}
+// __device__ void printKeyframeGPU(CudaKeyFrame* KF) {
+//     printf("KF mnId: %lu\n", KF->mnId);
+// }
 
-__global__ void printKFSingleGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame* KF) {
-    printKeyframeGPU(KF);
-}
+// __global__ void printKFSingleGPU(CudaKeyFrame* KF) {
+//     printKeyframeGPU(KF);
+// }
 
-__global__ void printKFSingleGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame** d_keyframes, int idx) {
-    MAPPING_DATA_WRAPPER::CudaKeyFrame* KF = d_keyframes[idx];
-    printKeyframeGPU(KF);
-}
+// __global__ void printKFSingleGPU(CudaKeyFrame** d_keyframes, int idx) {
+//     CudaKeyFrame* KF = d_keyframes[idx];
+//     printKeyframeGPU(KF);
+// }
 
-__global__ void printKFListGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame** d_keyframes, int size) {
-    for (int i = 0; i < size; i++) {
-        MAPPING_DATA_WRAPPER::CudaKeyFrame* KF = d_keyframes[i];
-        if (KF == nullptr) {
-            printf("d_keyframes[%d]: \nnullptr\n", i);
-            continue;
-        }
-        printf("d_keyframes[%d]: \n", i);
-        printKeyframeGPU(KF);
-    }
-}
+// __global__ void printKFListGPU(CudaKeyFrame** d_keyframes, int size) {
+//     for (int i = 0; i < size; i++) {
+//         CudaKeyFrame* KF = d_keyframes[i];
+//         if (KF == nullptr) {
+//             printf("d_keyframes[%d]: \nnullptr\n", i);
+//             continue;
+//         }
+//         printf("d_keyframes[%d]: \n", i);
+//         printKeyframeGPU(KF);
+//     }
+// }
 
 void printMPCPU(ORB_SLAM3::MapPoint* mp) {
     printf("[*CPU*] mp mnId: %lu\n", mp->mnId);

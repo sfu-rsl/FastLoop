@@ -162,7 +162,7 @@ __global__ void searchByProjectionKernel(TRACKING_DATA_WRAPPER::CudaFrame* d_fra
                         for(size_t j=0, jend=vCell_size; j<jend; j++) {
                             
 
-                            const TRACKING_DATA_WRAPPER::CudaKeyPoint &kpUn = (d_frame->Nleft == -1) ? d_frame->mvKeysUn[vCell[j]]
+                            const CudaKeyPoint &kpUn = (d_frame->Nleft == -1) ? d_frame->mvKeysUn[vCell[j]]
                                                                     : (!bRight) ? d_frame->mvKeys[vCell[j]]
                                                                                 : d_frame->mvKeysRight[vCell[j]];
                 
@@ -290,7 +290,7 @@ __global__ void searchByProjectionKernel(TRACKING_DATA_WRAPPER::CudaFrame* d_fra
                         }
                         for(size_t j=0, jend=vCell_size; j<jend; j++) {
                             
-                            const TRACKING_DATA_WRAPPER::CudaKeyPoint &kpUn = (d_frame->Nleft == -1) ? d_frame->mvKeysUn[vCell[j]]
+                            const CudaKeyPoint &kpUn = (d_frame->Nleft == -1) ? d_frame->mvKeysUn[vCell[j]]
                                                                     : (!bRight) ? d_frame->mvKeys[vCell[j]]
                                                                                 : d_frame->mvKeysRight[vCell[j]];
                             if(bCheckLevels)

@@ -102,6 +102,11 @@ borrar/*
 Examples/*.csv
 Examples/*.png
 
+Examples/123456789example.txt
+Examples/eval_log.txt
+Examples/example.txt
+Examples/run_100_times.sh
+
 plot.py
 KFCulling_dist.py
 sort.py

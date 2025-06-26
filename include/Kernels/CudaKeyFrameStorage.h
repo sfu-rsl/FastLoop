@@ -28,17 +28,15 @@ using ckd_buffer_index_t = int;
 class CudaKeyFrameStorage {
     public:
         static void initializeMemory();
-        static MAPPING_DATA_WRAPPER::CudaKeyFrame* getMappingCudaKeyFrame(long unsigned int mnId);
-        static MAPPING_DATA_WRAPPER::CudaKeyFrame* addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
+        static CudaKeyFrame* getCudaKeyFrame(long unsigned int mnId);
+        static CudaKeyFrame* addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
         static void eraseCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
         static void printStorageKeyframes();
         static void addFeatureVector(long unsigned int KF_mnId, DBoW2::FeatureVector featVec);
         static void shutdown();
 
-        static LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* getLoopClosingCudaKeyFrame(long unsigned int mnId);
-
     public:
-        static MAPPING_DATA_WRAPPER::CudaKeyFrame *d_keyframes, *h_keyframes;
+        static CudaKeyFrame *d_keyframes, *h_keyframes;
         static std::unordered_map<long unsigned int, ckd_buffer_index_t> mnId_to_idx; 
         static int num_keyframes;
         static bool memory_is_initialized;
@@ -46,7 +44,6 @@ class CudaKeyFrameStorage {
         static std::mutex mtx;
         static std::queue<ckd_buffer_index_t> free_idx;
 
-        static LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame *d_lkeyframes, *h_lkeyframes;
 };
 
 #endif

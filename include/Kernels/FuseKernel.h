@@ -42,8 +42,6 @@ class FuseKernel: public KernelInterface {
         std::vector<std::pair<long unsigned int, double>> total_exec_time;
         long unsigned int frameCounter;
 
-        LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame **d_connectedKFs;
-        LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *d_mapPoints;
         Sophus::SE3f *d_Tcw;
         Eigen::Vector3f *d_Ow;
 };

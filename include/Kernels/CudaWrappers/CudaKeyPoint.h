@@ -3,33 +3,32 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace TRACKING_DATA_WRAPPER {
+// namespace TRACKING_DATA_WRAPPER {
 
-    struct CudaKeyPoint {
-        float ptx;
-        float pty;
-        int octave;
-    };
-}
-
-
-namespace MAPPING_DATA_WRAPPER {
-
-    struct CudaKeyPoint {
-        float ptx;
-        float pty;
-        int octave;
-    };
-}
+//     struct CudaKeyPoint {
+//         float ptx;
+//         float pty;
+//         int octave;
+//     };
+// }
 
 
-namespace LOOP_CLOSING_DATA_WRAPPER {
 
-    struct CudaKeyPoint {
-        float ptx;
-        float pty;
-        int octave;
-    };
-}
+struct CudaKeyPoint {
+    float ptx;
+    float pty;
+    int octave;
+};
+
+
+
+// namespace LOOP_CLOSING_DATA_WRAPPER {
+
+//     struct CudaKeyPoint {
+//         float ptx;
+//         float pty;
+//         int octave;
+//     };
+// }
 
 #endif // CUDA_KEYPOINT_H

@@ -36,7 +36,7 @@ void FuseKernel::shutdown() {
 }
 
 // TODO: fix this function
-__device__ int predictScale(float currentDist, float maxDistance, MAPPING_DATA_WRAPPER::CudaKeyFrame* pKF) {
+__device__ int predictScale(float currentDist, float maxDistance, CudaKeyFrame* pKF) {
     float ratio = maxDistance/currentDist;
     int nScale = ceil(log(ratio)/pKF->mfLogScaleFactor);
     if(nScale<0)
@@ -47,7 +47,7 @@ __device__ int predictScale(float currentDist, float maxDistance, MAPPING_DATA_W
     return nScale;
 }
 
-__device__ inline bool isInImage(MAPPING_DATA_WRAPPER::CudaKeyFrame* keyframe, const float &x, const float &y) {
+__device__ inline bool isInImage(CudaKeyFrame* keyframe, const float &x, const float &y) {
     return (x>=keyframe->mnMinX && x<keyframe->mnMaxX && y>=keyframe->mnMinY && y<keyframe->mnMaxY);
 }
 
@@ -79,7 +79,7 @@ __device__ Eigen::Vector2f pinholeProject(const Eigen::Vector3f &v3D, float* mvP
     return res;
 }
 
-__global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, MAPPING_DATA_WRAPPER::CudaKeyFrame* neighKF, 
+__global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, CudaKeyFrame* neighKF, 
                            int numPoints, bool cameraIsFisheye, Eigen::Vector3f Ow, Sophus::SE3f Tcw, float th, bool bRight,
                            int* bestDists, int* bestIdxs) {
 
@@ -162,7 +162,7 @@ __global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, 
             for (size_t j=0, jend=vCell_size; j<jend; j++) {
                 size_t temp_idx = vCell[j];
 
-                const MAPPING_DATA_WRAPPER::CudaKeyPoint &kpUn = (neighKF->Nleft == -1) ? neighKF->mvKeysUn[temp_idx]
+                const CudaKeyPoint &kpUn = (neighKF->Nleft == -1) ? neighKF->mvKeysUn[temp_idx]
                                                                                         : (!bRight) ? neighKF->mvKeys[temp_idx]
                                                                                                     : neighKF->mvKeysRight[temp_idx];
                 
@@ -232,7 +232,7 @@ void FuseKernel::launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currK
     
     std::vector<ORB_SLAM3::MapPoint*> currKFMapPoints = currKF->GetMapPointMatches();
 
-    MAPPING_DATA_WRAPPER::CudaKeyFrame* d_neighKF = CudaKeyFrameStorage::getMappingCudaKeyFrame(neighKF->mnId);
+    CudaKeyFrame* d_neighKF = CudaKeyFrameStorage::getCudaKeyFrame(neighKF->mnId);
     if (d_neighKF == nullptr) {
         cerr << "[ERROR] FuseKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << neighKF->mnId << "\n";
         MappingKernelController::shutdownKernels(true, true);
@@ -323,10 +323,10 @@ void FuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<S
     if (connectedKFSize == 0 || vpMapPoints.size() == 0)
         return;
 
-    LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* connectedKFsGPUAddress[connectedKFSize];
+    CudaKeyFrame* connectedKFsGPUAddress[connectedKFSize];
 
     for (int i = 0; i < connectedKFSize; i++) {
-        connectedKFsGPUAddress[i] = CudaKeyFrameStorage::getLoopClosingCudaKeyFrame(connectedKFs[i]->mnId);
+        connectedKFsGPUAddress[i] = CudaKeyFrameStorage::getCudaKeyFrame(connectedKFs[i]->mnId);
         if (connectedKFsGPUAddress[i] == nullptr) {
             cerr << "[ERROR] FuseKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << connectedKFs[i]->mnId << "\n";
             LoopClosingKernelController::shutdownKernels();
@@ -363,7 +363,7 @@ void FuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<S
         Ow[i] = Tcw[i].inverse().translation();
     }
 
-    checkCudaError(cudaMemcpy(d_connectedKFs, connectedKFsGPUAddress, connectedKFSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*), cudaMemcpyHostToDevice), "Failed to copy vector connectedKFsGPUAddress from host to device");
+    checkCudaError(cudaMemcpy(d_connectedKFs, connectedKFsGPUAddress, connectedKFSize * sizeof(CudaKeyFrame*), cudaMemcpyHostToDevice), "Failed to copy vector connectedKFsGPUAddress from host to device");
     checkCudaError(cudaMemcpy(d_mapPoints, wrappedMapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice), "Failed to copy vector wrappedMapPoints from host to device");
     checkCudaError(cudaMemcpy(d_Tcw, Tcw, connectedKFSize * sizeof(Sophus::SE3f), cudaMemcpyHostToDevice), "Failed to copy vector Tcw from host to device");
     checkCudaError(cudaMemcpy(d_Ow, Ow, connectedKFSize * sizeof(Eigen::Vector3f), cudaMemcpyHostToDevice), "Failed to copy vector Ow from host to device");

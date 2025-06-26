@@ -33,6 +33,48 @@
 #include<thread>
 
 
+// size_t EstimateKeyFrameMemory(const ORB_SLAM3::KeyFrame* kf) {
+//     size_t size = sizeof(*kf);  // Shallow size
+
+//     // Keypoints
+//     size += kf->mvKeys.capacity() * sizeof(cv::KeyPoint);
+//     size += kf->mvKeysUn.capacity() * sizeof(cv::KeyPoint);
+//     size += kf->mvKeysRight.capacity() * sizeof(cv::KeyPoint);
+
+//     // Float vectors
+//     size += kf->mvuRight.capacity() * sizeof(float);
+//     size += kf->mvDepth.capacity() * sizeof(float);
+//     size += kf->mvScaleFactors.capacity() * sizeof(float);
+//     size += kf->mvLevelSigma2.capacity() * sizeof(float);
+//     size += kf->mvInvLevelSigma2.capacity() * sizeof(float);
+
+//     // MapPoints
+//     size += kf->mvpMapPoints.capacity() * sizeof(ORB_SLAM3::MapPoint*);
+
+//     // Matches
+//     size += kf->mvLeftToRightMatch.capacity() * sizeof(int);
+//     size += kf->mvRightToLeftMatch.capacity() * sizeof(int);
+
+//     // Descriptors
+//     size += kf->mDescriptors.total() * kf->mDescriptors.elemSize();  // cv::Mat
+
+//     // mGrid: 3D vector
+//     size += kf->mGrid.capacity() * sizeof(std::vector<std::vector<size_t>>);
+//     for (const auto& row : kf->mGrid)
+//         size += row.capacity() * sizeof(std::vector<size_t>);
+//     for (const auto& row : kf->mGrid)
+//         for (const auto& cell : row)
+//             size += cell.capacity() * sizeof(size_t);
+
+//     // Bow vectors
+//     size += kf->mBowVec.size() * (sizeof(DBoW2::WordId) + sizeof(DBoW2::WordValue));
+//     for (const auto& kv : kf->mFeatVec)
+//         size += sizeof(DBoW2::NodeId) + sizeof(std::vector<unsigned int>) + kv.second.capacity() * sizeof(unsigned int);
+
+//     return size;
+// }
+
+
 namespace ORB_SLAM3
 {
 
@@ -80,6 +122,22 @@ LoopClosing::LoopClosing(Atlas *pAtlas, KeyFrameDatabase *pDB, ORBVocabulary *pV
     mnCorrectionGBA = 0;
 }
 
+// size_t EstimateKeyFrameAndPoseSize(const KeyFrameAndPose& kfMap) {
+//     size_t total = sizeof(kfMap); // negligible, فقط headers
+
+//     const size_t pointer_size = sizeof(ORB_SLAM3::KeyFrame*);
+//     const size_t sim3_size = sizeof(g2o::Sim3); // با alignment معمولاً ~80 bytes
+//     const size_t rb_tree_overhead = 32; // تقریبی برای نود map
+
+//     for (const auto& kv : kfMap) {
+//         total += pointer_size;      // Key (pointer)
+//         total += sim3_size;         // Value
+//         total += rb_tree_overhead;  // Tree node overhead
+//     }
+
+//     return total;
+// }
+
 void LoopClosing::SetTracker(Tracking *pTracker)
 {
     mpTracker=pTracker;
@@ -120,7 +178,7 @@ void LoopClosing::Run()
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::milli> elapsed = end - start;
 
-            std::cout << "*************** NewDetectCommonRegions: " << elapsed.count() << " ms" << std::endl;
+            // std::cout << "*************** NewDetectCommonRegions: " << elapsed.count() << " ms" << std::endl;
 
 #ifdef REGISTER_TIMES
             std::chrono::steady_clock::time_point time_EndPR = std::chrono::steady_clock::now();
@@ -287,7 +345,7 @@ void LoopClosing::Run()
                         CorrectLoop();
                         auto end2 = std::chrono::high_resolution_clock::now();
                         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-                        std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
+                        // std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
 
 
 #ifdef REGISTER_TIMES
@@ -326,8 +384,8 @@ void LoopClosing::Run()
 
         auto end1 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-        if (elapsed1.count() > 6 )
-            std::cout << "*************** Loop Closing: " << elapsed1.count() << " ms" << std::endl;
+        // if (elapsed1.count() > 6 )
+            // std::cout << "*************** Loop Closing: " << elapsed1.count() << " ms" << std::endl;
 
     }
     
@@ -447,7 +505,7 @@ bool LoopClosing::NewDetectCommonRegions()
     }
     auto end4 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
-    std::cout << "+ Part 4: " << elapsed4.count() << " ms" << std::endl;
+    // std::cout << "+ Part 4: " << elapsed4.count() << " ms" << std::endl;
 
     //Merge candidates
     bool bMergeDetectedInKF = false;
@@ -529,7 +587,7 @@ bool LoopClosing::NewDetectCommonRegions()
     }
     auto end5 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
-    std::cout << "+ Part 5: " << elapsed5.count() << " ms" << std::endl;
+    // std::cout << "+ Part 5: " << elapsed5.count() << " ms" << std::endl;
 
 
 #ifdef REGISTER_TIMES
@@ -549,7 +607,7 @@ bool LoopClosing::NewDetectCommonRegions()
     }
     auto end6 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-    std::cout << "+ Part 6: " << elapsed6.count() << " ms" << std::endl;
+    // std::cout << "+ Part 6: " << elapsed6.count() << " ms" << std::endl;
 
 
 #ifdef REGISTER_TIMES
@@ -684,7 +742,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
 
         auto end1 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-        std::cout << "+ Abort By Near KF: " << elapsed1.count() << " ms" << std::endl;
+        // std::cout << "+ Abort By Near KF: " << elapsed1.count() << " ms" << std::endl;
 
         std::vector<std::vector<MapPoint*> > vvpMatchedMPs;
         vvpMatchedMPs.resize(vpCovKFi.size());
@@ -713,7 +771,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
         }
         auto end2 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-        std::cout << "+ SearchByBoW: " << elapsed2.count() << " ms" << std::endl;
+        // std::cout << "+ SearchByBoW: " << elapsed2.count() << " ms" << std::endl;
 
 
         auto start3 = std::chrono::high_resolution_clock::now();
@@ -737,7 +795,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
         }
         auto end3 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
-        std::cout << "+ Find matched KFs and MPs: " << elapsed3.count() << " ms" << std::endl;
+        // std::cout << "+ Find matched KFs and MPs: " << elapsed3.count() << " ms" << std::endl;
         
 
         //pMostBoWMatchesKF = vpCovKFi[pMostBoWMatchesKF];
@@ -755,7 +813,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
             solver.SetRansacParameters(0.99, nBoWInliers, 300); // at least 15 inliers
             auto end4 = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
-            std::cout << "+ SetRansacParameters: " << elapsed4.count() << " ms" << std::endl;
+            // std::cout << "+ SetRansacParameters: " << elapsed4.count() << " ms" << std::endl;
         
 
             bool bNoMore = false;
@@ -772,7 +830,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
             }
             auto end5 = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
-            std::cout << "+ Iterate on Solver: " << elapsed5.count() << " ms" << std::endl;
+            // std::cout << "+ Iterate on Solver: " << elapsed5.count() << " ms" << std::endl;
 
             if(bConverge)
             {
@@ -823,7 +881,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                 //cout <<"BoW: " << numProjMatches << " matches between " << vpMapPoints.size() << " points with coarse Sim3" << endl;
                 auto end6 = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-                std::cout << "+ Search By Projection: " << elapsed6.count() << " ms" << std::endl;
+                // std::cout << "+ Search By Projection: " << elapsed6.count() << " ms" << std::endl;
 
                 if(numProjMatches >= nProjMatches)
                 {
@@ -838,7 +896,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     int numOptMatches = Optimizer::OptimizeSim3(mpCurrentKF, pKFi, vpMatchedMP, gScm, 10, mbFixScale, mHessian7x7, true);
                     auto end7 = std::chrono::high_resolution_clock::now();
                     std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
-                    std::cout << "+ OptimizeSim3: " << elapsed7.count() << " ms" << std::endl;
+                    // std::cout << "+ OptimizeSim3: " << elapsed7.count() << " ms" << std::endl;
 
                     if(numOptMatches >= nSim3Inliers)
                     {
@@ -853,7 +911,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                         int numProjOptMatches = matcher.SearchByProjection(mpCurrentKF, mScw, vpMapPoints, vpMatchedMP, 5, 1.0);
                         auto end8 = std::chrono::high_resolution_clock::now();
                         std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
-                        std::cout << "+ SearchByProjection: " << elapsed8.count() << " ms" << std::endl;
+                        // std::cout << "+ SearchByProjection: " << elapsed8.count() << " ms" << std::endl;
 
                         if(numProjOptMatches >= nProjOptMatches)
                         {
@@ -922,7 +980,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                             }
                             auto end9 = std::chrono::high_resolution_clock::now();
                             std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
-                            std::cout << "+ DetectCommonRegionsFromLastKF: " << elapsed9.count() << " ms" << std::endl;
+                            // std::cout << "+ DetectCommonRegionsFromLastKF: " << elapsed9.count() << " ms" << std::endl;
 
                             if(nNumKFs < 3)
                             {
@@ -1052,6 +1110,13 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
 
 void LoopClosing::CorrectLoop()
 {
+
+    std::ofstream outFile("123456789example.txt", std::ios::app);
+
+    outFile << "Size of mpCurrentKF: " << sizeof(mpCurrentKF) << std::endl;
+    // std::cout << "Size of mpCurrentKF: " << EstimateKeyFrameMemory(mpCurrentKF) << std::endl;
+    
+
     auto start1 = std::chrono::high_resolution_clock::now();
     //cout << "Loop detected!" << endl;
 
@@ -1105,6 +1170,7 @@ void LoopClosing::CorrectLoop()
     //std::cout << "Loop: number of connected KFs -> " + to_string(mvpCurrentConnectedKFs.size()) << std::endl;
 
     KeyFrameAndPose CorrectedSim3, NonCorrectedSim3;
+    outFile << "Size of mg2oLoopScw: " << sizeof(mg2oLoopScw) << std::endl;
     CorrectedSim3[mpCurrentKF]=mg2oLoopScw;
     Sophus::SE3f Twc = mpCurrentKF->GetPoseInverse();
     Sophus::SE3f Tcw = mpCurrentKF->GetPose();
@@ -1219,6 +1285,9 @@ void LoopClosing::CorrectLoop()
         auto start8 = std::chrono::high_resolution_clock::now();
         // Start Loop Fusion
         // Update matched map points and replace if duplicated
+        outFile << "Size of mvpLoopMatchedMPs: " << sizeof(MapPoint*) * mvpLoopMatchedMPs.capacity()  << std::endl;
+        outFile << "Number of mvpLoopMatchedMPs: " << mvpLoopMatchedMPs.size()  << std::endl;
+        
         for(size_t i=0; i<mvpLoopMatchedMPs.size(); i++)
         {
             if(mvpLoopMatchedMPs[i])
@@ -1245,6 +1314,21 @@ void LoopClosing::CorrectLoop()
     // Project MapPoints observed in the neighborhood of the loop keyframe
     // into the current keyframe and neighbors using corrected poses.
     // Fuse duplications.
+
+    outFile << "Size of mvpLoopMapPoints: " << sizeof(MapPoint*) * mvpLoopMapPoints.size() << std::endl;
+    outFile << "Number of mvpLoopMapPoints: " << mvpLoopMapPoints.size() << std::endl;
+    // std::cout << "Size of CorrectedSim3: " << EstimateKeyFrameAndPoseSize(CorrectedSim3) << std::endl;
+    outFile << "Size of MapPoint: " << sizeof(MapPoint*) << std::endl;
+
+    int count_same_map_points = 0;
+    for(size_t i=0; i<mvpLoopMapPoints.size(); i++){
+        MapPoint* temp_mp = mvpLoopMapPoints[i];
+        if(std::find(mvpLoopMatchedMPs.begin(), mvpLoopMatchedMPs.end(), temp_mp) != mvpLoopMatchedMPs.end()){
+            count_same_map_points++;
+        }
+    }
+    outFile << "Same Map Points: " << count_same_map_points << std::endl;
+    outFile << "######################################################\n";
 
     if (LoopClosingKernelController::fuseOnGPU == 1)
         GPUSearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
@@ -1344,20 +1428,20 @@ void LoopClosing::CorrectLoop()
     auto end15 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed15 = end15 - start15;
 
-    std::cout << "Part 1: " << elapsed1.count() << " ms" << std::endl;
-    std::cout << "Part 2: " << elapsed2.count() << " ms" << std::endl;
-    std::cout << "Part 3: " << elapsed3.count() << " ms" << std::endl;
-    std::cout << "Part 4: " << elapsed4.count() << " ms" << std::endl;
-    std::cout << "Part 6: " << elapsed6.count() << " ms" << std::endl;
-    std::cout << "Part 7: " << elapsed7.count() << " ms" << std::endl;
-    std::cout << "Part 8: " << elapsed8.count() << " ms" << std::endl;
-    std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
-    std::cout << "Part 10: " << elapsed10.count() << " ms" << std::endl;
-    std::cout << "Part 11: " << elapsed11.count() << " ms" << std::endl;
-    std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
-    std::cout << "Part 13: " << elapsed13.count() << " ms" << std::endl;
-    std::cout << "Part 14: " << elapsed14.count() << " ms" << std::endl;
-    std::cout << "Part 15: " << elapsed15.count() << " ms" << std::endl;
+    // std::cout << "Part 1: " << elapsed1.count() << " ms" << std::endl;
+    // std::cout << "Part 2: " << elapsed2.count() << " ms" << std::endl;
+    // std::cout << "Part 3: " << elapsed3.count() << " ms" << std::endl;
+    // std::cout << "Part 4: " << elapsed4.count() << " ms" << std::endl;
+    // std::cout << "Part 6: " << elapsed6.count() << " ms" << std::endl;
+    // std::cout << "Part 7: " << elapsed7.count() << " ms" << std::endl;
+    // std::cout << "Part 8: " << elapsed8.count() << " ms" << std::endl;
+    // std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
+    // std::cout << "Part 10: " << elapsed10.count() << " ms" << std::endl;
+    // std::cout << "Part 11: " << elapsed11.count() << " ms" << std::endl;
+    // std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
+    // std::cout << "Part 13: " << elapsed13.count() << " ms" << std::endl;
+    // std::cout << "Part 14: " << elapsed14.count() << " ms" << std::endl;
+    // std::cout << "Part 15: " << elapsed15.count() << " ms" << std::endl;
     std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 }
 

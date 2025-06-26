@@ -45,11 +45,11 @@ class CudaUtils {
 void checkCudaError(cudaError_t err, const char* msg);
 __device__ int DescriptorDistance(const uint8_t *a, const uint8_t *b);
 
-void printKeyframeCPU(ORB_SLAM3::KeyFrame* KF);
-__global__ void printKFSingleGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame* KF);
-__global__ void printKFSingleGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame** d_keyframes, int idx);
-__global__ void printKFListGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame** d_keyframes, int size);
-__device__ void printKeyframeGPU(MAPPING_DATA_WRAPPER::CudaKeyFrame* KF);
+// void printKeyframeCPU(ORB_SLAM3::KeyFrame* KF);
+// __global__ void printKFSingleGPU(CudaKeyFrame* KF);
+// __global__ void printKFSingleGPU(CudaKeyFrame** d_keyframes, int idx);
+// __global__ void printKFListGPU(CudaKeyFrame** d_keyframes, int size);
+// __device__ void printKeyframeGPU(CudaKeyFrame* KF);
 
 void printMPCPU(ORB_SLAM3::MapPoint* mp);
 __device__ void printMPGPU(MAPPING_DATA_WRAPPER::CudaMapPoint* mp);

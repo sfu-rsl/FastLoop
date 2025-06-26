@@ -12,12 +12,11 @@
 #define MAX_FEAT_PER_WORD 100
 #define KEYPOINTS_PER_CELL 20
 
-namespace MAPPING_DATA_WRAPPER {
 
 class CudaKeyFrame {
     private:
         void initializeMemory();
-        void copyGPUCamera(CudaCamera *out, ORB_SLAM3::GeometricCamera *camera);
+        void copyGPUCamera(MAPPING_DATA_WRAPPER::CudaCamera *out, ORB_SLAM3::GeometricCamera *camera);
         void copyFeatVec(unsigned int *out, int *outIndexes, DBoW2::FeatureVector inp);
 
     public:
@@ -71,51 +70,51 @@ class CudaKeyFrame {
         size_t flatMGridRight_size[FRAME_GRID_COLS * FRAME_GRID_ROWS];
         std::size_t flatMGridRight[FRAME_GRID_COLS * FRAME_GRID_ROWS * KEYPOINTS_PER_CELL];
 
-        CudaCamera camera1, camera2;
+        MAPPING_DATA_WRAPPER::CudaCamera camera1, camera2;
 
         int mFeatCount;
         unsigned int *mFeatVec;
         int *mFeatVecStartIndexes;
-    };
-}
+};
 
 
-namespace LOOP_CLOSING_DATA_WRAPPER {
 
-#define KEYPOINTS_PER_CELL 20
+// namespace LOOP_CLOSING_DATA_WRAPPER {
 
-class CudaKeyFrame {
-    private:
-        void initializeMemory();
+// #define KEYPOINTS_PER_CELL 20
+
+// class CudaKeyFrame {
+//     private:
+//         void initializeMemory();
     
-    public:
-        CudaKeyFrame();
-        void setMemory(ORB_SLAM3::KeyFrame &KF);
-        void updateConnections();
-        void addConnection(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF, const int &weight);
-        void addChild(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF);
+//     public:
+//         CudaKeyFrame();
+//         void setMemory(ORB_SLAM3::KeyFrame &KF);
+//         void updateConnections();
+//         void addConnection(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF, const int &weight);
+//         void addChild(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF);
      
-    public:
-        long unsigned int mnId;
+//     public:
+//         long unsigned int mnId;
 
-    private:
-        CudaMapPoint* mvpMapPoints;
-        long unsigned int mpMapId;
-        long unsigned int mpMapInitKFid;
-        bool mbBad;
-        bool mbFirstConnection;
+//     private:
+//         CudaMapPoint* mvpMapPoints;
+//         long unsigned int mpMapId;
+//         long unsigned int mpMapInitKFid;
+//         bool mbBad;
+//         bool mbFirstConnection;
 
-        std::map<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*,int> mConnectedKeyFrameWeights;
+//         std::map<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*,int> mConnectedKeyFrameWeights;
         
-        CudaKeyFrame* mvpOrderedConnectedKeyFrames;
-        size_t mvpOrderedConnectedKeyFrames_size;
+//         CudaKeyFrame* mvpOrderedConnectedKeyFrames;
+//         size_t mvpOrderedConnectedKeyFrames_size;
 
-        int* mvOrderedWeights;
-        size_t mvOrderedWeights_size;
+//         int* mvOrderedWeights;
+//         size_t mvOrderedWeights_size;
 
-        CudaKeyFrame* mpParent;
+//         CudaKeyFrame* mpParent;
     
-    };
-}
+//     };
+// }
 
 #endif // CUDA_KEYFRAME_H

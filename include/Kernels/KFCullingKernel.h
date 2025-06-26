@@ -29,7 +29,7 @@ public:
 
 private:
     bool memory_is_initialized;
-    MAPPING_DATA_WRAPPER::CudaKeyFrame **d_keyframes, **h_keyframes;
+    CudaKeyFrame **d_keyframes, **h_keyframes;
     int *d_nMPs, *d_nRedundantObservations;
     int *empty_array[MAX_NUM_KEYFRAMES];
     bool *d_neighFramesMapPointsCorrect;

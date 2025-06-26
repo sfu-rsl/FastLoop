@@ -15,7 +15,7 @@ void KFCullingKernel::initialize(){
     else
         mapPointVecSize = maxFeatures;
 
-    checkCudaError(cudaMalloc((void**)&d_keyframes, MAX_NUM_KEYFRAMES * sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame*)), "[KFCullingKernel::] Failed to allocate memory for d_keyframes");   
+    checkCudaError(cudaMalloc((void**)&d_keyframes, MAX_NUM_KEYFRAMES * sizeof(CudaKeyFrame*)), "[KFCullingKernel::] Failed to allocate memory for d_keyframes");   
     checkCudaError(cudaMalloc((void**)&d_nRedundantObservations, MAX_NUM_KEYFRAMES * sizeof(int)), "[KFCullingKernel::] Failed to allocate memory for d_nRedundantObservations"); 
     checkCudaError(cudaMalloc((void**)&d_nMPs, MAX_NUM_KEYFRAMES * sizeof(int)), "[KFCullingKernel::] Failed to allocate memory for d_nMPs"); 
     checkCudaError(cudaMalloc((void**)&d_neighFramesMapPointsCorrect, maxNeighborCount * mapPointVecSize * sizeof(bool)), "Failed to allocate device vector d_neighFramesMapPointsCorrect");
@@ -48,20 +48,20 @@ void KFCullingKernel::launch(vector<ORB_SLAM3::KeyFrame*> vpLocalKeyFrames, int*
         ORB_SLAM3::KeyFrame* pKF = vpLocalKeyFrames[i];
 
         if((pKF->mnId==pKF->GetMap()->GetInitKFid()) || pKF->isBad()) {
-            MAPPING_DATA_WRAPPER::CudaKeyFrame* d_kf = nullptr;
-            checkCudaError(cudaMemcpy(&d_keyframes[i], &d_kf, sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame*), cudaMemcpyHostToDevice), "[KFCullingKernel::] Failed to set d_keyframes[i] to null");
+            CudaKeyFrame* d_kf = nullptr;
+            checkCudaError(cudaMemcpy(&d_keyframes[i], &d_kf, sizeof(CudaKeyFrame*), cudaMemcpyHostToDevice), "[KFCullingKernel::] Failed to set d_keyframes[i] to null");
         }
         
         else {
 
-            MAPPING_DATA_WRAPPER::CudaKeyFrame* d_kf = CudaKeyFrameStorage::getMappingCudaKeyFrame(pKF->mnId);
+            CudaKeyFrame* d_kf = CudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
             if (d_kf == nullptr) {
                 cout << "[ERROR] KFCullingKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << pKF->mnId << "\n";
                 MappingKernelController::shutdownKernels(true, true);
                 exit(EXIT_FAILURE);
             }
 
-            checkCudaError(cudaMemcpy(&d_keyframes[i], &d_kf, sizeof(MAPPING_DATA_WRAPPER::CudaKeyFrame*), cudaMemcpyHostToDevice), "[KFCullingKernel::] Failed to copy d_kf from drawer to d_keyframes");
+            checkCudaError(cudaMemcpy(&d_keyframes[i], &d_kf, sizeof(CudaKeyFrame*), cudaMemcpyHostToDevice), "[KFCullingKernel::] Failed to copy d_kf from drawer to d_keyframes");
         }
     }
 
