@@ -1,5 +1,5 @@
-#ifndef FUSE_KERNEL_H
-#define FUSE_KERNEL_H
+#ifndef SEARCH_AND_FUSE_KERNEL_H
+#define SEARCH_AND_FUSE_KERNEL_H
 
 #include "KernelInterface.h"
 #include <iostream>
@@ -11,26 +11,29 @@
 #include <Eigen/Core>
 #include <csignal> 
 
-class FuseKernel: public KernelInterface {
+#define MAX_CONNECTED_KF_COUNT 100
+
+
+class SearchAndFuseKernel: public KernelInterface {
 
     public:
-        FuseKernel() { memory_is_initialized = false; 
+        SearchAndFuseKernel() { memory_is_initialized = false; 
                        frameCounter = 0; };
         void initialize() override;
         void shutdown() override;
-        void launch() override { std::cout << "[FuseKernel:] provide input for kernel launch.\n"; };
-        void launch(ORB_SLAM3::KeyFrame *neighKF, ORB_SLAM3::KeyFrame *currKF, const float th, 
-                    const bool bRight, ORB_SLAM3::GeometricCamera* pCamera, Sophus::SE3f Tcw, Eigen::Vector3f Ow, 
+        void launch() override { std::cout << "[SearchAndFuseKernel:] provide input for kernel launch.\n"; };
+        void launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
+                    std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
                     vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs);
-        void origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapPoint*> &vpMapPoints, const float th, const bool bRight);
-        int origDescriptorDistance(const cv::Mat &a, const cv::Mat &b);
         void saveStats(const string &file_path) override;
 
     private:
         bool memory_is_initialized;
-        int *h_bestDist, *h_bestIdx;
-        int *d_bestDist, *d_bestIdx;
-        MAPPING_DATA_WRAPPER::CudaMapPoint *d_currKFMapPoints;
+        int *d_bestDists, *d_bestIdxs;
+        CudaKeyFrame **d_connectedKFs;
+        LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *d_mapPoints;
+        Sophus::SE3f *d_Tcw;
+        Eigen::Vector3f *d_Ow;
 
         std::vector<std::pair<long unsigned int, double>> input_data_wrap_time;
         std::vector<std::pair<long unsigned int, double>> input_data_transfer_time;
@@ -38,7 +41,6 @@ class FuseKernel: public KernelInterface {
         std::vector<std::pair<long unsigned int, double>> output_data_transfer_time;
         std::vector<std::pair<long unsigned int, double>> total_exec_time;
         long unsigned int frameCounter;
-
 };
 
 #endif 

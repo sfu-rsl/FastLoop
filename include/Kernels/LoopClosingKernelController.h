@@ -4,7 +4,7 @@
 #include "CudaWrappers/CudaKeyFrame.h"
 #include "CudaKeyFrameStorage.h"
 #include "CudaUtils.h"
-#include "FuseKernel.h"
+#include "SearchAndFuseKernel.h"
 #include "SearchForTriangulationKernel.h"
 #include <memory> 
 
@@ -30,7 +30,7 @@ public:
 
 private:
     static bool memory_is_initialized;
-    static std::unique_ptr<FuseKernel> mpFuseKernel;
+    static std::unique_ptr<SearchAndFuseKernel> mpSearchAndFuseKernel;
 
 };
 
