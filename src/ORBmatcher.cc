@@ -1630,19 +1630,50 @@ namespace ORB_SLAM3
         return nFused;
     }
 
-    int ORBmatcher::GPUFuse(vector<KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th, vector<MapPoint*> vpMapPoints)
+    int ORBmatcher::GPUFuse(vector<KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, vector<MapPoint*> vpMapPoints, const float th, vector<MapPoint*> &vpReplacePoints)
     {
         int nFused=0;
         int numPoints = vpMapPoints.size();
-        int numconnectedKFs = connectedKFs.size();
+        int numConnectedKFs = connectedKFs.size();
         vector<MapPoint*> validMapPoints;
-        int outSize = numPoints*numconnectedKFs; 
+        int outSize = numPoints*numConnectedKFs; 
         int bestDists[outSize];
         int bestIdxs[outSize];
 
         LoopClosingKernelController::launchFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
 
+        int validMapPointsSize = validMapPoints.size();
 
+        for (int iKF = 0; iKF < numConnectedKFs; iKF++) {
+            for (size_t iMP = 0; iMP < validMapPointsSize; iMP++) {
+                MapPoint* pMP = validMapPoints[iMP];
+                if (pMP->IsInKeyFrame(connectedKFs[iKF]))
+                    continue;
+                
+                int idx = iKF*validMapPointsSize + iMP; 
+                int bestDist = bestDists[idx];
+                int bestIdx = bestIdxs[idx];
+
+                if (bestDist == 256 || bestIdx == -1)
+                    continue;
+
+                if (bestDist <= TH_LOW) {
+                    MapPoint* pMPinKF = connectedKFs[iKF]->GetMapPoint(bestIdx);
+                    if (pMPinKF) {
+                        if (!pMPinKF->isBad()) {
+                            vpReplacePoints[iMP] = pMPinKF;
+                        }
+                    }
+                    else{
+                        pMP->AddObservation(connectedKFs[iKF],bestIdx);
+                        connectedKFs[iKF]->AddMapPoint(pMP, bestIdx);
+                    }
+                    nFused++;
+                }
+            }
+        }
+        
+        return nFused;
     }
 
     int ORBmatcher::SearchBySim3(KeyFrame* pKF1, KeyFrame* pKF2, std::vector<MapPoint *> &vpMatches12, const Sophus::Sim3f &S12, const float th)

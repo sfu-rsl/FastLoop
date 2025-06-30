@@ -244,6 +244,12 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
         th, d_bestDists, d_bestIdxs
     );
 
+    checkCudaError(cudaGetLastError(), "[SearchAndFuseKernel:] Failed to launch kernel");
+    checkCudaError(cudaDeviceSynchronize(), "[SearchAndFuseKernel:] cudaDeviceSynchronize failed after kernel launch");
+
+    checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * keyFramesToProcessCount * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host");
+    checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * keyFramesToProcessCount * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
+
     return;
 }
 

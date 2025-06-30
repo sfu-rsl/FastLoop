@@ -345,7 +345,7 @@ void LoopClosing::Run()
                         CorrectLoop();
                         auto end2 = std::chrono::high_resolution_clock::now();
                         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-                        // std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
+                        std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
 
 
 #ifdef REGISTER_TIMES
@@ -1310,7 +1310,7 @@ void LoopClosing::CorrectLoop()
         //cout << "LC: end replacing duplicated" << endl;
     }
 
-    auto start9 = std::chrono::high_resolution_clock::now();
+    
     // Project MapPoints observed in the neighborhood of the loop keyframe
     // into the current keyframe and neighbors using corrected poses.
     // Fuse duplications.
@@ -1330,7 +1330,8 @@ void LoopClosing::CorrectLoop()
     outFile << "Same Map Points: " << count_same_map_points << std::endl;
     outFile << "######################################################\n";
 
-    if (LoopClosingKernelController::fuseOnGPU == 1)
+    auto start9 = std::chrono::high_resolution_clock::now();
+    if (true)
         GPUSearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
     else 
         SearchAndFuse(CorrectedSim3, mvpLoopMapPoints);
@@ -1435,7 +1436,7 @@ void LoopClosing::CorrectLoop()
     // std::cout << "Part 6: " << elapsed6.count() << " ms" << std::endl;
     // std::cout << "Part 7: " << elapsed7.count() << " ms" << std::endl;
     // std::cout << "Part 8: " << elapsed8.count() << " ms" << std::endl;
-    // std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
+    std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
     // std::cout << "Part 10: " << elapsed10.count() << " ms" << std::endl;
     // std::cout << "Part 11: " << elapsed11.count() << " ms" << std::endl;
     // std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
@@ -2433,13 +2434,29 @@ void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vec
     vector<KeyFrame*> vpConnectedKFs;
     vector<Sophus::Sim3f> vpConnectedScws;
     float threshold = 4;
+    int total_replaces = 0;
+    int num_replaces = 0;
 
     for(KeyFrameAndPose::const_iterator mit=CorrectedPosesMap.begin(), mend=CorrectedPosesMap.end(); mit!=mend;mit++)
     {
         vpConnectedKFs.push_back(mit->first);
         vpConnectedScws.push_back(Converter::toSophus(mit->second));
     }
-    matcher.GPUFuse(vpConnectedKFs, vpConnectedScws, threshold, vpMapPoints);
+    
+    vector<MapPoint*> vpReplacePoints(vpMapPoints.size(),static_cast<MapPoint*>(NULL));
+    matcher.GPUFuse(vpConnectedKFs, vpConnectedScws, vpMapPoints, threshold, vpReplacePoints);
+    
+    const int nLP = vpMapPoints.size();
+    for(int i=0; i<nLP;i++){
+        MapPoint* pRep = vpReplacePoints[i];
+        if(pRep)
+        {
+            num_replaces += 1;
+            pRep->Replace(vpMapPoints[i]);
+        }
+    }
+
+    total_replaces += num_replaces;
 }
 
 
