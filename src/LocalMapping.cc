@@ -258,7 +258,10 @@ void LocalMapping::Run()
             std::chrono::steady_clock::time_point time_StartKFCulling = std::chrono::steady_clock::now();
 #endif  
                 // Check redundant local Keyframes
-                KeyFrameCullingV2();
+                if (MappingKernelController::optimizeKeyframeCulling)
+                    KeyFrameCullingV2();
+                else 
+                    KeyFrameCulling();
 
 #ifdef REGISTER_LOCAL_MAPPING_STATS
             std::chrono::steady_clock::time_point time_EndKFCulling = std::chrono::steady_clock::now();
@@ -376,7 +379,6 @@ void LocalMapping::InsertKeyFrame(KeyFrame *pKF)
     mbAbortBA=true;
 }
 
-
 bool LocalMapping::CheckNewKeyFrames()
 {
     unique_lock<mutex> lock(mMutexNewKFs);
@@ -474,7 +476,6 @@ void LocalMapping::MapPointCulling()
         }
     }
 }
-
 
 void LocalMapping::CreateNewMapPoints()
 {
@@ -909,26 +910,38 @@ void LocalMapping::SearchInNeighbors()
     // Search matches by projection from current KF in target KFs
     ORBmatcher matcher;
     vector<MapPoint*> vpMapPointMatches = mpCurrentKeyFrame->GetMapPointMatches();
-    auto start5 = std::chrono::high_resolution_clock::now();
-    double first_fuse = 0;
-    double second_fuse = 0;
 
-    for(vector<KeyFrame*>::iterator vit=vpTargetKFs.begin(), vend=vpTargetKFs.end(); vit!=vend; vit++)
-    {
-        KeyFrame* pKFi = *vit;
+    if (MappingKernelController::fuseOnGPU == 1)
+        matcher.GPUFuseV2(vpTargetKFs, mpCurrentKeyFrame);
 
-        if (MappingKernelController::fuseOnGPU == 1)
-            matcher.GPUFuse(pKFi, mpCurrentKeyFrame);
-        else
+    else {
+        for(vector<KeyFrame*>::iterator vit=vpTargetKFs.begin(), vend=vpTargetKFs.end(); vit!=vend; vit++)
+        {
+            KeyFrame* pKFi = *vit;
             matcher.Fuse(pKFi,vpMapPointMatches);
 
-        if (pKFi->NLeft != -1) {
-            if (MappingKernelController::fuseOnGPU == 1)
-                matcher.GPUFuse(pKFi, mpCurrentKeyFrame, true);
-            else
-                matcher.Fuse(pKFi,vpMapPointMatches, true);
+            if (pKFi->NLeft != -1)
+                matcher.Fuse(pKFi,vpMapPointMatches, 3.0, true);
         }
     }
+
+    // Uncomment this part for GPUFuse, and comment the previous part
+    // for(vector<KeyFrame*>::iterator vit=vpTargetKFs.begin(), vend=vpTargetKFs.end(); vit!=vend; vit++)
+    // {
+    //     KeyFrame* pKFi = *vit;
+
+    //     if (MappingKernelController::fuseOnGPU == 1)
+    //         matcher.GPUFuse(pKFi, mpCurrentKeyFrame);
+    //     else
+    //         matcher.Fuse(pKFi,vpMapPointMatches);
+
+    //     if (pKFi->NLeft != -1) {
+    //         if (MappingKernelController::fuseOnGPU == 1)
+    //             matcher.GPUFuse(pKFi, mpCurrentKeyFrame, true);
+    //         else
+    //             matcher.Fuse(pKFi,vpMapPointMatches, true);
+    //     }
+    // }
 
     if (mbAbortBA)
         return;
@@ -955,8 +968,8 @@ void LocalMapping::SearchInNeighbors()
         }
     }
 
-    // matcher.Fuse(mpCurrentKeyFrame,vpFuseCandidates);
-    // if(mpCurrentKeyFrame->NLeft != -1) matcher.Fuse(mpCurrentKeyFrame,vpFuseCandidates,true);
+    matcher.Fuse(mpCurrentKeyFrame,vpFuseCandidates);
+    if(mpCurrentKeyFrame->NLeft != -1) matcher.Fuse(mpCurrentKeyFrame,vpFuseCandidates,true);
 
 
     // Update points
@@ -1057,8 +1070,6 @@ void LocalMapping::InterruptBA()
 
 void LocalMapping::KeyFrameCulling()
 {
-
-    if (MappingKernelController::keyframeCullingOnGPU == false) {
     // Check redundant keyframes (only local keyframes)
     // A keyframe is considered redundant if the 90% of the MapPoints it sees, are seen
     // in at least other 3 keyframes (in the same or finer scale)
@@ -1211,105 +1222,6 @@ void LocalMapping::KeyFrameCulling()
         {
             break;
         }
-    }
-    }
-
-    else {
-    // Check redundant keyframes (only local keyframes)
-    // A keyframe is considered redundant if the 90% of the MapPoints it sees, are seen
-    // in at least other 3 keyframes (in the same or finer scale)
-    // We only consider close stereo points
-    std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
-    const int Nd = 21;
-    mpCurrentKeyFrame->UpdateBestCovisibles();
-    vector<KeyFrame*> vpLocalKeyFrames = mpCurrentKeyFrame->GetVectorCovisibleKeyFrames();
-
-    float redundant_th;
-    if(!mbInertial)
-        redundant_th = 0.9;
-    else if (mbMonocular)
-        redundant_th = 0.9;
-    else
-        redundant_th = 0.5;
-
-    const bool bInitImu = mpAtlas->isImuInitialized();
-    int count=0;
-
-    // Compoute last KF from optimizable window:
-    unsigned int last_ID;
-    if (mbInertial)
-    {
-        int count = 0;
-        KeyFrame* aux_KF = mpCurrentKeyFrame;
-        while(count<Nd && aux_KF->mPrevKF)
-        {
-            aux_KF = aux_KF->mPrevKF;
-            count++;
-        }
-        last_ID = aux_KF->mnId;
-    }
-
-    double sum = 0;
-    int itr = 0;
-
-    int vpLocalKeyFrames_size = vpLocalKeyFrames.size();
-    int values_nMPs[vpLocalKeyFrames_size];
-    int values_nRedundantObservations[vpLocalKeyFrames_size];
-    MappingKernelController::launchKeyframeCullingKernel(vpLocalKeyFrames, values_nMPs, values_nRedundantObservations);
-
-    std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
-    for(int i = 0; i < vpLocalKeyFrames.size(); i++) {
-
-        count++;
-        KeyFrame* pKF = vpLocalKeyFrames[i];
-        
-        if((pKF->mnId==pKF->GetMap()->GetInitKFid()) || pKF->isBad())
-            continue;
-
-        if(values_nRedundantObservations[i] > redundant_th * values_nMPs[i])
-        {
-            if (mbInertial)
-            {
-                if (mpAtlas->KeyFramesInMap()<=Nd)
-                    continue;
-
-                if(pKF->mnId>(mpCurrentKeyFrame->mnId-2))
-                    continue;
-
-                if(pKF->mPrevKF && pKF->mNextKF)
-                {
-                    const float t = pKF->mNextKF->mTimeStamp-pKF->mPrevKF->mTimeStamp;
-
-                    if((bInitImu && (pKF->mnId<last_ID) && t<3.) || (t<0.5))
-                    {
-                        pKF->mNextKF->mpImuPreintegrated->MergePrevious(pKF->mpImuPreintegrated);
-                        pKF->mNextKF->mPrevKF = pKF->mPrevKF;
-                        pKF->mPrevKF->mNextKF = pKF->mNextKF;
-                        pKF->mNextKF = NULL;
-                        pKF->mPrevKF = NULL;
-                        pKF->SetBadFlag();
-                    }
-                    else if(!mpCurrentKeyFrame->GetMap()->GetIniertialBA2() && ((pKF->GetImuPosition()-pKF->mPrevKF->GetImuPosition()).norm()<0.02) && (t<3))
-                    {
-                        pKF->mNextKF->mpImuPreintegrated->MergePrevious(pKF->mpImuPreintegrated);
-                        pKF->mNextKF->mPrevKF = pKF->mPrevKF;
-                        pKF->mPrevKF->mNextKF = pKF->mNextKF;
-                        pKF->mNextKF = NULL;
-                        pKF->mPrevKF = NULL;
-                        pKF->SetBadFlag();
-                    }
-                }
-            }
-            else
-            {
-                pKF->SetBadFlag();
-            }
-        }
-        if((count > 20 && mbAbortBA) || count>100)
-        {
-            break;
-        }       
-    }     
     }
 }
 
@@ -1879,13 +1791,10 @@ void LocalMapping::ScaleRefinement()
     return;
 }
 
-
-
 bool LocalMapping::IsInitializing()
 {
     return bInitializing;
 }
-
 
 double LocalMapping::GetCurrKFTime()
 {

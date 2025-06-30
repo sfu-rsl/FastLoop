@@ -30,6 +30,10 @@ else()
    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
+add_compile_definitions(SPDLOG_ACTIVE_LEVEL=5)
+add_compile_definitions(KOMPUTE_VK_API_MAJOR_VERSION=1 KOMPUTE_VK_API_MINOR_VERSION=2)
+add_compile_definitions(KOMPUTE_DISABLE_VK_DEBUG_LAYERS)
+
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 find_package(OpenCV 4.4)
@@ -53,6 +57,10 @@ ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
 ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
+# new
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/src/include
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/src/include
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/external/VulkanMemoryAllocator/include
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -104,7 +112,6 @@ src/Kernels/SearchForTriangulationKernel.cu
 src/Kernels/TrackingKernelController.cu
 src/Kernels/MappingKernelController.cu
 src/Kernels/LoopClosingKernelController.cu
-src/Kernels/KFCullingKernel.cu
 src/Kernels/CudaKeyFrameStorage.cu
 src/Kernels/FuseKernel.cu
 src/Kernels/SearchAndFuseKernel.cu
@@ -172,7 +179,20 @@ set_target_properties( ${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 add_compile_options(-w)
 
+add_compile_definitions(SPDLOG_ACTIVE_LEVEL=5)
 add_subdirectory(Thirdparty/g2o)
+
+check_language(CUDA)
+
+if(CMAKE_CUDA_COMPILER)
+message("CUDA IS AVAILABLE")
+
+find_package(CUDAToolkit REQUIRED)
+target_link_libraries(${PROJECT_NAME} CUDA::cusparse CUDA::cusolver CUDA::cudart)
+add_compile_definitions(CUDA_ENABLED)
+else()
+message("CUDA IS NOT AVAILABLE")
+endif()
 
 target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
@@ -183,6 +203,9 @@ ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 -lboost_serialization
 -lcrypto
 OpenMP::OpenMP_CXX
+# new
+compute
+fmt::fmt
 )
 
 # If RealSense SDK is found the library is added and its examples compiled

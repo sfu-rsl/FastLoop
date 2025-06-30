@@ -37,7 +37,7 @@ fi
 ./Stereo-Inertial/stereo_inertial_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}${seq_number}_512.txt Stereo-Inertial/TUM_IMU/dataset-${dataset_name}${seq_number}_512.txt  ${file_name} ${statsDir} ${mode} ${fastmap_mode}
 # ./Stereo/stereo_tum_vi ../Vocabulary/ORBvoc.txt Stereo-Inertial/TUM-VI.yaml ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam0/data ${pathDatasetTUM_VI}/dataset-${dataset_name}_512_16/mav0/cam1/data Stereo-Inertial/TUM_TimeStamps/dataset-${dataset_name}_512.txt ${file_name} ${statsDir} ${orbExtractionRunstatus} ${stereoMatchRunstatus} ${searchLocalPointsRunstatus} ${poseEstimationRunstatus}
 
-# echo "------------------------------------"
+echo "------------------------------------"
 
 echo "Evaluation of ${dataset_name}${seq_number} trajectory with Stereo-Inertial sensor"
 python3 -W ignore ../evaluation/evaluate3.py "$pathDatasetTUM_VI"/${dataset_name}/dataset-${dataset_name}${seq_number}_512_16/mav0/mocap0/data.csv f_${file_name}.txt --plot ${dataset_name}${seq_number}_512_stereoi.pdf --verbose
