@@ -32,7 +32,7 @@ class FuseKernel: public KernelInterface {
     private:
         bool memory_is_initialized;
         int *d_bestDists, *d_bestIdxs;
-        MAPPING_DATA_WRAPPER::CudaKeyFrame **d_neighKFs;
+        CudaKeyFrame **d_neighKFs;
         MAPPING_DATA_WRAPPER::CudaMapPoint *d_currKFMapPoints;
         Sophus::SE3f *d_Tcw, *d_TcwRight;
         Eigen::Vector3f *d_Ow, *d_OwRight;

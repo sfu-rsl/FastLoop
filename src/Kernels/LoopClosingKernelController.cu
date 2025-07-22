@@ -9,7 +9,7 @@
 #endif
 
 
-bool LoopClosingKernelController::fuseOnGPU;
+bool LoopClosingKernelController::fuseOnGPU = 1;
 bool LoopClosingKernelController::memory_is_initialized = false;
 
 std::unique_ptr<SearchAndFuseKernel> LoopClosingKernelController::mpSearchAndFuseKernel = std::make_unique<SearchAndFuseKernel>();

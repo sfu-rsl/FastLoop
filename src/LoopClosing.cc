@@ -26,7 +26,7 @@
 #include "G2oTypes.h"
 
 #include "Kernels/MappingKernelController.h"
-#include "Kernels/CudaKeyFrameStorage.h"
+// #include "Kernels/CudaKeyFrameStorage.h"
 #include "Kernels/LoopClosingKernelController.h"
 
 #include<mutex>
@@ -120,6 +120,10 @@ LoopClosing::LoopClosing(Atlas *pAtlas, KeyFrameDatabase *pDB, ORBVocabulary *pV
     mstrFolderSubTraj = "SubTrajectories/";
     mnNumCorrection = 0;
     mnCorrectionGBA = 0;
+
+    if(true) {
+        LoopClosingKernelController::initializeKernels();
+    }
 }
 
 // size_t EstimateKeyFrameAndPoseSize(const KeyFrameAndPose& kfMap) {
@@ -312,8 +316,10 @@ void LoopClosing::Run()
                             if(mpCurrentKF->GetMap()->IsInertial())
                             {
                                 // If inertial, force only yaw
-                                if ((mpTracker->mSensor==System::IMU_MONOCULAR ||mpTracker->mSensor==System::IMU_STEREO || mpTracker->mSensor==System::IMU_RGBD) &&
-                                        mpCurrentKF->GetMap()->GetIniertialBA2())
+                                if ((mpTracker->mSensor==System::IMU_MONOCULAR ||
+                                        mpTracker->mSensor==System::IMU_STEREO || 
+                                        mpTracker->mSensor==System::IMU_RGBD) &&
+                                    mpCurrentKF->GetMap()->GetIniertialBA2())
                                 {
                                     phi(0)=0;
                                     phi(1)=0;
@@ -328,7 +334,6 @@ void LoopClosing::Run()
                             cout << "BAD LOOP!!!" << endl;
                             bGoodLoop = false;
                         }
-
                     }
 
                     if (bGoodLoop) {
@@ -345,7 +350,9 @@ void LoopClosing::Run()
                         CorrectLoop();
                         auto end2 = std::chrono::high_resolution_clock::now();
                         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-                        std::cout << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
+
+                        std::ofstream timing("./test/timing.txt", std::ios::app);
+                        timing << "*************** CorrectLoop: " << elapsed2.count() << " ms" << std::endl;
 
 
 #ifdef REGISTER_TIMES
@@ -1111,9 +1118,9 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
 void LoopClosing::CorrectLoop()
 {
 
-    std::ofstream outFile("123456789example.txt", std::ios::app);
+    std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    outFile << "Size of mpCurrentKF: " << sizeof(mpCurrentKF) << std::endl;
+    // outFile << "Size of mpCurrentKF: " << sizeof(mpCurrentKF) << std::endl;
     // std::cout << "Size of mpCurrentKF: " << EstimateKeyFrameMemory(mpCurrentKF) << std::endl;
     
 
@@ -1170,7 +1177,7 @@ void LoopClosing::CorrectLoop()
     //std::cout << "Loop: number of connected KFs -> " + to_string(mvpCurrentConnectedKFs.size()) << std::endl;
 
     KeyFrameAndPose CorrectedSim3, NonCorrectedSim3;
-    outFile << "Size of mg2oLoopScw: " << sizeof(mg2oLoopScw) << std::endl;
+    // outFile << "Size of mg2oLoopScw: " << sizeof(mg2oLoopScw) << std::endl;
     CorrectedSim3[mpCurrentKF]=mg2oLoopScw;
     Sophus::SE3f Twc = mpCurrentKF->GetPoseInverse();
     Sophus::SE3f Tcw = mpCurrentKF->GetPose();
@@ -1285,8 +1292,8 @@ void LoopClosing::CorrectLoop()
         auto start8 = std::chrono::high_resolution_clock::now();
         // Start Loop Fusion
         // Update matched map points and replace if duplicated
-        outFile << "Size of mvpLoopMatchedMPs: " << sizeof(MapPoint*) * mvpLoopMatchedMPs.capacity()  << std::endl;
-        outFile << "Number of mvpLoopMatchedMPs: " << mvpLoopMatchedMPs.size()  << std::endl;
+        // outFile << "Size of mvpLoopMatchedMPs: " << sizeof(MapPoint*) * mvpLoopMatchedMPs.capacity()  << std::endl;
+        // outFile << "Number of mvpLoopMatchedMPs: " << mvpLoopMatchedMPs.size()  << std::endl;
         
         for(size_t i=0; i<mvpLoopMatchedMPs.size(); i++)
         {
@@ -1315,20 +1322,20 @@ void LoopClosing::CorrectLoop()
     // into the current keyframe and neighbors using corrected poses.
     // Fuse duplications.
 
-    outFile << "Size of mvpLoopMapPoints: " << sizeof(MapPoint*) * mvpLoopMapPoints.size() << std::endl;
-    outFile << "Number of mvpLoopMapPoints: " << mvpLoopMapPoints.size() << std::endl;
+    // outFile << "Size of mvpLoopMapPoints: " << sizeof(MapPoint*) * mvpLoopMapPoints.size() << std::endl;
+    // outFile << "Number of mvpLoopMapPoints: " << mvpLoopMapPoints.size() << std::endl;
     // std::cout << "Size of CorrectedSim3: " << EstimateKeyFrameAndPoseSize(CorrectedSim3) << std::endl;
-    outFile << "Size of MapPoint: " << sizeof(MapPoint*) << std::endl;
+    // outFile << "Size of MapPoint: " << sizeof(MapPoint*) << std::endl;
 
-    int count_same_map_points = 0;
-    for(size_t i=0; i<mvpLoopMapPoints.size(); i++){
-        MapPoint* temp_mp = mvpLoopMapPoints[i];
-        if(std::find(mvpLoopMatchedMPs.begin(), mvpLoopMatchedMPs.end(), temp_mp) != mvpLoopMatchedMPs.end()){
-            count_same_map_points++;
-        }
-    }
-    outFile << "Same Map Points: " << count_same_map_points << std::endl;
-    outFile << "######################################################\n";
+    // int count_same_map_points = 0;
+    // for(size_t i=0; i<mvpLoopMapPoints.size(); i++){
+    //     MapPoint* temp_mp = mvpLoopMapPoints[i];
+    //     if(std::find(mvpLoopMatchedMPs.begin(), mvpLoopMatchedMPs.end(), temp_mp) != mvpLoopMatchedMPs.end()){
+    //         count_same_map_points++;
+    //     }
+    // }
+    // outFile << "Same Map Points: " << count_same_map_points << std::endl;
+    // outFile << "######################################################\n";
 
     auto start9 = std::chrono::high_resolution_clock::now();
     if (true)
@@ -1431,19 +1438,19 @@ void LoopClosing::CorrectLoop()
 
     // std::cout << "Part 1: " << elapsed1.count() << " ms" << std::endl;
     // std::cout << "Part 2: " << elapsed2.count() << " ms" << std::endl;
-    // std::cout << "Part 3: " << elapsed3.count() << " ms" << std::endl;
+    timing << "Update Connections(Part 3): " << elapsed3.count() << " ms" << std::endl;
     // std::cout << "Part 4: " << elapsed4.count() << " ms" << std::endl;
     // std::cout << "Part 6: " << elapsed6.count() << " ms" << std::endl;
-    // std::cout << "Part 7: " << elapsed7.count() << " ms" << std::endl;
-    // std::cout << "Part 8: " << elapsed8.count() << " ms" << std::endl;
-    std::cout << "Part 9: " << elapsed9.count() << " ms" << std::endl;
-    // std::cout << "Part 10: " << elapsed10.count() << " ms" << std::endl;
-    // std::cout << "Part 11: " << elapsed11.count() << " ms" << std::endl;
+    timing << "Correct Map Points(Part 7): " << elapsed7.count() << " ms" << std::endl;
+    timing << "Update Matched Map Points(Part 8): " << elapsed8.count() << " ms" << std::endl;
+    timing << "Search and Fuse(Part 9): " << elapsed9.count() << " ms" << std::endl;
+    timing << "Update Connections(Part 10): " << elapsed10.count() << " ms" << std::endl;
+    timing << "Optimize Essential Graph(Part 11): " << elapsed11.count() << " ms" << std::endl;
     // std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
     // std::cout << "Part 13: " << elapsed13.count() << " ms" << std::endl;
     // std::cout << "Part 14: " << elapsed14.count() << " ms" << std::endl;
     // std::cout << "Part 15: " << elapsed15.count() << " ms" << std::endl;
-    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+    timing << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 }
 
 void LoopClosing::MergeLocal()

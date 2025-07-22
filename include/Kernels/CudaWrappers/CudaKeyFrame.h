@@ -23,7 +23,6 @@ class CudaKeyFrame {
         CudaKeyFrame();
         void setGPUAddress(CudaKeyFrame* ptr);
         void setMemory(ORB_SLAM3::KeyFrame* KF);
-        void setMemory(ORB_SLAM3::KeyFrame &KF);
         void addFeatureVector(DBoW2::FeatureVector featVec);
         void setAsEmpty() { isEmpty = true; };
         void freeMemory();
@@ -47,6 +46,9 @@ class CudaKeyFrame {
         float mbf;
 
         CudaKeyFrame* gpuAddr;
+
+        size_t mapPointsId_size;
+        long unsigned int* mapPointsId;
 
         size_t mvScaleFactors_size;
         float* mvScaleFactors;

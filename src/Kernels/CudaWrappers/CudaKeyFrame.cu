@@ -21,6 +21,8 @@ void CudaKeyFrame::initializeMemory(){
         checkCudaError(cudaMalloc((void**)&mvDepth, nFeatures * sizeof(float)), "Frame::failed to allocate memory for mvDepth");
     }
 
+    checkCudaError(cudaMalloc((void**)&mapPointsId, nFeatures * sizeof(long unsigned int)), "KeyFrame::failed to allocate memory for mapPointsId");
+    
     checkCudaError(cudaMalloc((void**)&mvScaleFactors, nFeatures * sizeof(float)), "KeyFrame::failed to allocate memory for mvScaleFactors");
 
     checkCudaError(cudaMalloc((void**)&mvuRight, nFeatures * sizeof(float)), "KeyFrame::failed to allocate memory for mvuRight");
@@ -70,6 +72,16 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
     mbf = KF->mbf;
 
     checkCudaError(cudaMemcpy(mvDepth, KF->mvDepth.data(), KF->mvDepth.size() * sizeof(float), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvDepth to gpu");
+    
+    const set<ORB_SLAM3::MapPoint*> spAlreadyFound = KF->GetMapPoints();
+    mapPointsId_size = spAlreadyFound.size();
+    std::vector<long unsigned int> temp_mapPointsId(mapPointsId_size);
+    for (auto pMP : spAlreadyFound) {
+        // if (pMP) {
+        temp_mapPointsId.push_back(pMP->mnId);
+        // }
+    }
+    checkCudaError(cudaMemcpy(mapPointsId, temp_mapPointsId.data(), mapPointsId_size * sizeof(long unsigned int), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mapPointsId to gpu");
     
     mvScaleFactors_size = KF->mvScaleFactors.size();
     checkCudaError(cudaMemcpy(mvScaleFactors, KF->mvScaleFactors.data(), mvScaleFactors_size * sizeof(float), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvScaleFactors to gpu");
@@ -173,6 +185,7 @@ void CudaKeyFrame::copyFeatVec(unsigned int *out, int *outIndexes, DBoW2::Featur
 
 void CudaKeyFrame::freeMemory(){
     DEBUG_PRINT("Freeing GPU Memory For KeyFrame...");
+    checkCudaError(cudaFree((void*)mapPointsId),"Failed to free keyframe memory: mapPointsId");
     checkCudaError(cudaFree((void*)mvScaleFactors),"Failed to free keyframe memory: mvScaleFactors");
     checkCudaError(cudaFree((void*)mvInvLevelSigma2),"Failed to free keyframe memory: mvInvLevelSigma2");
     checkCudaError(cudaFree((void*)mvuRight),"Failed to free keyframe memory: mvuRight");

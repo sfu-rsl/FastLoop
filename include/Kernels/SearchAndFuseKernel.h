@@ -5,7 +5,7 @@
 #include <iostream>
 #include "CudaWrappers/CudaMapPoint.h"
 #include "CudaWrappers/CudaKeyFrame.h"
-#include "CudaKeyFrameStorage.h"
+// #include "CudaKeyFrameStorage.h"
 #include "CudaUtils.h"
 #include "CameraModels/GeometricCamera.h"
 #include <Eigen/Core>
@@ -25,12 +25,15 @@ class SearchAndFuseKernel: public KernelInterface {
         void launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
                     std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
                     vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs);
+        void origFuse(ORB_SLAM3::KeyFrame *pKF, Sophus::Sim3f &Scw, const vector<ORB_SLAM3::MapPoint*> &vpPoints, const float th);
+        int origDescriptorDistance(const cv::Mat &a, const cv::Mat &b);
         void saveStats(const string &file_path) override;
 
     private:
         bool memory_is_initialized;
         int *d_bestDists, *d_bestIdxs;
-        CudaKeyFrame **d_connectedKFs;
+        CudaKeyFrame *d_connectedKFs;
+        // static CudaKeyFrame *d_keyframes, *h_keyframes;
         LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *d_mapPoints;
         Sophus::SE3f *d_Tcw;
         Eigen::Vector3f *d_Ow;

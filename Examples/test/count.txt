@@ -1,0 +1,958 @@
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1162
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+vpMapPoints.size(): 1558
+**********************************************************
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1127
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1071
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 110
+vpMapPoints.size(): 1140
+**********************************************************
+Fuse: pKF-ID = 132
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 137
+Fuse: pKF-ID = 128
+Fuse: pKF-ID = 133
+Fuse: pKF-ID = 131
+Fuse: pKF-ID = 129
+Fuse: pKF-ID = 130
+Fuse: pKF-ID = 134
+Fuse: pKF-ID = 135
+Fuse: pKF-ID = 136
+vpMapPoints.size(): 1039
+**********************************************************
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1148
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 118
+vpMapPoints.size(): 1519
+**********************************************************
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1051
+**********************************************************
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 128
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 125
+vpMapPoints.size(): 1243
+**********************************************************
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1094
+**********************************************************
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 117
+vpMapPoints.size(): 1382
+**********************************************************
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 117
+vpMapPoints.size(): 1507
+**********************************************************
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 123
+vpMapPoints.size(): 1578
+**********************************************************
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 97
+Fuse: pKF-ID = 96
+Fuse: pKF-ID = 98
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1136
+**********************************************************
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 128
+Fuse: pKF-ID = 131
+Fuse: pKF-ID = 130
+Fuse: pKF-ID = 129
+Fuse: pKF-ID = 133
+Fuse: pKF-ID = 135
+Fuse: pKF-ID = 132
+Fuse: pKF-ID = 136
+Fuse: pKF-ID = 134
+vpMapPoints.size(): 1042
+**********************************************************
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 126
+vpMapPoints.size(): 1402
+**********************************************************
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 121
+vpMapPoints.size(): 1393
+**********************************************************
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 122
+vpMapPoints.size(): 1368
+**********************************************************
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 91
+Fuse: pKF-ID = 93
+Fuse: pKF-ID = 92
+Fuse: pKF-ID = 96
+Fuse: pKF-ID = 94
+Fuse: pKF-ID = 95
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 97
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 98
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 105
+vpMapPoints.size(): 1175
+**********************************************************
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1567
+**********************************************************
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 127
+vpMapPoints.size(): 1378
+**********************************************************
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1128
+**********************************************************
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 114
+vpMapPoints.size(): 1162
+**********************************************************
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 94
+Fuse: pKF-ID = 93
+Fuse: pKF-ID = 97
+Fuse: pKF-ID = 95
+Fuse: pKF-ID = 96
+Fuse: pKF-ID = 98
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+vpMapPoints.size(): 1154
+**********************************************************
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1139
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 119
+vpMapPoints.size(): 1492
+**********************************************************
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 121
+vpMapPoints.size(): 1447
+**********************************************************
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+vpMapPoints.size(): 1128
+**********************************************************
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 123
+vpMapPoints.size(): 1399
+**********************************************************
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 121
+vpMapPoints.size(): 1299
+**********************************************************
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 127
+vpMapPoints.size(): 1199
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 111
+vpMapPoints.size(): 1356
+**********************************************************
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 129
+Fuse: pKF-ID = 131
+Fuse: pKF-ID = 130
+vpMapPoints.size(): 1033
+**********************************************************
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1535
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+vpMapPoints.size(): 1418
+**********************************************************
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 110
+vpMapPoints.size(): 1134
+**********************************************************
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 130
+Fuse: pKF-ID = 129
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 128
+vpMapPoints.size(): 1230
+**********************************************************
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 117
+vpMapPoints.size(): 1173
+**********************************************************
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1172
+**********************************************************
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 129
+Fuse: pKF-ID = 130
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 131
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 132
+vpMapPoints.size(): 950
+**********************************************************
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 114
+vpMapPoints.size(): 1449
+**********************************************************
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 98
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 111
+vpMapPoints.size(): 1153
+**********************************************************
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1165
+**********************************************************
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1087
+**********************************************************
+Fuse: pKF-ID = 127
+Fuse: pKF-ID = 126
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 125
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 128
+vpMapPoints.size(): 1347
+**********************************************************
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 96
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1156
+**********************************************************
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 120
+vpMapPoints.size(): 1137
+**********************************************************
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 116
+vpMapPoints.size(): 1480
+**********************************************************
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 112
+vpMapPoints.size(): 1379
+**********************************************************
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 119
+vpMapPoints.size(): 1110
+**********************************************************
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 118
+vpMapPoints.size(): 1112
+**********************************************************
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 113
+vpMapPoints.size(): 1176
+**********************************************************
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 109
+vpMapPoints.size(): 1216
+**********************************************************
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1110
+**********************************************************
+Fuse: pKF-ID = 98
+Fuse: pKF-ID = 96
+Fuse: pKF-ID = 101
+Fuse: pKF-ID = 99
+Fuse: pKF-ID = 100
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 102
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 110
+vpMapPoints.size(): 1166
+**********************************************************
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 121
+vpMapPoints.size(): 1445
+**********************************************************
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 120
+vpMapPoints.size(): 1197
+**********************************************************
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 103
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 104
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 115
+vpMapPoints.size(): 1457
+**********************************************************
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 120
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 124
+Fuse: pKF-ID = 122
+Fuse: pKF-ID = 119
+Fuse: pKF-ID = 121
+Fuse: pKF-ID = 123
+Fuse: pKF-ID = 125
+vpMapPoints.size(): 1415
+**********************************************************
+Fuse: pKF-ID = 107
+Fuse: pKF-ID = 105
+Fuse: pKF-ID = 108
+Fuse: pKF-ID = 106
+Fuse: pKF-ID = 112
+Fuse: pKF-ID = 110
+Fuse: pKF-ID = 111
+Fuse: pKF-ID = 109
+Fuse: pKF-ID = 113
+Fuse: pKF-ID = 115
+Fuse: pKF-ID = 117
+Fuse: pKF-ID = 116
+Fuse: pKF-ID = 118
+Fuse: pKF-ID = 114
+Fuse: pKF-ID = 119
+vpMapPoints.size(): 1086
+**********************************************************

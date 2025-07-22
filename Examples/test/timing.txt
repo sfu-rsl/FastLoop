@@ -1,0 +1,556 @@
+Main Kernel: 24.9067 ms
+Main Kernel: 121.102 ms
+Main Kernel: 104.056 ms
+Main Kernel: 65.2543 ms
+Main Kernel: 32.922 ms
+Update Connections(Part 3): 0.261801 ms
+Correct Map Points(Part 7): 0.862772 ms
+Update Matched Map Points(Part 8): 0.777824 ms
+Search and Fuse(Part 9): 72.9807 ms
+Update Connections(Part 10): 6.25342 ms
+Optimize Essential Graph(Part 11): 19.2965 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 101.651 ms
+Main Kernel: 120.092 ms
+Main Kernel: 8.59336 ms
+Update Connections(Part 3): 0.304825 ms
+Correct Map Points(Part 7): 1.05578 ms
+Update Matched Map Points(Part 8): 0.687617 ms
+Search and Fuse(Part 9): 37.3425 ms
+Update Connections(Part 10): 4.50397 ms
+Optimize Essential Graph(Part 11): 18.7143 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 63.8919 ms
+Main Kernel: 62.7797 ms
+Main Kernel: 8.42997 ms
+Main Kernel: 56.5879 ms
+Update Connections(Part 3): 0.352203 ms
+Correct Map Points(Part 7): 0.969069 ms
+Update Matched Map Points(Part 8): 0.777778 ms
+Search and Fuse(Part 9): 89.2544 ms
+Update Connections(Part 10): 5.92379 ms
+Optimize Essential Graph(Part 11): 23.6218 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 123.177 ms
+Main Kernel: 24.7547 ms
+Update Connections(Part 3): 0.323539 ms
+Correct Map Points(Part 7): 1.4968 ms
+Update Matched Map Points(Part 8): 0.924914 ms
+Search and Fuse(Part 9): 55.9846 ms
+Update Connections(Part 10): 6.22835 ms
+Optimize Essential Graph(Part 11): 18.5399 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 84.7168 ms
+Main Kernel: 72.9351 ms
+Update Connections(Part 3): 0.723257 ms
+Correct Map Points(Part 7): 1.81134 ms
+Update Matched Map Points(Part 8): 1.34436 ms
+Search and Fuse(Part 9): 105.365 ms
+Update Connections(Part 10): 7.96842 ms
+Optimize Essential Graph(Part 11): 20.3517 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 139.839 ms
+Main Kernel: 8.68733 ms
+Update Connections(Part 3): 0.242592 ms
+Correct Map Points(Part 7): 1.03794 ms
+Update Matched Map Points(Part 8): 0.904408 ms
+Search and Fuse(Part 9): 35.8032 ms
+Update Connections(Part 10): 4.49152 ms
+Optimize Essential Graph(Part 11): 26.9826 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 71.7328 ms
+Main Kernel: 18.181 ms
+Update Connections(Part 3): 0.352031 ms
+Correct Map Points(Part 7): 1.14295 ms
+Update Matched Map Points(Part 8): 0.801277 ms
+Search and Fuse(Part 9): 55.4486 ms
+Update Connections(Part 10): 5.60178 ms
+Optimize Essential Graph(Part 11): 18.7827 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 83.3613 ms
+Main Kernel: 20.0827 ms
+Update Connections(Part 3): 0.360156 ms
+Correct Map Points(Part 7): 2.08715 ms
+Update Matched Map Points(Part 8): 0.703744 ms
+Search and Fuse(Part 9): 58 ms
+Update Connections(Part 10): 5.22014 ms
+Optimize Essential Graph(Part 11): 28.0884 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 97.8209 ms
+Main Kernel: 8.51236 ms
+Update Connections(Part 3): 0.345137 ms
+Correct Map Points(Part 7): 1.21458 ms
+Update Matched Map Points(Part 8): 0.807313 ms
+Search and Fuse(Part 9): 44.9966 ms
+Update Connections(Part 10): 5.59852 ms
+Optimize Essential Graph(Part 11): 18.6237 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 74.969 ms
+Main Kernel: 126.506 ms
+Update Connections(Part 3): 0.395478 ms
+Correct Map Points(Part 7): 1.67941 ms
+Update Matched Map Points(Part 8): 1.14142 ms
+Search and Fuse(Part 9): 169.366 ms
+Update Connections(Part 10): 8.57633 ms
+Optimize Essential Graph(Part 11): 27.9685 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 210.33 ms
+Main Kernel: 42.7556 ms
+Update Connections(Part 3): 0.324508 ms
+Correct Map Points(Part 7): 1.10584 ms
+Update Matched Map Points(Part 8): 0.800029 ms
+Search and Fuse(Part 9): 73.0928 ms
+Update Connections(Part 10): 6.41068 ms
+Optimize Essential Graph(Part 11): 21.129 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 104.111 ms
+Main Kernel: 18.0462 ms
+Update Connections(Part 3): 0.397611 ms
+Correct Map Points(Part 7): 1.01044 ms
+Update Matched Map Points(Part 8): 1.19078 ms
+Search and Fuse(Part 9): 55.0345 ms
+Update Connections(Part 10): 4.93928 ms
+Optimize Essential Graph(Part 11): 21.1728 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 86.0214 ms
+Main Kernel: 8.73842 ms
+Update Connections(Part 3): 0.526569 ms
+Correct Map Points(Part 7): 1.81881 ms
+Update Matched Map Points(Part 8): 1.43653 ms
+Search and Fuse(Part 9): 41.739 ms
+Update Connections(Part 10): 5.82595 ms
+Optimize Essential Graph(Part 11): 20.8473 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 73.3953 ms
+Main Kernel: 18.4949 ms
+Update Connections(Part 3): 0.627327 ms
+Correct Map Points(Part 7): 2.04939 ms
+Update Matched Map Points(Part 8): 1.05858 ms
+Search and Fuse(Part 9): 55.3212 ms
+Update Connections(Part 10): 6.19573 ms
+Optimize Essential Graph(Part 11): 19.6839 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 87.2651 ms
+Main Kernel: 20.1584 ms
+Update Connections(Part 3): 0.312701 ms
+Correct Map Points(Part 7): 1.18067 ms
+Update Matched Map Points(Part 8): 0.582629 ms
+Search and Fuse(Part 9): 55.0731 ms
+Update Connections(Part 10): 5.21827 ms
+Optimize Essential Graph(Part 11): 19.3985 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 84.1334 ms
+Main Kernel: 137.375 ms
+Update Connections(Part 3): 0.299059 ms
+Correct Map Points(Part 7): 1.16539 ms
+Update Matched Map Points(Part 8): 0.714777 ms
+Search and Fuse(Part 9): 174.891 ms
+Update Connections(Part 10): 7.19543 ms
+Optimize Essential Graph(Part 11): 28.5991 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 215.179 ms
+Main Kernel: 8.55221 ms
+Update Connections(Part 3): 0.618771 ms
+Correct Map Points(Part 7): 1.85953 ms
+Update Matched Map Points(Part 8): 0.983534 ms
+Search and Fuse(Part 9): 44.2068 ms
+Update Connections(Part 10): 7.75813 ms
+Optimize Essential Graph(Part 11): 19.8977 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 77.5777 ms
+Main Kernel: 9.36555 ms
+Update Connections(Part 3): 0.572422 ms
+Correct Map Points(Part 7): 1.23735 ms
+Update Matched Map Points(Part 8): 0.711605 ms
+Search and Fuse(Part 9): 48.3662 ms
+Update Connections(Part 10): 7.06491 ms
+Optimize Essential Graph(Part 11): 22.0475 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 83.3405 ms
+Main Kernel: 8.58556 ms
+Update Connections(Part 3): 0.342938 ms
+Correct Map Points(Part 7): 1.5366 ms
+Update Matched Map Points(Part 8): 0.929653 ms
+Search and Fuse(Part 9): 41.8752 ms
+Update Connections(Part 10): 5.00618 ms
+Optimize Essential Graph(Part 11): 23.3146 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 81.3924 ms
+Main Kernel: 8.91332 ms
+Update Connections(Part 3): 0.522062 ms
+Correct Map Points(Part 7): 1.33159 ms
+Update Matched Map Points(Part 8): 0.592851 ms
+Search and Fuse(Part 9): 43.9418 ms
+Update Connections(Part 10): 6.29932 ms
+Optimize Essential Graph(Part 11): 19.3487 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 74.318 ms
+Main Kernel: 9.23077 ms
+Update Connections(Part 3): 0.313512 ms
+Correct Map Points(Part 7): 1.11429 ms
+Update Matched Map Points(Part 8): 0.898617 ms
+Search and Fuse(Part 9): 48.2433 ms
+Update Connections(Part 10): 5.47702 ms
+Optimize Essential Graph(Part 11): 18.8521 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 77.2117 ms
+Main Kernel: 8.57464 ms
+Update Connections(Part 3): 0.305249 ms
+Correct Map Points(Part 7): 1.10206 ms
+Update Matched Map Points(Part 8): 0.76408 ms
+Search and Fuse(Part 9): 44.2306 ms
+Update Connections(Part 10): 7.99215 ms
+Optimize Essential Graph(Part 11): 19.6725 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 75.2749 ms
+Main Kernel: 8.54601 ms
+Update Connections(Part 3): 0.575044 ms
+Correct Map Points(Part 7): 1.65668 ms
+Update Matched Map Points(Part 8): 0.847237 ms
+Search and Fuse(Part 9): 41.8783 ms
+Update Connections(Part 10): 6.74763 ms
+Optimize Essential Graph(Part 11): 19.1419 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 74.1608 ms
+Main Kernel: 8.52518 ms
+Update Connections(Part 3): 0.609568 ms
+Correct Map Points(Part 7): 1.66617 ms
+Update Matched Map Points(Part 8): 0.741619 ms
+Search and Fuse(Part 9): 42.4712 ms
+Update Connections(Part 10): 5.42975 ms
+Optimize Essential Graph(Part 11): 24.8597 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 79.1024 ms
+Main Kernel: 8.64388 ms
+Update Connections(Part 3): 0.335455 ms
+Correct Map Points(Part 7): 0.887036 ms
+Update Matched Map Points(Part 8): 0.547712 ms
+Search and Fuse(Part 9): 42.8724 ms
+Update Connections(Part 10): 5.32867 ms
+Optimize Essential Graph(Part 11): 20.7584 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 72.9915 ms
+Main Kernel: 8.5161 ms
+Update Connections(Part 3): 0.309255 ms
+Correct Map Points(Part 7): 0.855432 ms
+Update Matched Map Points(Part 8): 0.702934 ms
+Search and Fuse(Part 9): 42.0788 ms
+Update Connections(Part 10): 4.67774 ms
+Optimize Essential Graph(Part 11): 21.1116 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 70.9327 ms
+Main Kernel: 8.68535 ms
+Update Connections(Part 3): 0.311806 ms
+Correct Map Points(Part 7): 1.06134 ms
+Update Matched Map Points(Part 8): 0.927753 ms
+Search and Fuse(Part 9): 45.7224 ms
+Update Connections(Part 10): 5.88367 ms
+Optimize Essential Graph(Part 11): 24.6393 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 81.8649 ms
+Main Kernel: 81.6657 ms
+Update Connections(Part 3): 0.318844 ms
+Correct Map Points(Part 7): 1.16627 ms
+Update Matched Map Points(Part 8): 1.03289 ms
+Search and Fuse(Part 9): 122.423 ms
+Update Connections(Part 10): 4.88292 ms
+Optimize Essential Graph(Part 11): 16.9507 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 147.968 ms
+Main Kernel: 626.396 ms
+Update Connections(Part 3): 0.591955 ms
+Correct Map Points(Part 7): 1.07318 ms
+Update Matched Map Points(Part 8): 0.878014 ms
+Search and Fuse(Part 9): 692.969 ms
+Update Connections(Part 10): 4.84906 ms
+Optimize Essential Graph(Part 11): 20.2673 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 725.713 ms
+Main Kernel: 9.40071 ms
+Update Connections(Part 3): 0.659883 ms
+Correct Map Points(Part 7): 1.96588 ms
+Update Matched Map Points(Part 8): 1.06135 ms
+Search and Fuse(Part 9): 62.4017 ms
+Update Connections(Part 10): 6.31932 ms
+Optimize Essential Graph(Part 11): 28.8519 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 104.588 ms
+Main Kernel: 8.74231 ms
+Update Connections(Part 3): 0.447128 ms
+Correct Map Points(Part 7): 1.26488 ms
+Update Matched Map Points(Part 8): 1.56425 ms
+Search and Fuse(Part 9): 56.473 ms
+Update Connections(Part 10): 7.1611 ms
+Optimize Essential Graph(Part 11): 22.2597 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 92.4695 ms
+Main Kernel: 36.1931 ms
+Update Connections(Part 3): 0.48793 ms
+Correct Map Points(Part 7): 1.49844 ms
+Update Matched Map Points(Part 8): 1.12142 ms
+Search and Fuse(Part 9): 85.5887 ms
+Update Connections(Part 10): 8.8563 ms
+Optimize Essential Graph(Part 11): 21.5277 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 122.426 ms
+Main Kernel: 8.35286 ms
+Update Connections(Part 3): 0.432821 ms
+Correct Map Points(Part 7): 1.29279 ms
+Update Matched Map Points(Part 8): 0.975281 ms
+Search and Fuse(Part 9): 57.069 ms
+Update Connections(Part 10): 5.20904 ms
+Optimize Essential Graph(Part 11): 21.3528 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 89.6764 ms
+Main Kernel: 8.51409 ms
+Update Connections(Part 3): 0.331868 ms
+Correct Map Points(Part 7): 1.47477 ms
+Update Matched Map Points(Part 8): 0.642424 ms
+Search and Fuse(Part 9): 62.8293 ms
+Update Connections(Part 10): 7.20653 ms
+Optimize Essential Graph(Part 11): 27.8288 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 103.731 ms
+Main Kernel: 28.0734 ms
+Update Connections(Part 3): 0.390841 ms
+Correct Map Points(Part 7): 1.07378 ms
+Update Matched Map Points(Part 8): 1.22998 ms
+Search and Fuse(Part 9): 74.5533 ms
+Update Connections(Part 10): 4.8154 ms
+Optimize Essential Graph(Part 11): 22.0658 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 107.497 ms
+Main Kernel: 8.833 ms
+Update Connections(Part 3): 0.278682 ms
+Correct Map Points(Part 7): 1.1983 ms
+Update Matched Map Points(Part 8): 0.914082 ms
+Search and Fuse(Part 9): 53.1304 ms
+Update Connections(Part 10): 5.76537 ms
+Optimize Essential Graph(Part 11): 21.0054 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 84.5505 ms
+Main Kernel: 122.248 ms
+Update Connections(Part 3): 0.564242 ms
+Correct Map Points(Part 7): 1.22611 ms
+Update Matched Map Points(Part 8): 0.89733 ms
+Search and Fuse(Part 9): 169.966 ms
+Update Connections(Part 10): 4.52142 ms
+Optimize Essential Graph(Part 11): 17.6458 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 196.814 ms
+Main Kernel: 83.5697 ms
+Update Connections(Part 3): 0.365285 ms
+Correct Map Points(Part 7): 1.2525 ms
+Update Matched Map Points(Part 8): 0.84665 ms
+Search and Fuse(Part 9): 135.108 ms
+Update Connections(Part 10): 7.79231 ms
+Optimize Essential Graph(Part 11): 23.5117 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 172.21 ms
+Main Kernel: 115.316 ms
+Update Connections(Part 3): 0.448482 ms
+Correct Map Points(Part 7): 1.11431 ms
+Update Matched Map Points(Part 8): 1.49116 ms
+Search and Fuse(Part 9): 162.472 ms
+Update Connections(Part 10): 5.93109 ms
+Optimize Essential Graph(Part 11): 19.1498 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 192.87 ms
+Main Kernel: 73.4361 ms
+Update Connections(Part 3): 0.240851 ms
+Correct Map Points(Part 7): 1.01862 ms
+Update Matched Map Points(Part 8): 0.788972 ms
+Search and Fuse(Part 9): 119.109 ms
+Update Connections(Part 10): 4.11496 ms
+Optimize Essential Graph(Part 11): 19.1263 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 145.602 ms
+Main Kernel: 17.9881 ms
+Update Connections(Part 3): 0.336416 ms
+Correct Map Points(Part 7): 1.33707 ms
+Update Matched Map Points(Part 8): 0.725957 ms
+Search and Fuse(Part 9): 52.7831 ms
+Update Connections(Part 10): 7.13939 ms
+Optimize Essential Graph(Part 11): 22.0127 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 85.5579 ms
+Main Kernel: 9.20628 ms
+Update Connections(Part 3): 0.362795 ms
+Correct Map Points(Part 7): 0.995634 ms
+Update Matched Map Points(Part 8): 0.718128 ms
+Search and Fuse(Part 9): 42.6022 ms
+Update Connections(Part 10): 4.70369 ms
+Optimize Essential Graph(Part 11): 20.6142 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 71.212 ms
+Main Kernel: 9.05528 ms
+Update Connections(Part 3): 0.334797 ms
+Correct Map Points(Part 7): 1.17761 ms
+Update Matched Map Points(Part 8): 0.896745 ms
+Search and Fuse(Part 9): 42.6228 ms
+Update Connections(Part 10): 6.12003 ms
+Optimize Essential Graph(Part 11): 17.99 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 71.4304 ms
+Main Kernel: 70.7316 ms
+Update Connections(Part 3): 0.593146 ms
+Correct Map Points(Part 7): 1.84031 ms
+Update Matched Map Points(Part 8): 1.08455 ms
+Search and Fuse(Part 9): 104.293 ms
+Update Connections(Part 10): 7.29197 ms
+Optimize Essential Graph(Part 11): 22.7172 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 140.142 ms
+Main Kernel: 8.65542 ms
+Update Connections(Part 3): 0.541279 ms
+Correct Map Points(Part 7): 1.85208 ms
+Update Matched Map Points(Part 8): 1.11655 ms
+Search and Fuse(Part 9): 44.1219 ms
+Update Connections(Part 10): 7.68261 ms
+Optimize Essential Graph(Part 11): 27.1689 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 85.0355 ms
+Main Kernel: 8.65129 ms
+Update Connections(Part 3): 0.602158 ms
+Correct Map Points(Part 7): 1.79353 ms
+Update Matched Map Points(Part 8): 0.957824 ms
+Search and Fuse(Part 9): 40.4374 ms
+Update Connections(Part 10): 6.47763 ms
+Optimize Essential Graph(Part 11): 27.7323 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 81.3313 ms
+Main Kernel: 8.75304 ms
+Update Connections(Part 3): 0.64416 ms
+Correct Map Points(Part 7): 5.74902 ms
+Update Matched Map Points(Part 8): 1.10904 ms
+Search and Fuse(Part 9): 45.2872 ms
+Update Connections(Part 10): 9.47001 ms
+Optimize Essential Graph(Part 11): 19.2998 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 84.9161 ms
+Main Kernel: 9.00689 ms
+Update Connections(Part 3): 0.555627 ms
+Correct Map Points(Part 7): 1.7008 ms
+Update Matched Map Points(Part 8): 1.07637 ms
+Search and Fuse(Part 9): 42.5642 ms
+Update Connections(Part 10): 6.07587 ms
+Optimize Essential Graph(Part 11): 23.5991 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 76.8047 ms
+Main Kernel: 9.06877 ms
+Update Connections(Part 3): 0.545058 ms
+Correct Map Points(Part 7): 1.41973 ms
+Update Matched Map Points(Part 8): 1.23839 ms
+Search and Fuse(Part 9): 43.802 ms
+Update Connections(Part 10): 7.11813 ms
+Optimize Essential Graph(Part 11): 18.7052 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 81.1069 ms
+Main Kernel: 8.52727 ms
+Update Connections(Part 3): 0.292436 ms
+Correct Map Points(Part 7): 0.947661 ms
+Update Matched Map Points(Part 8): 0.835902 ms
+Search and Fuse(Part 9): 48.592 ms
+Update Connections(Part 10): 4.91982 ms
+Optimize Essential Graph(Part 11): 17.4925 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 76.4503 ms
+Main Kernel: 9.18626 ms
+Update Connections(Part 3): 0.542885 ms
+Correct Map Points(Part 7): 1.31437 ms
+Update Matched Map Points(Part 8): 0.874918 ms
+Search and Fuse(Part 9): 41.3825 ms
+Update Connections(Part 10): 7.22796 ms
+Optimize Essential Graph(Part 11): 19.6093 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 72.1839 ms
+Main Kernel: 9.10311 ms
+Update Connections(Part 3): 0.497328 ms
+Correct Map Points(Part 7): 1.59954 ms
+Update Matched Map Points(Part 8): 0.836655 ms
+Search and Fuse(Part 9): 43.9731 ms
+Update Connections(Part 10): 5.1716 ms
+Optimize Essential Graph(Part 11): 23.9583 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 79.4703 ms
+Main Kernel: 89.854 ms
+Update Connections(Part 3): 0.301387 ms
+Correct Map Points(Part 7): 1.13912 ms
+Update Matched Map Points(Part 8): 0.829327 ms
+Search and Fuse(Part 9): 132.708 ms
+Update Connections(Part 10): 8.9445 ms
+Optimize Essential Graph(Part 11): 23.4754 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 170.75 ms
+Main Kernel: 9.82739 ms
+Update Connections(Part 3): 0.357023 ms
+Correct Map Points(Part 7): 1.00559 ms
+Update Matched Map Points(Part 8): 0.861716 ms
+Search and Fuse(Part 9): 45.0757 ms
+Update Connections(Part 10): 5.25917 ms
+Optimize Essential Graph(Part 11): 18.4979 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 73.3868 ms
+Main Kernel: 8.65907 ms
+Update Connections(Part 3): 0.371532 ms
+Correct Map Points(Part 7): 1.03587 ms
+Update Matched Map Points(Part 8): 1.09676 ms
+Search and Fuse(Part 9): 43.7407 ms
+Update Connections(Part 10): 5.46288 ms
+Optimize Essential Graph(Part 11): 23.9104 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 76.8336 ms
+Main Kernel: 8.50089 ms
+Update Connections(Part 3): 0.35049 ms
+Correct Map Points(Part 7): 1.25507 ms
+Update Matched Map Points(Part 8): 0.806693 ms
+Search and Fuse(Part 9): 44.6281 ms
+Update Connections(Part 10): 5.89759 ms
+Optimize Essential Graph(Part 11): 20.1177 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 77.0006 ms
+Main Kernel: 8.7433 ms
+Update Connections(Part 3): 0.320716 ms
+Correct Map Points(Part 7): 1.11618 ms
+Update Matched Map Points(Part 8): 0.783928 ms
+Search and Fuse(Part 9): 49.9395 ms
+Update Connections(Part 10): 6.01097 ms
+Optimize Essential Graph(Part 11): 21.3928 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 83.0783 ms
+Main Kernel: 8.61801 ms
+Update Connections(Part 3): 0.344917 ms
+Correct Map Points(Part 7): 1.54936 ms
+Update Matched Map Points(Part 8): 1.12594 ms
+Search and Fuse(Part 9): 41.5863 ms
+Update Connections(Part 10): 6.18661 ms
+Optimize Essential Graph(Part 11): 23.5216 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 75.5533 ms
+Main Kernel: 8.69508 ms
+Update Connections(Part 3): 0.341787 ms
+Correct Map Points(Part 7): 1.03105 ms
+Update Matched Map Points(Part 8): 0.913604 ms
+Search and Fuse(Part 9): 42.066 ms
+Update Connections(Part 10): 6.84659 ms
+Optimize Essential Graph(Part 11): 17.5544 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 71.0259 ms
+Main Kernel: 8.44569 ms
+Update Connections(Part 3): 0.374199 ms
+Correct Map Points(Part 7): 1.29506 ms
+Update Matched Map Points(Part 8): 1.20134 ms
+Search and Fuse(Part 9): 48.2411 ms
+Update Connections(Part 10): 6.83544 ms
+Optimize Essential Graph(Part 11): 21.0173 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 81.2693 ms
+Main Kernel: 69.5649 ms
+Update Connections(Part 3): 0.652357 ms
+Correct Map Points(Part 7): 1.90028 ms
+Update Matched Map Points(Part 8): 1.24217 ms
+Search and Fuse(Part 9): 104.793 ms
+Update Connections(Part 10): 8.1327 ms
+Optimize Essential Graph(Part 11): 16.5204 ms
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+*************** CorrectLoop: 135.477 ms

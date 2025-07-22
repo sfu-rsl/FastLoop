@@ -169,7 +169,6 @@ include/Kernels/SearchAndFuseKernel.h
 include/Kernels/TrackingKernelController.h
 include/Kernels/MappingKernelController.h
 include/Kernels/LoopClosingKernelController.h
-include/Kernels/KFCullingKernel.h
 include/Kernels/CudaKeyFrameStorage.h
 )
 
