@@ -181,8 +181,9 @@ void LoopClosing::Run()
 
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::milli> elapsed = end - start;
-
-            // std::cout << "*************** NewDetectCommonRegions: " << elapsed.count() << " ms" << std::endl;
+            
+            // std::ofstream timing("./test/timing.txt", std::ios::app);
+            // timing << "*************** NewDetectCommonRegions: " << elapsed.count() << " ms" << std::endl;
 
 #ifdef REGISTER_TIMES
             std::chrono::steady_clock::time_point time_EndPR = std::chrono::steady_clock::now();
@@ -295,6 +296,9 @@ void LoopClosing::Run()
                 if(mbLoopDetected)
                 {
                     std::cout << "******************************************************\n";
+                    std::ofstream timing("./test/timing.txt", std::ios::app);
+                    timing << "******************************************************\n";
+
                     bool bGoodLoop = true;
                     vdPR_CurrentTime.push_back(mpCurrentKF->mTimeStamp);
                     vdPR_MatchedTime.push_back(mpLoopMatchedKF->mTimeStamp);
@@ -331,6 +335,7 @@ void LoopClosing::Run()
                         }
                         else
                         {
+                            timing << "BAD Loop!!!\n";
                             cout << "BAD LOOP!!!" << endl;
                             bGoodLoop = false;
                         }
@@ -391,8 +396,10 @@ void LoopClosing::Run()
 
         auto end1 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-        // if (elapsed1.count() > 6 )
-            // std::cout << "*************** Loop Closing: " << elapsed1.count() << " ms" << std::endl;
+        
+        // std::ofstream timing("./test/timing.txt", std::ios::app);
+        // if(elapsed1.count()>6)
+        //     timing << "*************** Loop Closing: " << elapsed1.count() << " ms" << std::endl;
 
     }
     
@@ -1448,7 +1455,7 @@ void LoopClosing::CorrectLoop()
     timing << "Optimize Essential Graph(Part 11): " << elapsed11.count() << " ms" << std::endl;
     // std::cout << "Part 12: " << elapsed12.count() << " ms" << std::endl;
     // std::cout << "Part 13: " << elapsed13.count() << " ms" << std::endl;
-    // std::cout << "Part 14: " << elapsed14.count() << " ms" << std::endl;
+    timing << "RunGlobalBundleAdjustment(Part 14): " << elapsed14.count() << " ms" << std::endl;
     // std::cout << "Part 15: " << elapsed15.count() << " ms" << std::endl;
     timing << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 }
@@ -2437,6 +2444,10 @@ void LoopClosing::SearchAndFuse(const vector<KeyFrame*> &vConectedKFs, vector<Ma
 
 void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vector<MapPoint*> &vpMapPoints)
 {
+    std::ofstream timing("./test/timing.txt", std::ios::app);
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     ORBmatcher matcher(0.8);
     vector<KeyFrame*> vpConnectedKFs;
     vector<Sophus::Sim3f> vpConnectedScws;
@@ -2449,9 +2460,20 @@ void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vec
         vpConnectedKFs.push_back(mit->first);
         vpConnectedScws.push_back(Converter::toSophus(mit->second));
     }
-    
     vector<MapPoint*> vpReplacePoints(vpMapPoints.size(),static_cast<MapPoint*>(NULL));
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    timing << "1 Prepare Data: " << elapsed.count() << " ms" << std::endl;
+
+    auto start2 = std::chrono::high_resolution_clock::now();
     matcher.GPUFuse(vpConnectedKFs, vpConnectedScws, vpMapPoints, threshold, vpReplacePoints);
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+    timing << "1 GPUFuse: " << elapsed2.count() << " ms" << std::endl;
+
+
+    auto start1 = std::chrono::high_resolution_clock::now();
     
     const int nLP = vpMapPoints.size();
     for(int i=0; i<nLP;i++){
@@ -2464,6 +2486,11 @@ void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vec
     }
 
     total_replaces += num_replaces;
+
+    auto end1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    timing << "1 After GPUFuse: " << elapsed1.count() << " ms" << std::endl;
+
 }
 
 

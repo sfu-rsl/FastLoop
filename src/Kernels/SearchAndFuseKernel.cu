@@ -16,13 +16,6 @@ void SearchAndFuseKernel::initialize() {
     mapPointVecSize = 1600;
     connectedKFCount = MAX_CONNECTED_KF_COUNT;
 
-    // checkCudaError(cudaMallocHost((void**)&h_keyframes, connectedKFCount * sizeof(CudaKeyFrame)), "Failed to allocate memory for h_keyframes");  
-    // for (int i = 0; i < connectedKFCount; ++i) {
-    //     h_keyframes[i] = CudaKeyFrame();
-    // }
-
-    // checkCudaError(cudaMalloc((void**)&d_keyframes, connectedKFCount * sizeof(CudaKeyFrame)), "Failed to allocate memory for d_keyframes");
-    std::cout << "mapPointVecSize: " << mapPointVecSize << "\n";
     checkCudaError(cudaMalloc((void**)&d_mapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint)), "Failed to allocate memory for d_mapPoints");
     checkCudaError(cudaMalloc((void**)&d_connectedKFs, connectedKFCount * sizeof(CudaKeyFrame)), "Failed to allocate memory for d_connectedKFs");
     checkCudaError(cudaMalloc((void**)&d_Tcw, connectedKFCount * sizeof(Sophus::SE3f)), "Failed to allocate memory for d_Tcw");
@@ -49,7 +42,6 @@ __device__ Eigen::Vector2f pinholeProject1(const Eigen::Vector3f &v3D, float* mv
     Eigen::Vector2f res;
     res[0] = mvParameters[0] * v3D[0] / v3D[2] + mvParameters[2];
     res[1] = mvParameters[1] * v3D[1] / v3D[2] + mvParameters[3];
-
     return res;
 }
 
@@ -78,9 +70,7 @@ __global__ void searchAndFuseKernel(
     maxIdx = numPoints * numKFs;
     connectedKFIdx = idx / numPoints;
     mapPointIdx = idx % numPoints;
-    printf("numPoints: %d, numKFs: %d\n", numPoints, numKFs);
-    printf("idx: %d, maxIdx: %d, connectedKFIdx: %d, mapPointIdx: %d\n", idx, maxIdx, connectedKFIdx, mapPointIdx);
-    
+
     if (idx >= maxIdx || connectedKFIdx >= numKFs || mapPointIdx >= numPoints)
         return;
 
@@ -89,7 +79,6 @@ __global__ void searchAndFuseKernel(
 
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[mapPointIdx];
     CudaKeyFrame connectedKF = connectedKFs[connectedKFIdx];
-    printf("pMP.mnId: %lu, connectedKF.mnId: %lu\n", pMP.mnId, connectedKF.mnId);
 
     for (int i = 0; i < connectedKF.mapPointsId_size; ++i) {
         if (connectedKF.mapPointsId[i] == pMP.mnId) {
@@ -104,13 +93,7 @@ __global__ void searchAndFuseKernel(
     Eigen::Vector3f p3Dc = currTcw * p3Dw;
 
     Eigen::Vector2f uv;
-    // if (&connectedKF != nullptr) {
-    //     printf("connectedKF exists\n");
-    //     printf("__mvParameters: %f\n", connectedKF.camera1.mvParameters[0]);
-    // }
     uv = pinholeProject1(p3Dc, connectedKF.camera1.mvParameters);
-    printf("connectedKF.camera1.mvParameters(0): %f, connectedKF.camera1.mvParameters(1): %f\n", connectedKF.camera1.mvParameters[0], connectedKF.camera1.mvParameters[1]);
-    printf("uv(0): %f, uv(1): %f\n", uv(0), uv(1));
     // if ((p3Dc(2) < 0.0f) || (!isInImage1(&connectedKF, uv(0), uv(1))))
     //     return;
 
@@ -180,13 +163,6 @@ __global__ void searchAndFuseKernel(
                     
                     const uint8_t* dKF = &connectedKF.mDescriptors[temp_idx * DESCRIPTOR_SIZE];
                     
-                    // if (threadIdx.x == 0 && blockIdx.x == 0) {
-                    //     printf("Null pointer detected!\n");
-                    //     // return;
-                    // }
-                    // printf("MPdescriptor: %p\n", MPdescriptor);
-                    // printf("dKF: %p\n", dKF);
-
                     // int dist = DescriptorDistance(MPdescriptor,dKF);
 
                     // if (dist<bestDist) {
@@ -214,45 +190,23 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
     if (connectedKFSize == 0 || vpMapPoints.size() == 0)
         return;
 
-    // CudaKeyFrame* connectedKFsGPUAddress[connectedKFSize];
+    std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    // for (int i = 0; i < connectedKFSize; i++) {
-    //     h_keyframes[i].setMemory(connectedKFs[i]);
-    //     // connectedKFsGPUAddress[i].setMemory(connectedKFs[i]);
-    //     // connectedKFsGPUAddress[i] = cudaFramePtr->setMemory(connectedKFs[i]);
-    //     // connectedKFsGPUAddress[i] = CudaKeyFrameStorage::getCudaKeyFrame(connectedKFs[i]->mnId);
-    //     if (connectedKFsGPUAddress[i] == nullptr) {
-    //         // std::cout << "[ERROR] SearchAndFuseKernel::launch: ] CudaKeyFrameStorage doesn't have the keyframe: " << connectedKFs[i]->mnId << "\n";
-    //         // CudaKeyFrameStorage::addCudaKeyFrame(connectedKFs[i]);
-    //         // connectedKFsGPUAddress[i] = CudaKeyFrameStorage::getCudaKeyFrame(connectedKFs[i]->mnId);
-
-    //         cerr << "[ERROR] SearchAndFuseKernel::launch: ] CudaKeyFrame doesn't create the keyframe: " << connectedKFs[i]->mnId << "\n";
-    //         LoopClosingKernelController::shutdownKernels();
-    //         exit(EXIT_FAILURE);
-    //     }
-    // }
-
-
+    auto start1 = std::chrono::high_resolution_clock::now();
     CudaKeyFrame* wrappedKeyFrames = new CudaKeyFrame[connectedKFSize];
-    // CudaKeyFrame wrappedKeyFrames[3]; 
-
     for (int i=0; i < connectedKFSize; i++){
         ORB_SLAM3::KeyFrame* pKF = connectedKFs[i];
         wrappedKeyFrames[i] = CudaKeyFrame();
         wrappedKeyFrames[i].setMemory(pKF);
+        printf("------------- In CPU mnMinX: %f \n", pKF->mnMinX);
     }
+    auto end1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    timing << "3 Prepare Wrapped CudaKeyFrames: " << elapsed1.count() << " ms" << std::endl;
 
 
-    // set<std::ORB_SLAM3::MapPoint*>> spAlreadyFound;
-    // for (int i = 0; i < connectedKFSize; i++) {
-    //     std::set<ORB_SLAM3::MapPoint*>& mps = connectedKFs[i]->GetMapPoints();
-    //     spAlreadyFound.insert({i, mps.begin(), mps.end()});
-    // }
-    // std::cout << "1spAlreadyFound.size(): " << spAlreadyFound.size() << std::endl; 
-    std::ofstream count("./test/count.txt", std::ios::app);
-
+    auto start2 = std::chrono::high_resolution_clock::now();
     int numValidPoints = 0;
-    count << "vpMapPoints.size(): " << vpMapPoints.size() << "\n"; 
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint wrappedMapPoints[vpMapPoints.size()];    
     for (int i = 0; i < vpMapPoints.size(); i++) {
         ORB_SLAM3::MapPoint* pMP = vpMapPoints[i];
@@ -264,51 +218,64 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
             numValidPoints++;
         }
     }
+    auto end2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+    timing << "3 Prepare Wrapped CudaMapPoints: " << elapsed2.count() << " ms" << std::endl;
+
 
     if (numValidPoints == 0)
         return;
 
+
+    auto start3 = std::chrono::high_resolution_clock::now();
     Sophus::SE3f Tcw[connectedKFSize];
     Eigen::Vector3f Ow[connectedKFSize];
     for (int i = 0; i < connectedKFSize; i++) {
         Tcw[i] = Sophus::SE3f(connectedScws[i].rotationMatrix(),connectedScws[i].translation()/connectedScws[i].scale());
         Ow[i] = Tcw[i].inverse().translation();
     }
+    auto end3 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
+    timing << "3 Prepare Wrapped Tcw and Ow: " << elapsed3.count() << " ms" << std::endl;
 
-    for (int i=0; i<connectedKFSize; i++){
-        printf("wrappedMapPoints[i].mnId: %lu, wrappedKeyFrames[i].mnId: %lu\n", wrappedMapPoints[i].mnId, wrappedKeyFrames[i].mnId);
-        printf("mvParameters[0]: %f\n", wrappedKeyFrames[i].camera1.mvParameters[0]);
-        printf("mvParameters[1]: %f\n", wrappedKeyFrames[i].camera1.mvParameters[1]);
+
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        printf("Something happened CUDA Error: %s\n", cudaGetErrorString(err));
     }
-
-    checkCudaError(cudaMemcpy(d_connectedKFs, wrappedKeyFrames, connectedKFSize * sizeof(CudaKeyFrame), cudaMemcpyHostToDevice), "Failed to copy vector connectedKFsGPUAddress from host to device");
+    
+    auto start4 = std::chrono::high_resolution_clock::now();
+    checkCudaError(cudaMemcpy(d_connectedKFs, wrappedKeyFrames, connectedKFSize * sizeof(CudaKeyFrame), cudaMemcpyHostToDevice), "Failed to copy vector wrappedKeyFrames from host to device");
     checkCudaError(cudaMemcpy(d_mapPoints, wrappedMapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice), "[ERROR] SearchAndFuseKernel::launch: ] Failed to copy vector wrappedMapPoints from host to device");
     checkCudaError(cudaMemcpy(d_Tcw, Tcw, connectedKFSize * sizeof(Sophus::SE3f), cudaMemcpyHostToDevice), "Failed to copy vector Tcw from host to device");
     checkCudaError(cudaMemcpy(d_Ow, Ow, connectedKFSize * sizeof(Eigen::Vector3f), cudaMemcpyHostToDevice), "Failed to copy vector Ow from host to device");
+    auto end4 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+    timing << "3 Memcpy: " << elapsed4.count() << " ms" << std::endl;
+
+
+    auto start5 = std::chrono::high_resolution_clock::now();
 
     int keyFramesToProcessCount = connectedKFSize;
     int blockSize = 256;
     int numBlocks = (numValidPoints*keyFramesToProcessCount + blockSize - 1) / blockSize;
 
-
-    checkCudaError(cudaGetLastError(), "[SearchAndFuseKernel:] Something happened before launch");
-
-    auto start2 = std::chrono::high_resolution_clock::now();
     searchAndFuseKernel<<<1, 1>>>(
         d_mapPoints, d_connectedKFs, numValidPoints, connectedKFSize, d_Ow, d_Tcw,
         th, d_bestDists, d_bestIdxs
     );
 
-    cudaError_t err = cudaGetLastError();
+    err = cudaGetLastError();
     if (err != cudaSuccess) {
         printf("CUDA Error: %s\n", cudaGetErrorString(err));
     }
 
-    auto end2 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+    auto end5 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+    timing << "3 Main Kernel: " << elapsed5.count() << " ms" << std::endl;
 
-    std::ofstream timing("./test/timing.txt", std::ios::app);
-    timing << "Main Kernel: " << elapsed2.count() << " ms" << std::endl;
+
+    auto start6 = std::chrono::high_resolution_clock::now();
 
     checkCudaError(cudaGetLastError(), "[SearchAndFuseKernel:] Failed to launch kernel");
     checkCudaError(cudaDeviceSynchronize(), "[SearchAndFuseKernel:] cudaDeviceSynchronize failed after kernel launch");
@@ -316,33 +283,37 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * keyFramesToProcessCount * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host");
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * keyFramesToProcessCount * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
 
-    std::ofstream gpuOutFile("./test/GPU-Side.txt", std::ios::app);
+    auto end6 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    timing << "3 After main kernel: " << elapsed6.count() << " ms" << std::endl;
+
+    // std::ofstream gpuOutFile("./test/GPU-Side.txt", std::ios::app);
     // gpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << connectedKFs[0]->mnId << " //////////////////////////////////////////\n";
     
-    std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
+    // std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
     // cpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << connectedKFs[0]->mnId << " //////////////////////////////////////////\n";
         
-    for (int iKF = 0; iKF < connectedKFSize; iKF++) {
-        gpuOutFile << "================================= Connected KF: " << connectedKFs[iKF]->mnId << " =================================\n";
-        std::cout << "numValidPoints: " << numValidPoints << std::endl;
-        cpuOutFile << "================================= Connected KF: " << connectedKFs[iKF]->mnId << " =================================\n";
-        cpuOutFile.flush();
-        for (int iMP = 0; iMP < numValidPoints; iMP++) {
-            int idx = iKF*numValidPoints + iMP;
-            if (bestDists[idx] != 256 && !validMapPoints[iMP]->IsInKeyFrame(connectedKFs[iKF]))
-                gpuOutFile << "(i: " << iMP << ", bestDist: " << bestDists[idx] << ", bestIdx: " << bestIdxs[idx] << ")\n";
-                // printf("(i: %d, bestDist: %d, bestIdx: %d), ", iMP, bestDists[idx], bestIdxs[idx]);
-        }
-        gpuOutFile << "\n\n";
-        // printf("\n");
+    // for (int iKF = 0; iKF < connectedKFSize; iKF++) {
+    //     gpuOutFile << "================================= Connected KF: " << connectedKFs[iKF]->mnId << " =================================\n";
+    //     std::cout << "numValidPoints: " << numValidPoints << std::endl;
+    //     cpuOutFile << "================================= Connected KF: " << connectedKFs[iKF]->mnId << " =================================\n";
+    //     cpuOutFile.flush();
+    //     for (int iMP = 0; iMP < numValidPoints; iMP++) {
+    //         int idx = iKF*numValidPoints + iMP;
+    //         if (bestDists[idx] != 256 && !validMapPoints[iMP]->IsInKeyFrame(connectedKFs[iKF]))
+    //             gpuOutFile << "(i: " << iMP << ", bestDist: " << bestDists[idx] << ", bestIdx: " << bestIdxs[idx] << ")\n";
+    //             // printf("(i: %d, bestDist: %d, bestIdx: %d), ", iMP, bestDists[idx], bestIdxs[idx]);
+    //     }
+    //     gpuOutFile << "\n\n";
+    //     // printf("\n");
         
-        // cout << "************ CPU Side ************\n";
-        origFuse(connectedKFs[iKF], connectedScws[iKF], vpMapPoints, th);
-    }
+    //     // cout << "************ CPU Side ************\n";
+    //     origFuse(connectedKFs[iKF], connectedScws[iKF], vpMapPoints, th);
+    // }
 
-    gpuOutFile << "**********************************************************\n";
-    cpuOutFile << "**********************************************************\n";
-    count << "**********************************************************\n";
+    // gpuOutFile << "**********************************************************\n";
+    // cpuOutFile << "**********************************************************\n";
+    // count << "**********************************************************\n";
 
     return;
 }
@@ -363,7 +334,6 @@ void SearchAndFuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, Sophus::Sim3f &Scw,
     Eigen::Vector3f Ow = Tcw.inverse().translation();
 
     const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
-    // std::cout << "2spAlreadyFound.size(): " << spAlreadyFound.size() << std::endl; 
 
     int nFused=0;
 
@@ -451,11 +421,9 @@ void SearchAndFuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, Sophus::Sim3f &Scw,
 
         if (bestDist != INT_MAX)
             cpuOutFile << "(i: " << validMapPointCounter << ", bestDist: " << bestDist << ", bestIdx: " << bestIdx << ")\n";
-            // printf("(i: %d, bestDist: %d, bestIdx: %d), ", validMapPointCounter, bestDist, bestIdx);
     }
     std::cout << "validMapPointCounter: " << validMapPointCounter << std::endl;
     cpuOutFile << "\n\n";
-    // printf("\n");
 }
 
 

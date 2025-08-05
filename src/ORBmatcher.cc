@@ -1719,6 +1719,11 @@ namespace ORB_SLAM3
 
     int ORBmatcher::GPUFuse(vector<KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, vector<MapPoint*> vpMapPoints, const float th, vector<MapPoint*> &vpReplacePoints)
     {
+        
+        std::ofstream timing("./test/timing.txt", std::ios::app);
+
+        auto start2 = std::chrono::high_resolution_clock::now();
+
         int nFused=0;
         int numPoints = vpMapPoints.size();
         int numConnectedKFs = connectedKFs.size();
@@ -1726,8 +1731,15 @@ namespace ORB_SLAM3
         int outSize = numPoints*numConnectedKFs; 
         int bestDists[outSize];
         int bestIdxs[outSize];
-
+        
         LoopClosingKernelController::launchFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
+
+        auto end2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+        timing << "2 launchFuseKernel: " << elapsed2.count() << " ms" << std::endl;
+
+
+        auto start = std::chrono::high_resolution_clock::now();
 
         int validMapPointsSize = validMapPoints.size();
 
@@ -1759,6 +1771,11 @@ namespace ORB_SLAM3
                 }
             }
         }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        timing << "2 After launchFuseKernel: " << elapsed.count() << " ms" << std::endl;
+
         
         return nFused;
     }

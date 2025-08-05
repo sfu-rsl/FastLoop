@@ -3,7 +3,7 @@ pathDatasetTUM_VI=$HOME/Desktop/slam3/Datasets/tum-vi #Example, it is necesary t
 
 mode=$1
 fastmap_mode=$2
-seq_number=4
+seq_number=3
 dataset_name=room
 version=$4
 
