@@ -23,6 +23,7 @@ void CudaKeyFrame::initializeMemory(){
     
     bool cameraIsFisheye = CudaUtils::cameraIsFisheye;
 
+    checkCudaError(cudaPeekAtLastError(), "Before cudaMalloc");
     checkCudaError(cudaMalloc((void**)&mapPointsId, nFeatures * sizeof(long unsigned int)), "KeyFrame::failed to allocate memory for mapPointsId");
     
     checkCudaError(cudaMalloc((void**)&mvScaleFactors, nFeatures * sizeof(float)), "KeyFrame::failed to allocate memory for mvScaleFactors");
@@ -69,7 +70,7 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
             temp_mapPointsId.push_back(pMP->mnId);
         }
     }
-    checkCudaError(cudaMemcpy((void*) mapPointsId, temp_mapPointsId.data(), mapPointsId_size * sizeof(long unsigned int), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mapPointsId to gpu");
+    // checkCudaError(cudaMemcpy((void*) mapPointsId, temp_mapPointsId.data(), mapPointsId_size * sizeof(long unsigned int), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mapPointsId to gpu");
     
     mvScaleFactors_size = KF->mvScaleFactors.size();
     checkCudaError(cudaMemcpy(mvScaleFactors, KF->mvScaleFactors.data(), mvScaleFactors_size * sizeof(float), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvScaleFactors to gpu");
@@ -106,12 +107,16 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
 
     copyGPUCamera(&camera1, KF->mpCamera);
     
-    kernelPrint<<<1, 1>>>(this);
-    cudaError_t err = cudaGetLastError();
-    if (err != cudaSuccess) {
-        printf("kernelPrint CUDA Error: %s\n", cudaGetErrorString(err));
-    }
-    cudaDeviceSynchronize();
+    CudaKeyFrame* d_keyframe;
+    cudaMalloc(&d_keyframe, sizeof(CudaKeyFrame));
+    cudaMemcpy(d_keyframe, this, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
+
+    kernelPrint<<<1, 1>>>(d_keyframe);
+    checkCudaError(cudaGetLastError(), "Kernel launch failed");
+    checkCudaError(cudaDeviceSynchronize(), "Kernel execution failed");
+
+    cudaFree(d_keyframe);
+
 }
 
 void CudaKeyFrame::addFeatureVector(DBoW2::FeatureVector featVec) {
