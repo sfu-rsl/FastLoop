@@ -5,6 +5,7 @@
 // #include "CudaKeyFrameStorage.h"
 #include "CudaUtils.h"
 #include "SearchAndFuseKernel.h"
+#include "SearchByProjectionKernel.h"
 #include "SearchForTriangulationKernel.h"
 #include <memory> 
 
@@ -13,24 +14,24 @@ using namespace std;
 class LoopClosingKernelController{
 public:
     
-    static bool fuseOnGPU;
-
-    static void initializeKernels();
 
     static void shutdownKernels();
-
-    static void saveKernelsStats(const std::string &file_path);
 
     static void launchFuseKernel(
         std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
         std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
         std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
     );
+
+    static void launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
+                                    Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                    Sophus::Sim3<float> &Scw1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+                                    int &numProjMatches, int &numProjOptMatches);
+        
     
 
 private:
-    static bool memory_is_initialized;
-    static std::unique_ptr<SearchAndFuseKernel> mpSearchAndFuseKernel;
+    static std::unique_ptr<SearchByProjectionKernel> mpSearchByProjectionKernel;
 
 };
 

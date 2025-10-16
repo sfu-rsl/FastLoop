@@ -28,6 +28,7 @@
 #include"MapPoint.h"
 #include"KeyFrame.h"
 #include"Frame.h"
+#include "Kernels/SearchByProjectionKernel.h"
 
 
 namespace ORB_SLAM3
@@ -62,6 +63,11 @@ namespace ORB_SLAM3
         // Used in Place Recognition (Loop Closing and Merging)
         int SearchByProjection(KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<MapPoint*> &vpPoints, const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming=1.0);
 
+        void MergedSearchByProjection(KeyFrame* pKF, const std::vector<MapPoint*> &vpPoints,
+                                    Sophus::Sim3<float> &Scw, const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                    Sophus::Sim3<float> &Scw1, std::vector<MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+                                    int &numProjMatches, int &numProjOptMatches);
+        
         // Search matches between MapPoints in a KeyFrame and ORB in a Frame.
         // Brute force constrained to ORB that belong to the same vocabulary node (at a certain level)
         // Used in Relocalisation and Loop Detection

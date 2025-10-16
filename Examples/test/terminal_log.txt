@@ -69,7 +69,6 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -100,274 +99,193 @@ Not enough motion for initializing. Reseting...
 LM: Reseting current map in Local Mapping...
 LM: End reseting Local Mapping...
 LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+TRACK: Reset map because local mapper set the bad imu flag 
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset recieved
+LM: Active map reset, waiting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset, Done!!!
+mnFirstFrameId = 8
+mnInitialFrameId = 0
+61 Frames set to lost
+not IMU meas
+First KF:17; Map init KF:0
+New Map created with 183 points
 start VIBA 1
 end VIBA 1
 start VIBA 2
 end VIBA 2
 ******************************************************
 *Loop detected
-phi = -0.00069759228714970237  0.00018249902291261311    0.005896873186121295
-Local Mapping STOP
-------------- In CPU mnMinX: 0.000000 
-KeyFrame::failed to allocate memory for mapPointsId: an illegal memory access was encountered, status code: 700
-Evaluation of room3 trajectory with Stereo-Inertial sensor
-compared_pose_pairs 2575 pairs
-absolute_translational_error.rmse 0.009699 m
-absolute_translational_error.mean 0.007986 m
-absolute_translational_error.median 0.006750 m
-absolute_translational_error.std 0.005503 m
-absolute_translational_error.min 0.000431 m
-absolute_translational_error.max 0.062409 m
-max idx: 2291
-Plotting data
-Running the original ORB-SLAM3 code...
-num_seq = 1
-Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
-/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
-Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
-Total images: 2821
-Total cam ts: 2821
-first cam ts: 1.52053e+09
-LOADED!
-Loading IMU for sequence 0...Total IMU meas: 28124
-first IMU ts: 1.52053e+09
-LOADED!
-
--------
-
-ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-This program comes with ABSOLUTELY NO WARRANTY;
-This is free software, and you are welcome to redistribute it
-under certain conditions. See LICENSE.txt.
-
-Input sensor was set to: Stereo-Inertial
-Loading settings from Stereo-Inertial/TUM-VI.yaml
-	-Loaded camera 1
-	-Loaded camera 2
-Camera.newHeight optional parameter does not exist...
-Camera.newWidth optional parameter does not exist...
-	-Loaded image info
-IMU.InsertKFsWhenLost optional parameter does not exist...
-	-Loaded IMU calibration
-	-Loaded ORB settings
-Viewer.imageViewScale optional parameter does not exist...
-	-Loaded viewer settings
-System.LoadAtlasFromFile optional parameter does not exist...
-System.SaveAtlasToFile optional parameter does not exist...
-	-Loaded Atlas settings
-System.thFarPoints optional parameter does not exist...
-	-Loaded misc parameters
-----------------------------------
-SLAM settings: 
-	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Original image size: [ 512 , 512 ]
-	-Current image size: [ 512 , 512 ]
-	-Sequence FPS: 20
-	-Stereo baseline: 0.10108726471662521
-	-Stereo depth threshold : 40
-	-Camera 1 overlapping area: [ 0 , 511 ]
-	-Camera 2 overlapping area: [ 0 , 511 ]
-	-Gyro noise: 0.00015999999595806003
-	-Accelerometer noise: 0.00279999990016222
-	-Gyro walk: 2.2000000171829015e-05
-	-Accelerometer walk: 0.00085999997099861503
-	-IMU frequency: 200
-	-Features per image: 1000
-	-ORB scale factor: 1.2000000476837158
-	-ORB number of scales: 8
-	-Initial FAST threshold: 20
-	-Min FAST threshold: 7
-
-
-Loading ORB Vocabulary. This could take a while...
-Vocabulary loaded!
-
-Initialization of Atlas from scratch 
-Creation of new map with id: 0
-Creation of new map with last KF id: 0
-Seq. Name: dataset-room3_512_stereoi
-There are 2 cameras in the atlas
-Camera 0 is fisheye
-Camera 2 is fisheye
-I am in search and fuse initialize
-not IMU meas
-not IMU meas
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-First KF:0; Map init KF:0
-New Map created with 213 points
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-start VIBA 1
-end VIBA 1
-Running the original ORB-SLAM3 code...
-num_seq = 1
-Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
-/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
-Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
-Total images: 2821
-Total cam ts: 2821
-first cam ts: 1.52053e+09
-LOADED!
-Loading IMU for sequence 0...Total IMU meas: 28124
-first IMU ts: 1.52053e+09
-LOADED!
-
--------
-
-ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-This program comes with ABSOLUTELY NO WARRANTY;
-This is free software, and you are welcome to redistribute it
-under certain conditions. See LICENSE.txt.
-
-Input sensor was set to: Stereo-Inertial
-Loading settings from Stereo-Inertial/TUM-VI.yaml
-	-Loaded camera 1
-	-Loaded camera 2
-Camera.newHeight optional parameter does not exist...
-Camera.newWidth optional parameter does not exist...
-	-Loaded image info
-IMU.InsertKFsWhenLost optional parameter does not exist...
-	-Loaded IMU calibration
-	-Loaded ORB settings
-Viewer.imageViewScale optional parameter does not exist...
-	-Loaded viewer settings
-System.LoadAtlasFromFile optional parameter does not exist...
-System.SaveAtlasToFile optional parameter does not exist...
-	-Loaded Atlas settings
-System.thFarPoints optional parameter does not exist...
-	-Loaded misc parameters
-----------------------------------
-SLAM settings: 
-	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Original image size: [ 512 , 512 ]
-	-Current image size: [ 512 , 512 ]
-	-Sequence FPS: 20
-	-Stereo baseline: 0.10108726471662521
-	-Stereo depth threshold : 40
-	-Camera 1 overlapping area: [ 0 , 511 ]
-	-Camera 2 overlapping area: [ 0 , 511 ]
-	-Gyro noise: 0.00015999999595806003
-	-Accelerometer noise: 0.00279999990016222
-	-Gyro walk: 2.2000000171829015e-05
-	-Accelerometer walk: 0.00085999997099861503
-	-IMU frequency: 200
-	-Features per image: 1000
-	-ORB scale factor: 1.2000000476837158
-	-ORB number of scales: 8
-	-Initial FAST threshold: 20
-	-Min FAST threshold: 7
-
-
-Loading ORB Vocabulary. This could take a while...
-Vocabulary loaded!
-
-Initialization of Atlas from scratch 
-Creation of new map with id: 0
-Creation of new map with last KF id: 0
-Seq. Name: dataset-room3_512_stereoi
-There are 2 cameras in the atlas
-Camera 0 is fisheye
-Camera 2 is fisheye
-I am in search and fuse initialize
-not IMU meas
-not IMU meas
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-First KF:0; Map init KF:0
-New Map created with 213 points
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-start VIBA 1
-end VIBA 1
-start VIBA 2
-end VIBA 2
-******************************************************
-*Loop detected
-phi =  -0.010716447692497268 -0.0046331274491983468   0.028948804791639429
+phi = -0.0096825597624905346  -0.046091054316005756 0.00067345183484442443
 BAD LOOP!!!
 ******************************************************
 *Loop detected
-phi = -0.0014242587145842963 -0.0014993587595452267  0.0055961421467142199
-Local Mapping STOP
-------------- In CPU mnMinX: 0.000000 
-KeyFrame::failed to allocate memory for mapPointsId: an illegal memory access was encountered, status code: 700
+phi =    0.02397780466338232   0.025552454478592519 -0.0019442642204059409
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014490156434476376
+mean tracking time: 0.014646840281784534
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2512 pairs
+absolute_translational_error.rmse 0.031403 m
+absolute_translational_error.mean 0.027223 m
+absolute_translational_error.median 0.023240 m
+absolute_translational_error.std 0.015655 m
+absolute_translational_error.min 0.002019 m
+absolute_translational_error.max 0.078362 m
+max idx: 166
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+mpLocalMapper is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 80 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014350704848766327
+mean tracking time: 0.014736959710717201
 Evaluation of room3 trajectory with Stereo-Inertial sensor
 compared_pose_pairs 2575 pairs
-absolute_translational_error.rmse 0.009699 m
-absolute_translational_error.mean 0.007986 m
-absolute_translational_error.median 0.006750 m
-absolute_translational_error.std 0.005503 m
-absolute_translational_error.min 0.000431 m
-absolute_translational_error.max 0.062409 m
+absolute_translational_error.rmse 0.013107 m
+absolute_translational_error.mean 0.011639 m
+absolute_translational_error.median 0.010983 m
+absolute_translational_error.std 0.006028 m
+absolute_translational_error.min 0.000790 m
+absolute_translational_error.max 0.063410 m
 max idx: 2291
 Plotting data
 Running the original ORB-SLAM3 code...
@@ -441,7 +359,6 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -469,17 +386,22 @@ LM: Reseting current map in Local Mapping...
 LM: End reseting Local Mapping...
 LM: Reset free the mutex
 Not enough motion for initializing. Reseting...
+TRACK: Reset map because local mapper set the bad imu flag 
 LM: Reseting current map in Local Mapping...
 LM: End reseting Local Mapping...
 LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
+LM: Active map reset recieved
+LM: Active map reset, waiting...
 LM: Reseting current map in Local Mapping...
 LM: End reseting Local Mapping...
 LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
+LM: Active map reset, Done!!!
+mnFirstFrameId = 8
+mnInitialFrameId = 0
+56 Frames set to lost
+not IMU meas
+First KF:15; Map init KF:0
+New Map created with 220 points
 start VIBA 1
 end VIBA 1
 Running the original ORB-SLAM3 code...
@@ -553,7 +475,3411 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014441733248531818
+mean tracking time: 0.014723330736160278
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.025904 m
+absolute_translational_error.mean 0.024112 m
+absolute_translational_error.median 0.024125 m
+absolute_translational_error.std 0.009468 m
+absolute_translational_error.min 0.002607 m
+absolute_translational_error.max 0.069673 m
+max idx: 755
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi =  0.032895820043556616 0.0020726638249740996  0.050536437440750023
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0058944416212416296 -0.0056716404961223311   0.028226505232980172
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.0084575946564176899  -0.028555437846961799    0.02364051080196674
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0010423559619478562  -0.042853211021991147   0.029633550362803421
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =   0.035229736407590896 -0.0048214259850616692   0.079786908922649377
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.034068829234635126  0.021559766124206112  0.029074693714403736
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 101 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014437310397624969
+mean tracking time: 0.014223381876945496
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.036626 m
+absolute_translational_error.mean 0.031928 m
+absolute_translational_error.median 0.024602 m
+absolute_translational_error.std 0.017947 m
+absolute_translational_error.min 0.000905 m
+absolute_translational_error.max 0.086039 m
+max idx: 2028
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.0087036642132143453   0.033345934415641591   0.014408046696675975
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0021790368222686872 -0.0049163562130704877   0.011874393263757579
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013885692693293095
+mean tracking time: 0.013895592652261257
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.011223 m
+absolute_translational_error.mean 0.009759 m
+absolute_translational_error.median 0.009154 m
+absolute_translational_error.std 0.005542 m
+absolute_translational_error.min 0.000305 m
+absolute_translational_error.max 0.062440 m
+max idx: 2290
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.0064378522147635489   0.020952580577488143   0.041929809454878814
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.036443830549954911 0.0054599786207412413  0.017906730804563595
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.0067723494733944118 -0.012794511059572978  0.016130916744179599
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  -0.0014967957417549584  -0.0040163474786893954 -6.9702786880125259e-05
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 88 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013740365393459797
+mean tracking time: 0.013623399659991264
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010499 m
+absolute_translational_error.mean 0.008506 m
+absolute_translational_error.median 0.006958 m
+absolute_translational_error.std 0.006154 m
+absolute_translational_error.min 0.000348 m
+absolute_translational_error.max 0.054943 m
+max idx: 268
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 82 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013503910042345524
+mean tracking time: 0.013683361001312733
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.013442 m
+absolute_translational_error.mean 0.011973 m
+absolute_translational_error.median 0.011174 m
+absolute_translational_error.std 0.006110 m
+absolute_translational_error.min 0.001290 m
+absolute_translational_error.max 0.060413 m
+max idx: 268
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 83 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013619161210954189
+mean tracking time: 0.013703756034374237
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.014535 m
+absolute_translational_error.mean 0.013094 m
+absolute_translational_error.median 0.012856 m
+absolute_translational_error.std 0.006309 m
+absolute_translational_error.min 0.000578 m
+absolute_translational_error.max 0.065366 m
+max idx: 2290
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 81 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013282652013003826
+mean tracking time: 0.013316567055881023
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.009329 m
+absolute_translational_error.mean 0.007641 m
+absolute_translational_error.median 0.006069 m
+absolute_translational_error.std 0.005353 m
+absolute_translational_error.min 0.000559 m
+absolute_translational_error.max 0.056215 m
+max idx: 2290
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.027251987751974294  0.019756173339259078  0.050371454289657232
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.054730681371665285 -0.048448760100641787 0.0022975480479346441
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0025845391598507753  -0.016954245980643476   0.020788361976460029
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.0055399256272656459 0.0058781429195560644 -0.019862347062775725
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 85 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013307509012520313
+mean tracking time: 0.013312656432390213
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.009336 m
+absolute_translational_error.mean 0.007325 m
+absolute_translational_error.median 0.005860 m
+absolute_translational_error.std 0.005788 m
+absolute_translational_error.min 0.000254 m
+absolute_translational_error.max 0.053310 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.022701266231076499 -0.019221911491294992 0.0010707615707262459
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =   0.025925811651035545 -0.0055387478744158445 -0.0057094848440233537
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  -0.01259343219319255 0.0085271272787764175 0.0078841668380519817
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0067096805913079453  0.0013332947275789566 -0.0010932456352993648
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 85 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013391319662332535
+mean tracking time: 0.01341010257601738
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.009919 m
+absolute_translational_error.mean 0.008218 m
+absolute_translational_error.median 0.007174 m
+absolute_translational_error.std 0.005555 m
+absolute_translational_error.min 0.000567 m
+absolute_translational_error.max 0.057403 m
+max idx: 2286
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi =  0.033177661678122465 0.0014712473388710332 -0.037941769305045912
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  -0.090159266873067134   0.015873776102500188 -0.0053760775051052995
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0092048557773168425     0.0056729996489549   0.016983816967939665
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.017842280332955165 0.0093979206580719812 0.0043156946743425056
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.022082043469623811 0.0052189919457285693 0.0085494418586242339
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.005757729537437993 0.0085182381271324478  0.028231502829908599
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0010197136989707925  0.0077762003273810281   0.015280754797230491
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+******************************************************
+*Loop detected
+phi = 0.0058171148311130854  0.019434689661769089 -0.037334079410513525
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  -0.04340652399757898  0.020245869511810774 0.0053015649470243877
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013376575894653797
+mean tracking time: 0.013332787901163101
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010945 m
+absolute_translational_error.mean 0.009069 m
+absolute_translational_error.median 0.008006 m
+absolute_translational_error.std 0.006129 m
+absolute_translational_error.min 0.000295 m
+absolute_translational_error.max 0.061796 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi =  0.018118819044766261 0.0008607640143843909   0.01307785304630666
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =     0.01175732767036339 -0.00070356849636333488     0.02400465329564835
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.010604173096775981 0.0029675807338328864 0.0064016034418862937
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0036664317352030061 -0.0095524758835392395    0.04231303849106946
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0029860924092310458 -0.0030641657944821114   0.026873735137860913
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 82 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013149815611541271
+mean tracking time: 0.013142754323780537
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.009894 m
+absolute_translational_error.mean 0.007968 m
+absolute_translational_error.median 0.006668 m
+absolute_translational_error.std 0.005866 m
+absolute_translational_error.min 0.000530 m
+absolute_translational_error.max 0.058758 m
+max idx: 2290
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.036166229311590248  0.013139629574585915 -0.013461196719161265
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0048317360889787884   0.031838198862498418 -0.0044696774867713359
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.024180441337622902  0.03103621533081663 0.054576579630264271
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0064818554221189309 0.00019793835624863263  0.0054196456688856741
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+******************************************************
+*Loop detected
+phi =  -0.069985003999151918  -0.017159675108887194 -0.0020336515631547095
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0014972772092099157 5.0693071044018301e-05   0.017897095833124533
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 88 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013524227775633335
+mean tracking time: 0.01364287082105875
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.012350 m
+absolute_translational_error.mean 0.011032 m
+absolute_translational_error.median 0.010257 m
+absolute_translational_error.std 0.005552 m
+absolute_translational_error.min 0.001565 m
+absolute_translational_error.max 0.057445 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.017899086523517647 0.0057795107884364696 -0.029454818118540151
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.00076081960953072888   -0.007529314076682018    0.021931422722583509
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013740276917815208
+mean tracking time: 0.013742774724960327
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010109 m
+absolute_translational_error.mean 0.008493 m
+absolute_translational_error.median 0.007554 m
+absolute_translational_error.std 0.005484 m
+absolute_translational_error.min 0.000235 m
+absolute_translational_error.max 0.073832 m
+max idx: 686
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.0065060753167597929   0.016907563193710486   0.016084461850496706
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  -0.01285400098696475  0.025265042803030033 -0.022817072714623032
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.016101382969526536 -0.019907849858570619 0.0054382817442894648
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.0021742774411831365 -0.0012145424776421627  0.0097949036028896971
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013804983347654343
+mean tracking time: 0.013874615542590618
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.009320 m
+absolute_translational_error.mean 0.007616 m
+absolute_translational_error.median 0.006402 m
+absolute_translational_error.std 0.005373 m
+absolute_translational_error.min 0.000675 m
+absolute_translational_error.max 0.046792 m
+max idx: 268
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.0038950081667873016 0.00072939749690545603  -0.015609433040233973
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 83 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013766760006546974
+mean tracking time: 0.013925816863775253
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010091 m
+absolute_translational_error.mean 0.008619 m
+absolute_translational_error.median 0.007497 m
+absolute_translational_error.std 0.005247 m
+absolute_translational_error.min 0.000486 m
+absolute_translational_error.max 0.054941 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.022802760802755867 -0.017217682874464218 -0.017357053166898138
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.0029750354746819262  0.0079979280517595026   0.022791424312277427
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 84 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013801987282931805
+mean tracking time: 0.013817291706800461
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010192 m
+absolute_translational_error.mean 0.008465 m
+absolute_translational_error.median 0.007480 m
+absolute_translational_error.std 0.005676 m
+absolute_translational_error.min 0.000796 m
+absolute_translational_error.max 0.066818 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+TRACK: Reset map because local mapper set the bad imu flag 
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset recieved
+LM: Active map reset, waiting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset, Done!!!
+mnFirstFrameId = 8
+mnInitialFrameId = 0
+63 Frames set to lost
+not IMU meas
+First KF:17; Map init KF:0
+New Map created with 165 points
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 89 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013638126663863659
+mean tracking time: 0.01359613798558712
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2510 pairs
+absolute_translational_error.rmse 0.033872 m
+absolute_translational_error.mean 0.030393 m
+absolute_translational_error.median 0.027252 m
+absolute_translational_error.std 0.014952 m
+absolute_translational_error.min 0.001024 m
+absolute_translational_error.max 0.093465 m
+max idx: 206
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+TRACK: Reset map because local mapper set the bad imu flag 
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset recieved
+LM: Active map reset, waiting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+LM: Active map reset, Done!!!
+mnFirstFrameId = 8
+mnInitialFrameId = 0
+60 Frames set to lost
+not IMU meas
+First KF:16; Map init KF:0
+New Map created with 186 points
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 86 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013727147132158279
+mean tracking time: 0.013597385957837105
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2513 pairs
+absolute_translational_error.rmse 0.037693 m
+absolute_translational_error.mean 0.032102 m
+absolute_translational_error.median 0.024283 m
+absolute_translational_error.std 0.019755 m
+absolute_translational_error.min 0.001540 m
+absolute_translational_error.max 0.092618 m
+max idx: 206
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.019371743380629861 -0.022037196228063504  0.033459229180847719
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =  0.021235165084933991 -0.026666257710207607  0.056495688827292126
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.0058870735247327933 -0.018574226220294632  0.015228062558731761
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi =   0.040513347392144579 -0.0017939037542218947   0.046594646323145902
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 96 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014174654148519039
+mean tracking time: 0.014001869596540928
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.034815 m
+absolute_translational_error.mean 0.030249 m
+absolute_translational_error.median 0.023763 m
+absolute_translational_error.std 0.017237 m
+absolute_translational_error.min 0.003807 m
+absolute_translational_error.max 0.077934 m
+max idx: 122
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi = -0.044316653817064788 -0.078609272504736954 0.0039726156859614739
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.029541956283406244  0.006354124880659979  -0.02573858924003803
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.023157357774548394 0.016264132442514703  0.01094306224444626
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -0.064998700983469285 -0.019557177077085493  0.036418556527767931
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = -2.0712833369448642e-05  -0.0012849619535732929   0.0027479121984627271
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 81 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013929996639490128
+mean tracking time: 0.01379893533885479
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.010839 m
+absolute_translational_error.mean 0.008902 m
+absolute_translational_error.median 0.007578 m
+absolute_translational_error.std 0.006183 m
+absolute_translational_error.min 0.000474 m
+absolute_translational_error.max 0.055117 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi =  0.0083631546346418176 -0.0082741956670674081  0.0066974493032425156
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 90 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013971302658319473
+mean tracking time: 0.013831018470227718
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.037559 m
+absolute_translational_error.mean 0.032477 m
+absolute_translational_error.median 0.028679 m
+absolute_translational_error.std 0.018866 m
+absolute_translational_error.min 0.002074 m
+absolute_translational_error.max 0.079426 m
+max idx: 228
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
+not IMU meas
+not IMU meas
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+not enough acceleration
+First KF:0; Map init KF:0
+New Map created with 213 points
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+start VIBA 1
+end VIBA 1
+start VIBA 2
+end VIBA 2
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 89 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013435857370495796
+mean tracking time: 0.013492219150066376
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.016128 m
+absolute_translational_error.mean 0.014908 m
+absolute_translational_error.median 0.014843 m
+absolute_translational_error.std 0.006155 m
+absolute_translational_error.min 0.000764 m
+absolute_translational_error.max 0.062025 m
+max idx: 2287
+Plotting data
+Running the original ORB-SLAM3 code...
+num_seq = 1
+Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
+/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
+Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
+Total images: 2821
+Total cam ts: 2821
+first cam ts: 1.52053e+09
+LOADED!
+Loading IMU for sequence 0...Total IMU meas: 28124
+first IMU ts: 1.52053e+09
+LOADED!
+
+-------
+
+ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: Stereo-Inertial
+Loading settings from Stereo-Inertial/TUM-VI.yaml
+	-Loaded camera 1
+	-Loaded camera 2
+Camera.newHeight optional parameter does not exist...
+Camera.newWidth optional parameter does not exist...
+	-Loaded image info
+IMU.InsertKFsWhenLost optional parameter does not exist...
+	-Loaded IMU calibration
+	-Loaded ORB settings
+Viewer.imageViewScale optional parameter does not exist...
+	-Loaded viewer settings
+System.LoadAtlasFromFile optional parameter does not exist...
+System.SaveAtlasToFile optional parameter does not exist...
+	-Loaded Atlas settings
+System.thFarPoints optional parameter does not exist...
+	-Loaded misc parameters
+----------------------------------
+SLAM settings: 
+	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
+	-Original image size: [ 512 , 512 ]
+	-Current image size: [ 512 , 512 ]
+	-Sequence FPS: 20
+	-Stereo baseline: 0.10108726471662521
+	-Stereo depth threshold : 40
+	-Camera 1 overlapping area: [ 0 , 511 ]
+	-Camera 2 overlapping area: [ 0 , 511 ]
+	-Gyro noise: 0.00015999999595806003
+	-Accelerometer noise: 0.00279999990016222
+	-Gyro walk: 2.2000000171829015e-05
+	-Accelerometer walk: 0.00085999997099861503
+	-IMU frequency: 200
+	-Features per image: 1000
+	-ORB scale factor: 1.2000000476837158
+	-ORB number of scales: 8
+	-Initial FAST threshold: 20
+	-Min FAST threshold: 7
+
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+Initialization of Atlas from scratch 
+Creation of new map with id: 0
+Creation of new map with last KF id: 0
+Seq. Name: dataset-room3_512_stereoi
+There are 2 cameras in the atlas
+Camera 0 is fisheye
+Camera 2 is fisheye
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -605,60 +3931,46 @@ LM: Reset free the mutex
 LM: Active map reset, Done!!!
 mnFirstFrameId = 8
 mnInitialFrameId = 0
-62 Frames set to lost
+64 Frames set to lost
 not IMU meas
 First KF:18; Map init KF:0
-New Map created with 166 points
+New Map created with 192 points
 start VIBA 1
 end VIBA 1
 start VIBA 2
 end VIBA 2
 ******************************************************
 *Loop detected
-phi = -0.013490645032119258  0.013245614043118886 -0.016840634012680152
+phi =  0.088989669804446503 -0.039281603283715438  0.025750717061924219
 BAD LOOP!!!
 ******************************************************
 *Loop detected
-phi = -0.021378350765137558 0.0084051963538118949 -0.011854950903342236
+phi =  -0.030987967564742872  0.0098812953141913431 -0.0084332784936251293
 BAD LOOP!!!
-******************************************************
-*Loop detected
-phi =   -0.0155065332312487  0.019669525696594914 0.0075602827080415106
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi =  -0.021422711172909246 -0.0093183455524064873    0.01279750801948768
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi =  0.020277902130349933 -0.016116088000880269  0.073808375787636535
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = 3.5311779336165895e-05 -0.0088725671534988747  -0.022717079068939761
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi =  0.017773636041005139 -0.018117859275655644 -0.039175828735824661
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.036580478032212295 -0.007631554605090924  0.037397240118894316
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.0024423769807778548 -0.0017473048922803059  0.0021594463492853049
-Local Mapping STOP
-CudaKeyFrame:: Failed to copy mapPointsId to gpu: invalid argument, status code: 1
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 86 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013643842190504074
+mean tracking time: 0.013548939488828182
 Evaluation of room3 trajectory with Stereo-Inertial sensor
-compared_pose_pairs 2575 pairs
-absolute_translational_error.rmse 0.009699 m
-absolute_translational_error.mean 0.007986 m
-absolute_translational_error.median 0.006750 m
-absolute_translational_error.std 0.005503 m
-absolute_translational_error.min 0.000431 m
-absolute_translational_error.max 0.062409 m
-max idx: 2291
+compared_pose_pairs 2509 pairs
+absolute_translational_error.rmse 0.037966 m
+absolute_translational_error.mean 0.033149 m
+absolute_translational_error.median 0.027647 m
+absolute_translational_error.std 0.018509 m
+absolute_translational_error.min 0.001253 m
+absolute_translational_error.max 0.100304 m
+max idx: 164
 Plotting data
 Running the original ORB-SLAM3 code...
 num_seq = 1
@@ -731,7 +4043,6 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -770,150 +4081,41 @@ start VIBA 1
 end VIBA 1
 start VIBA 2
 end VIBA 2
-Running the original ORB-SLAM3 code...
-num_seq = 1
-Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
-/home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam1/data
-Stereo-Inertial/TUM_TimeStamps/dataset-room3_512.txt
-Total images: 2821
-Total cam ts: 2821
-first cam ts: 1.52053e+09
-LOADED!
-Loading IMU for sequence 0...Total IMU meas: 28124
-first IMU ts: 1.52053e+09
-LOADED!
+******************************************************
+*Loop detected
+phi = 0.0011668082641057051 -0.030928469135454884 -0.014091357213691405
+BAD LOOP!!!
+******************************************************
+*Loop detected
+phi = 0.0054899026210949052 0.0032408948697101982  0.012845818548867344
+Local Mapping STOP
+Local Mapping RELEASE
+Local Mapping STOP
+Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
 
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 92 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
 -------
 
-ORB-SLAM3 Copyright (C) 2017-2020 Carlos Campos, Richard Elvira, Juan J. Gómez, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-ORB-SLAM2 Copyright (C) 2014-2016 Raúl Mur-Artal, José M.M. Montiel and Juan D. Tardós, University of Zaragoza.
-This program comes with ABSOLUTELY NO WARRANTY;
-This is free software, and you are welcome to redistribute it
-under certain conditions. See LICENSE.txt.
-
-Input sensor was set to: Stereo-Inertial
-Loading settings from Stereo-Inertial/TUM-VI.yaml
-	-Loaded camera 1
-	-Loaded camera 2
-Camera.newHeight optional parameter does not exist...
-Camera.newWidth optional parameter does not exist...
-	-Loaded image info
-IMU.InsertKFsWhenLost optional parameter does not exist...
-	-Loaded IMU calibration
-	-Loaded ORB settings
-Viewer.imageViewScale optional parameter does not exist...
-	-Loaded viewer settings
-System.LoadAtlasFromFile optional parameter does not exist...
-System.SaveAtlasToFile optional parameter does not exist...
-	-Loaded Atlas settings
-System.thFarPoints optional parameter does not exist...
-	-Loaded misc parameters
-----------------------------------
-SLAM settings: 
-	-Camera 1 parameters (Kannala-Brandt): [ 190.97846984863281 190.97331237792969 254.93170166015625 256.89743041992188 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Camera 2 parameters (Kannala-Brandt: [ 190.44236755371094 190.43443298339844 252.59950256347656 254.917236328125 0.0034823894966393709 0.00071503483923152089 -0.0020532361231744289 0.00020293673151172698 ]
-	-Original image size: [ 512 , 512 ]
-	-Current image size: [ 512 , 512 ]
-	-Sequence FPS: 20
-	-Stereo baseline: 0.10108726471662521
-	-Stereo depth threshold : 40
-	-Camera 1 overlapping area: [ 0 , 511 ]
-	-Camera 2 overlapping area: [ 0 , 511 ]
-	-Gyro noise: 0.00015999999595806003
-	-Accelerometer noise: 0.00279999990016222
-	-Gyro walk: 2.2000000171829015e-05
-	-Accelerometer walk: 0.00085999997099861503
-	-IMU frequency: 200
-	-Features per image: 1000
-	-ORB scale factor: 1.2000000476837158
-	-ORB number of scales: 8
-	-Initial FAST threshold: 20
-	-Min FAST threshold: 7
-
-
-Loading ORB Vocabulary. This could take a while...
-Vocabulary loaded!
-
-Initialization of Atlas from scratch 
-Creation of new map with id: 0
-Creation of new map with last KF id: 0
-Seq. Name: dataset-room3_512_stereoi
-There are 2 cameras in the atlas
-Camera 0 is fisheye
-Camera 2 is fisheye
-I am in search and fuse initialize
-not IMU meas
-not IMU meas
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-not enough acceleration
-First KF:0; Map init KF:0
-New Map created with 213 points
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-Not enough motion for initializing. Reseting...
-LM: Reseting current map in Local Mapping...
-LM: End reseting Local Mapping...
-LM: Reset free the mutex
-start VIBA 1
-end VIBA 1
-start VIBA 2
-end VIBA 2
-******************************************************
-*Loop detected
-phi =  -0.037309580465896171  0.0042532090653398151 0.00041035535261803291
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.028280257518181622 0.0086205455951137225 -0.014729727719268748
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.0052024772795171261   0.021126097011480421  -0.034334517189682036
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.0094415444259228921   0.017174572605189019  0.0037337961955475033
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = -0.0033180702527779663 -0.0044440575914360229  0.0076121852624349146
-Local Mapping STOP
-Kernel execution failed: an illegal memory access was encountered, status code: 700
+median tracking time: 0.014193447306752205
+mean tracking time: 0.013929410837590694
 Evaluation of room3 trajectory with Stereo-Inertial sensor
 compared_pose_pairs 2575 pairs
-absolute_translational_error.rmse 0.009699 m
-absolute_translational_error.mean 0.007986 m
-absolute_translational_error.median 0.006750 m
-absolute_translational_error.std 0.005503 m
-absolute_translational_error.min 0.000431 m
-absolute_translational_error.max 0.062409 m
-max idx: 2291
+absolute_translational_error.rmse 0.013165 m
+absolute_translational_error.mean 0.011116 m
+absolute_translational_error.median 0.009381 m
+absolute_translational_error.std 0.007055 m
+absolute_translational_error.min 0.000536 m
+absolute_translational_error.max 0.064849 m
+max idx: 2290
 Plotting data
 Running the original ORB-SLAM3 code...
 num_seq = 1
@@ -986,7 +4188,6 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -1019,6 +4220,37 @@ LM: End reseting Local Mapping...
 LM: Reset free the mutex
 start VIBA 1
 end VIBA 1
+start VIBA 2
+end VIBA 2
+******************************************************
+*Loop detected
+phi =  0.016725445011596934 0.0078875908488281882  0.035918257633577227
+BAD LOOP!!!
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 87 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.013991487212479115
+mean tracking time: 0.013960113748908043
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.018667 m
+absolute_translational_error.mean 0.016982 m
+absolute_translational_error.median 0.015960 m
+absolute_translational_error.std 0.007751 m
+absolute_translational_error.min 0.000378 m
+absolute_translational_error.max 0.056133 m
+max idx: 759
+Plotting data
 Running the original ORB-SLAM3 code...
 num_seq = 1
 Loading images for sequence 0.../home/soudabeh/Desktop/slam3/Datasets/tum-vi/room/dataset-room3_512_16/mav0/cam0/data
@@ -1090,7 +4322,6 @@ Seq. Name: dataset-room3_512_stereoi
 There are 2 cameras in the atlas
 Camera 0 is fisheye
 Camera 2 is fisheye
-I am in search and fuse initialize
 not IMU meas
 not IMU meas
 not enough acceleration
@@ -1121,36 +4352,47 @@ Not enough motion for initializing. Reseting...
 LM: Reseting current map in Local Mapping...
 LM: End reseting Local Mapping...
 LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
+Not enough motion for initializing. Reseting...
+LM: Reseting current map in Local Mapping...
+LM: End reseting Local Mapping...
+LM: Reset free the mutex
 start VIBA 1
 end VIBA 1
 start VIBA 2
 end VIBA 2
 ******************************************************
 *Loop detected
-phi = -0.0091681850259630847  -0.001046764515699984 -0.0079190027324462526
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi =  -0.020286586507491891  0.0040477849475352348 -0.0057237962251147035
-BAD LOOP!!!
-******************************************************
-*Loop detected
-phi = 0.00029671755759420139 0.00010132188100262945  0.0019370275564844568
+phi =  0.0051984209869665871 -0.0076044559518434057  0.0050205570391659788
 Local Mapping STOP
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
-+++++++++++++++ In GPU mnMinX: 0.000000 
-------------- In CPU mnMinX: 0.000000 
 Local Mapping RELEASE
 Local Mapping STOP
 Local Mapping RELEASE
+Shutdown
+mpLocalMapper is not finished
+mpLoopCloser is not finished
+
+Saving trajectory to f_dataset-room3_512_stereoi.txt ...
+There are 1 maps in the atlas
+  Map 0 has 82 KFs
+
+End of saving trajectory to f_dataset-room3_512_stereoi.txt ...
+
+Saving keyframe trajectory to kf_dataset-room3_512_stereoi.txt ...
+-------
+
+median tracking time: 0.014044144190847874
+mean tracking time: 0.014044902287423611
+Evaluation of room3 trajectory with Stereo-Inertial sensor
+compared_pose_pairs 2575 pairs
+absolute_translational_error.rmse 0.014357 m
+absolute_translational_error.mean 0.012027 m
+absolute_translational_error.median 0.010364 m
+absolute_translational_error.std 0.007839 m
+absolute_translational_error.min 0.000366 m
+absolute_translational_error.max 0.059718 m
+max idx: 2287
+Plotting data

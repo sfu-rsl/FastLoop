@@ -114,7 +114,8 @@ __global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, 
     if ((p3Dc(2) < 0.0f) || (!isInImage(neighKF, uv(0), uv(1))))
         return;
 
-    const float ur = uv(0) - neighKF->mbf*invz;
+    const float ur = uv(0);
+    //  - neighKF->mbf*invz;
     const float maxDistance = 1.2 * pMP.mfMaxDistance;
     const float minDistance = 0.8 * pMP.mfMinDistance;
     Eigen::Vector3f PO = p3Dw - Ow;
@@ -164,8 +165,8 @@ __global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, 
                 vCell = &neighKF->flatMGrid[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
                 vCell_size = neighKF->flatMGrid_size[ix * neighKF->mnGridRows + iy];
             } else {
-                vCell = &neighKF->flatMGridRight[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
-                vCell_size = neighKF->flatMGridRight_size[ix * neighKF->mnGridRows + iy];
+                // vCell = &neighKF->flatMGridRight[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
+                // vCell_size = neighKF->flatMGridRight_size[ix * neighKF->mnGridRows + iy];
             }
 
             for (size_t j=0, jend=vCell_size; j<jend; j++) {
@@ -185,17 +186,19 @@ __global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, 
                     if (kpLevel < nPredictedLevel-1 || kpLevel > nPredictedLevel)
                         continue;
 
-                    if (neighKF->mvuRight[temp_idx] >= 0) {
+                    if (neighKF){
+                    // ->mvuRight[temp_idx] >= 0) {
                         // Check reprojection error in stereo
                         const float &kpx = kpUn.ptx;
                         const float &kpy = kpUn.pty;
-                        const float &kpr = neighKF->mvuRight[temp_idx];
+                        const float &kpr = 0; 
+                        // neighKF->mvuRight[temp_idx];
                         const float ex = x-kpx;
                         const float ey = y-kpy;
                         const float er = ur-kpr;
                         const float e2 = ex*ex+ey*ey+er*er;
 
-                        if (e2 * neighKF->mvInvLevelSigma2[kpLevel] > 7.8)
+                        if (true) //e2 * neighKF->mvInvLevelSigma2[kpLevel] > 7.8)
                             continue;
                     }
                     else {
@@ -204,7 +207,7 @@ __global__ void fuseKernel(MAPPING_DATA_WRAPPER::CudaMapPoint* currKFMapPoints, 
                         const float ex = x-kpx;
                         const float ey = y-kpy;
                         const float e2 = ex*ex+ey*ey;
-                        if(e2 * neighKF->mvInvLevelSigma2[kpLevel] > 5.99)
+                        if(true) //e2 * neighKF->mvInvLevelSigma2[kpLevel] > 5.99)
                             continue;
                     }
 
@@ -363,8 +366,8 @@ __global__ void fuseKernelV2(
     if (cameraIsFisheye) {
         if (!bRight)
             uv = fisheyeProject(p3Dc, neighKF->camera1.mvParameters);
-        else
-            uv = fisheyeProject(p3Dc, neighKF->camera2.mvParameters);
+        // else
+            // uv = fisheyeProject(p3Dc, neighKF->camera2.mvParameters);
     }
     else
         uv = pinholeProject(p3Dc, neighKF->camera1.mvParameters);
@@ -372,7 +375,8 @@ __global__ void fuseKernelV2(
     if ((p3Dc(2) < 0.0f) || (!isInImage(neighKF, uv(0), uv(1))))
         return;
 
-    const float ur = uv(0) - neighKF->mbf*invz;
+    const float ur = uv(0);
+    //  - neighKF->mbf*invz;
     const float maxDistance = 1.2 * pMP.mfMaxDistance;
     const float minDistance = 0.8 * pMP.mfMinDistance;
     Eigen::Vector3f PO = p3Dw - currOw;
@@ -422,8 +426,8 @@ __global__ void fuseKernelV2(
                 vCell = &neighKF->flatMGrid[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
                 vCell_size = neighKF->flatMGrid_size[ix * neighKF->mnGridRows + iy];
             } else {
-                vCell = &neighKF->flatMGridRight[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
-                vCell_size = neighKF->flatMGridRight_size[ix * neighKF->mnGridRows + iy];
+                // vCell = &neighKF->flatMGridRight[ix * neighKF->mnGridRows * KEYPOINTS_PER_CELL + iy * KEYPOINTS_PER_CELL];
+                // vCell_size = neighKF->flatMGridRight_size[ix * neighKF->mnGridRows + iy];
             }
 
             for (size_t j=0, jend=vCell_size; j<jend; j++) {
@@ -443,17 +447,18 @@ __global__ void fuseKernelV2(
                     if (kpLevel < nPredictedLevel-1 || kpLevel > nPredictedLevel)
                         continue;
 
-                    if (neighKF->mvuRight[temp_idx] >= 0) {
+                    if (true){ //neighKF->mvuRight[temp_idx] >= 0) {
                         // Check reprojection error in stereo
                         const float &kpx = kpUn.ptx;
                         const float &kpy = kpUn.pty;
-                        const float &kpr = neighKF->mvuRight[temp_idx];
+                        const float &kpr = 0;
+                        // neighKF->mvuRight[temp_idx];
                         const float ex = x-kpx;
                         const float ey = y-kpy;
                         const float er = ur-kpr;
                         const float e2 = ex*ex+ey*ey+er*er;
 
-                        if (e2 * neighKF->mvInvLevelSigma2[kpLevel] > 7.8)
+                        if (true) //e2 * neighKF->mvInvLevelSigma2[kpLevel] > 7.8)
                             continue;
                     }
                     else {
@@ -462,7 +467,7 @@ __global__ void fuseKernelV2(
                         const float ex = x-kpx;
                         const float ey = y-kpy;
                         const float e2 = ex*ex+ey*ey;
-                        if(e2 * neighKF->mvInvLevelSigma2[kpLevel] > 5.99)
+                        if(true) //e2 * neighKF->mvInvLevelSigma2[kpLevel] > 5.99)
                             continue;
                     }
 
@@ -650,7 +655,8 @@ void FuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapP
     const float &fy = pKF->fy;
     const float &cx = pKF->cx;
     const float &cy = pKF->cy;
-    const float &bf = pKF->mbf;
+    const float &bf = 0;
+    // pKF->mbf;
 
     int nFused=0;
 
@@ -753,17 +759,17 @@ void FuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapP
                 continue;
             }
 
-            if(pKF->mvuRight[idx]>=0) {
+            if(pKF){ //->mvuRight[idx]>=0) {
                 // Check reprojection error in stereo
                 const float &kpx = kp.pt.x;
                 const float &kpy = kp.pt.y;
-                const float &kpr = pKF->mvuRight[idx];
+                const float &kpr = 0; //pKF->mvuRight[idx];
                 const float ex = uv(0)-kpx;
                 const float ey = uv(1)-kpy;
                 const float er = ur-kpr;
                 const float e2 = ex*ex+ey*ey+er*er;
 
-                if(e2*pKF->mvInvLevelSigma2[kpLevel]>7.8){
+                if(true){ //e2*pKF->mvInvLevelSigma2[kpLevel]>7.8){
                     continue;
                 }
             }
@@ -774,7 +780,7 @@ void FuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, const vector<ORB_SLAM3::MapP
                 const float ey = uv(1)-kpy;
                 const float e2 = ex*ex+ey*ey;
 
-                if(e2*pKF->mvInvLevelSigma2[kpLevel]>5.99){
+                if(true){ //e2*pKF->mvInvLevelSigma2[kpLevel]>5.99){
                     continue;
                 }
             }

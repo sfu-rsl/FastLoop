@@ -2,71 +2,45 @@
 
 // #define DEBUG
 
-#ifdef DEBUG
-#define DEBUG_PRINT(msg) std::cout << "Debug [LoopClosing KernelController::]  " << msg << std::endl
-#else
-#define DEBUG_PRINT(msg) do {} while (0)
-#endif
 
-
-bool LoopClosingKernelController::fuseOnGPU = 1;
-bool LoopClosingKernelController::memory_is_initialized = false;
-
-std::unique_ptr<SearchAndFuseKernel> LoopClosingKernelController::mpSearchAndFuseKernel = std::make_unique<SearchAndFuseKernel>();
-
-
-void LoopClosingKernelController::initializeKernels(){
-
-    DEBUG_PRINT("Initializing Kernels");
-    
-    // CudaKeyFrameStorage::initializeMemory();
-    
-    if (fuseOnGPU)
-        mpSearchAndFuseKernel->initialize();
-
-    checkCudaError(cudaDeviceSynchronize(), "[Loop Closing Kernel Controller:] Failed to initialize kernels.");
-    memory_is_initialized = true;
-}
+std::unique_ptr<SearchByProjectionKernel> LoopClosingKernelController::mpSearchByProjectionKernel = std::make_unique<SearchByProjectionKernel>();
 
 
 void LoopClosingKernelController::shutdownKernels() {
-    // unique_lock<mutex> lock(shutDownMutex);
-
-    // localMappingFinished = _localMappingFinished ? true : localMappingFinished;
-    // loopClosingFinished = _localMappingFinished ? true : loopClosingFinished;
-    
-    // if (!localMappingFinished || !loopClosingFinished || isShuttingDown)
-    //     return;
-
-    // isShuttingDown = true;
-
-    cout << "Shutting kernels down...\n";
-
-    if (memory_is_initialized) {
-        // CudaKeyFrameStorage::shutdown();
-
-        if (fuseOnGPU == 1)
-            mpSearchAndFuseKernel->shutdown();
-    }
-
+    mpSearchByProjectionKernel->shutdown();
     CudaUtils::shutdown();
     cudaDeviceSynchronize();
 }
 
-void LoopClosingKernelController::saveKernelsStats(const std::string &file_path){
-
-    DEBUG_PRINT("Saving Kernels Stats");
-    
-    mpSearchAndFuseKernel->saveStats(file_path);
-}
 
 void LoopClosingKernelController::launchFuseKernel(
-    std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
-    std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
-    std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
-) {
+        std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
+        std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
+        std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
+    )
+{
 
-    DEBUG_PRINT("Launching Search and Fuse Kernel");
 
-    mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
+    return;
+
+}
+
+void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
+                                Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                Sophus::Sim3<float> &Scw1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+                                int &numProjMatches, int &numProjOptMatches)
+{
+
+    // SearchByProjectionKernel kernel;
+    // kernel.mergedlaunch(pKF, vpPoints,
+    //                     Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
+    //                     Scw1, vpMatched1, th1, ratioHamming1,
+    //                     numProjMatches, numProjOptMatches);
+    mpSearchByProjectionKernel->mergedlaunch(pKF, vpPoints,
+                        Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
+                        Scw1, vpMatched1, th1, ratioHamming1,
+                        numProjMatches, numProjOptMatches);
+
+    return;
+
 }

@@ -107,3 +107,5 @@ checkresults.py
 !Dockerfile
 
 average_times.csv
+
+Examples/test/*

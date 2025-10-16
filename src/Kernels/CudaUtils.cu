@@ -125,15 +125,10 @@ void CudaUtils::shutdown(){
 }
 
 __device__ int DescriptorDistance(const uint8_t *a, const uint8_t *b) {
-    printf("hello1\n");
     const int32_t *pa = reinterpret_cast<const int32_t*>(a);
-    printf("hello2\n");
     const int32_t *pb = reinterpret_cast<const int32_t*>(b);
-    printf("hello3\n");
     int dist = 0;
-    printf("hello4\n");
     for (int i = 0; i < DESCRIPTOR_SIZE / 4; i++, pa++, pb++) {
-        printf("hello5\n");
         unsigned int v = *pa ^ *pb;
         v = v - ((v >> 1) & 0x55555555);
         v = (v & 0x33333333) + ((v >> 2) & 0x33333333);

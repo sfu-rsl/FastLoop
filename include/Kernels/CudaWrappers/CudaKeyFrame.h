@@ -41,11 +41,10 @@ class CudaKeyFrame {
         float mfGridElementHeightInv;
         int mnGridCols;
         int mnGridRows;
-        float mThDepth;
-        float* mvDepth;
-        float mbf;
-
-        CudaKeyFrame* gpuAddr;
+        float fx;
+        float fy;
+        float cx;
+        float cy;
 
         size_t mapPointsId_size;
         long unsigned int* mapPointsId;
@@ -57,66 +56,18 @@ class CudaKeyFrame {
         const CudaKeyPoint *mvKeys, *mvKeysRight;
         CudaKeyPoint *mvKeysUn;
 
-        size_t mvuRight_size;
-        float* mvuRight;
-
-        size_t mvInvLevelSigma2_size;
-        float* mvInvLevelSigma2;
-
         int mDescriptor_rows;
         const uint8_t* mDescriptors;
 
         size_t flatMGrid_size[FRAME_GRID_COLS * FRAME_GRID_ROWS];
         std::size_t flatMGrid[FRAME_GRID_COLS * FRAME_GRID_ROWS * KEYPOINTS_PER_CELL];        
         
-        size_t flatMGridRight_size[FRAME_GRID_COLS * FRAME_GRID_ROWS];
-        std::size_t flatMGridRight[FRAME_GRID_COLS * FRAME_GRID_ROWS * KEYPOINTS_PER_CELL];
-
-        MAPPING_DATA_WRAPPER::CudaCamera camera1, camera2;
+        MAPPING_DATA_WRAPPER::CudaCamera camera1;
 
         int mFeatCount;
         unsigned int *mFeatVec;
         int *mFeatVecStartIndexes;
 };
 
-
-
-// namespace LOOP_CLOSING_DATA_WRAPPER {
-
-// #define KEYPOINTS_PER_CELL 20
-
-// class CudaKeyFrame {
-//     private:
-//         void initializeMemory();
-    
-//     public:
-//         CudaKeyFrame();
-//         void setMemory(ORB_SLAM3::KeyFrame &KF);
-//         void updateConnections();
-//         void addConnection(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF, const int &weight);
-//         void addChild(LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame* pKF);
-     
-//     public:
-//         long unsigned int mnId;
-
-//     private:
-//         CudaMapPoint* mvpMapPoints;
-//         long unsigned int mpMapId;
-//         long unsigned int mpMapInitKFid;
-//         bool mbBad;
-//         bool mbFirstConnection;
-
-//         std::map<LOOP_CLOSING_DATA_WRAPPER::CudaKeyFrame*,int> mConnectedKeyFrameWeights;
-        
-//         CudaKeyFrame* mvpOrderedConnectedKeyFrames;
-//         size_t mvpOrderedConnectedKeyFrames_size;
-
-//         int* mvOrderedWeights;
-//         size_t mvOrderedWeights_size;
-
-//         CudaKeyFrame* mpParent;
-    
-//     };
-// }
 
 #endif // CUDA_KEYFRAME_H
