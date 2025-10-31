@@ -67,6 +67,8 @@ class CudaKeyFrame {
         int mFeatCount;
         unsigned int *mFeatVec;
         int *mFeatVecStartIndexes;
+
+        long unsigned int *temp_mapPointsId;
 };
 
 

@@ -15,8 +15,22 @@ __global__ void kernelPrint(CudaKeyFrame* d_keyframe) {
 
 void CudaKeyFrame::initializeMemory(){
     DEBUG_PRINT("Allocating GPU memory For CudaKeyFrame...");
+    // cout << "Allocating GPU memory For CudaKeyFrame...\n";
 
-    // int nFeatures = CudaUtils::nFeatures_with_th;
+    size_t mapPointsId_size = 1500;
+    int nFeatures = CudaUtils::nFeatures_with_th;
+    
+    cudaMallocHost((void**)&temp_mapPointsId, mapPointsId_size * sizeof(long unsigned int));
+
+
+    cudaMalloc(&mapPointsId, mapPointsId_size * sizeof(long unsigned int));
+    cudaMalloc((void**)&mvScaleFactors, nFeatures * sizeof(float));
+    cudaMalloc((void**)&mDescriptors, 2 * nFeatures * DESCRIPTOR_SIZE * sizeof(uint8_t));
+    cudaMalloc((void**)&mvKeys, nFeatures * sizeof(CudaKeyPoint));
+    cudaMalloc((void**)&mvKeysRight, nFeatures * sizeof(CudaKeyPoint));
+    cudaMalloc((void**)&mvKeysUn, nFeatures * sizeof(CudaKeyPoint));
+
+    
     
     // bool cameraIsFisheye = CudaUtils::cameraIsFisheye;
 
@@ -70,9 +84,9 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
     
     const set<ORB_SLAM3::MapPoint*> spAlreadyFound = KF->GetMapPoints();
     mapPointsId_size = spAlreadyFound.size();
-    long unsigned int *temp_mapPointsId;
-    cudaMallocHost((void**)&temp_mapPointsId, mapPointsId_size * sizeof(long unsigned int));
-    cudaMalloc(&mapPointsId, mapPointsId_size * sizeof(long unsigned int));
+    // long unsigned int *temp_mapPointsId;
+    // cudaMallocHost((void**)&temp_mapPointsId, mapPointsId_size * sizeof(long unsigned int));
+    // cudaMalloc(&mapPointsId, mapPointsId_size * sizeof(long unsigned int));
     // std::vector<long unsigned int> temp_mapPointsId(mapPointsId_size);
     int i = 0;
     for (auto pMP : spAlreadyFound) {   // range-based loop
@@ -81,15 +95,14 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
             i++;
         }
     }
-    // checkCudaError(cudaMemcpy((void*) mapPointsId, temp_mapPointsId.data(), mapPointsId_size * sizeof(long unsigned int), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mapPointsId to gpu");
     cudaMemcpy(mapPointsId, temp_mapPointsId, mapPointsId_size * sizeof(long unsigned int), cudaMemcpyHostToDevice);
 
     mvScaleFactors_size = KF->mvScaleFactors.size();
-    cudaMalloc((void**)&mvScaleFactors, mvScaleFactors_size * sizeof(float));
+    // cudaMalloc((void**)&mvScaleFactors, mvScaleFactors_size * sizeof(float));
     checkCudaError(cudaMemcpy(mvScaleFactors, KF->mvScaleFactors.data(), mvScaleFactors_size * sizeof(float), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvScaleFactors to gpu");
     
     mDescriptor_rows = KF->mDescriptors.rows;
-    cudaMalloc((void**)&mDescriptors, KF->mDescriptors.rows * DESCRIPTOR_SIZE * sizeof(uint8_t));
+    // cudaMalloc((void**)&mDescriptors, KF->mDescriptors.rows * DESCRIPTOR_SIZE * sizeof(uint8_t));
     checkCudaError(cudaMemcpy((void*) mDescriptors, KF->mDescriptors.data,  KF->mDescriptors.rows * DESCRIPTOR_SIZE * sizeof(uint8_t), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mDescriptors to gpu"); 
     
     mvKeys_size = KF->mvKeys.size();
@@ -99,7 +112,7 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
         tmp_mvKeys[i].pty = KF->mvKeys[i].pt.y;
         tmp_mvKeys[i].octave = KF->mvKeys[i].octave;
     }
-    cudaMalloc((void**)&mvKeys, mvKeys_size * sizeof(CudaKeyPoint));
+    // cudaMalloc((void**)&mvKeys, mvKeys_size * sizeof(CudaKeyPoint));
     checkCudaError(cudaMemcpy((void*) mvKeys, tmp_mvKeys.data(), mvKeys_size * sizeof(CudaKeyPoint), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvKeys to gpu");
     
     mvKeysRight_size = KF->mvKeysRight.size();
@@ -109,7 +122,7 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
         tmp_mvKeysRight[i].pty = KF->mvKeysRight[i].pt.y;
         tmp_mvKeysRight[i].octave = KF->mvKeysRight[i].octave;
     }
-    cudaMalloc((void**)&mvKeysRight, mvKeysRight_size * sizeof(CudaKeyPoint));
+    // cudaMalloc((void**)&mvKeysRight, mvKeysRight_size * sizeof(CudaKeyPoint));
     checkCudaError(cudaMemcpy((void*) mvKeysRight, tmp_mvKeysRight.data(), mvKeysRight_size * sizeof(CudaKeyPoint), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvKeysRight to gpu");
     
     mvKeysUn_size = KF->mvKeysUn.size();
@@ -119,7 +132,7 @@ void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {
         tmp_mvKeysUn[i].pty = KF->mvKeysUn[i].pt.y;
         tmp_mvKeysUn[i].octave = KF->mvKeysUn[i].octave;
     }
-    cudaMalloc((void**)&mvKeysUn, mvKeysUn_size * sizeof(CudaKeyPoint));
+    // cudaMalloc((void**)&mvKeysUn, mvKeysUn_size * sizeof(CudaKeyPoint));
     checkCudaError(cudaMemcpy(mvKeysUn, tmp_mvKeysUn.data(), mvKeysUn_size * sizeof(CudaKeyPoint), cudaMemcpyHostToDevice), "CudaKeyFrame:: Failed to copy mvKeysUn to gpu");
 
     int keypoints_per_cell = CudaUtils::keypointsPerCell;
@@ -183,6 +196,7 @@ void CudaKeyFrame::copyFeatVec(unsigned int *out, int *outIndexes, DBoW2::Featur
 
 void CudaKeyFrame::freeMemory(){
     DEBUG_PRINT("Freeing GPU Memory For KeyFrame...");
+    cudaFreeHost(temp_mapPointsId);
     checkCudaError(cudaFree((void*)mapPointsId),"Failed to free keyframe memory: mapPointsId");
     checkCudaError(cudaFree((void*)mvScaleFactors),"Failed to free keyframe memory: mvScaleFactors");
     // checkCudaError(cudaFree((void*)mvInvLevelSigma2),"Failed to free keyframe memory: mvInvLevelSigma2");

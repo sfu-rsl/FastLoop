@@ -181,8 +181,11 @@ __global__ void searchAndFuseKernel(
 
 void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, float th,
                         std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
-                        vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs) {
+                        vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs)
+{
     
+    std::ofstream timing("./test/timing.txt", std::ios::app);
+
     if (!memory_is_initialized)
         initialize();
 
@@ -190,9 +193,7 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
     if (connectedKFSize == 0 || vpMapPoints.size() == 0)
         return;
 
-    std::ofstream timing("./test/timing.txt", std::ios::app);
-
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // auto start1 = std::chrono::high_resolution_clock::now();
     CudaKeyFrame* wrappedKeyFrames = new CudaKeyFrame[connectedKFSize];
     for (int i=0; i < connectedKFSize; i++){
         ORB_SLAM3::KeyFrame* pKF = connectedKFs[i];
@@ -200,9 +201,9 @@ void SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs,
         wrappedKeyFrames[i].setMemory(pKF);
         printf("------------- In CPU mnMinX: %f \n", pKF->mnMinX);
     }
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-    timing << "3 Prepare Wrapped CudaKeyFrames: " << elapsed1.count() << " ms" << std::endl;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // timing << "3 Prepare Wrapped CudaKeyFrames: " << elapsed1.count() << " ms" << std::endl;
 
 
     auto start2 = std::chrono::high_resolution_clock::now();
