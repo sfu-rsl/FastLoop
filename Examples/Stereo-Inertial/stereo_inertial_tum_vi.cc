@@ -30,6 +30,7 @@
 #include<Stats/LocalMappingStats.h>
 #include "Kernels/TrackingKernelController.h"
 #include "Kernels/MappingKernelController.h"
+#include "Kernels/LoopClosingKernelController.h"
 #include "ImuTypes.h"
 
 using namespace std;
@@ -85,6 +86,12 @@ int main(int argc, char **argv)
         MappingKernelController::setGPURunMode(searchForTriangulationEnabled, fuseEnabled, keyframeCullingEnabled, LBAEnabled);
     }
     
+    LoopClosingKernelController::activate();
+    bool mergedSearchByProjectionEnabled = true;
+    bool searchAndFuseEnabled = true;
+    bool singleSearchByProjectionEnabled = true;
+    LoopClosingKernelController::setGPURunMode(mergedSearchByProjectionEnabled, searchAndFuseEnabled, singleSearchByProjectionEnabled);
+
     argc-=3;
     const int num_seq = (argc-3)/4;
     cout << "num_seq = " << num_seq << endl;

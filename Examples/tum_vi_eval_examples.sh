@@ -3,9 +3,9 @@ pathDatasetTUM_VI=$HOME/Desktop/slam3/Datasets/tum-vi #Example, it is necesary t
 
 mode=$1
 fastmap_mode=$2
-seq_number=3
-dataset_name=room
-version=$4
+dataset_name=${3:-room}   # default to room
+seq_number=${4:-3}        # default to 3
+version=$5
 
 if [ "$mode" -eq 2 ]; then
     system_name='FastMap'

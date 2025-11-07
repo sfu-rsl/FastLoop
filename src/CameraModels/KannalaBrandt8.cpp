@@ -17,6 +17,7 @@
 */
 
 #include "KannalaBrandt8.h"
+#include <fstream>
 
 #include <boost/serialization/export.hpp>
 

@@ -533,9 +533,11 @@ namespace ORB_SLAM3
     {
         int nmatches=0;
 
-        if(false){
-            SearchByProjectionKernel kernel;
-            nmatches = kernel.launch2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
+        if(LoopClosingKernelController::singleSearchByProjectionOnGPU)
+        {
+            // SearchByProjectionKernel kernel;
+            // nmatches = kernel.launch2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
+            nmatches = LoopClosingKernelController::launchSingleSearchByProjectionKernel2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
         }
         else{
             // Get Calibration Parameters for later projection
@@ -1793,55 +1795,55 @@ namespace ORB_SLAM3
         auto start2 = std::chrono::high_resolution_clock::now();
 
         int nFused=0;
-        int numPoints = vpMapPoints.size();
-        int numConnectedKFs = connectedKFs.size();
-        vector<MapPoint*> validMapPoints;
-        int outSize = numPoints*numConnectedKFs; 
-        int bestDists[outSize];
-        int bestIdxs[outSize];
+        // int numPoints = vpMapPoints.size();
+        // int numConnectedKFs = connectedKFs.size();
+        // vector<MapPoint*> validMapPoints;
+        // int outSize = numPoints*numConnectedKFs; 
+        // int bestDists[outSize];
+        // int bestIdxs[outSize];
         
-        LoopClosingKernelController::launchSearchAndFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, validMapPoints, bestDists, bestIdxs);
+        nFused = LoopClosingKernelController::launchSearchAndFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, vpReplacePoints);
 
         auto end2 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-        // timing << "2 launchFuseKernel: " << elapsed2.count() << " ms" << std::endl;
+        timing << "2 ORBmatcher::GPUFuse: " << elapsed2.count() << " ms" << std::endl;
 
 
-        auto start = std::chrono::high_resolution_clock::now();
+        // auto start = std::chrono::high_resolution_clock::now();
 
-        int validMapPointsSize = validMapPoints.size();
+        // int validMapPointsSize = validMapPoints.size();
 
-        for (int iKF = 0; iKF < numConnectedKFs; iKF++) {
-            for (size_t iMP = 0; iMP < validMapPointsSize; iMP++) {
-                MapPoint* pMP = validMapPoints[iMP];
-                if (pMP->IsInKeyFrame(connectedKFs[iKF]))
-                    continue;
+        // for (int iKF = 0; iKF < numConnectedKFs; iKF++) {
+        //     for (size_t iMP = 0; iMP < validMapPointsSize; iMP++) {
+        //         MapPoint* pMP = validMapPoints[iMP];
+        //         if (pMP->IsInKeyFrame(connectedKFs[iKF]))
+        //             continue;
                 
-                int idx = iKF*validMapPointsSize + iMP; 
-                int bestDist = bestDists[idx];
-                int bestIdx = bestIdxs[idx];
+        //         int idx = iKF*validMapPointsSize + iMP; 
+        //         int bestDist = bestDists[idx];
+        //         int bestIdx = bestIdxs[idx];
 
-                if (bestDist == 256 || bestIdx == -1)
-                    continue;
+        //         if (bestDist == 256 || bestIdx == -1)
+        //             continue;
 
-                if (bestDist <= TH_LOW) {
-                    MapPoint* pMPinKF = connectedKFs[iKF]->GetMapPoint(bestIdx);
-                    if (pMPinKF) {
-                        if (!pMPinKF->isBad()) {
-                            vpReplacePoints[iMP] = pMPinKF;
-                        }
-                    }
-                    else{
-                        pMP->AddObservation(connectedKFs[iKF],bestIdx);
-                        connectedKFs[iKF]->AddMapPoint(pMP, bestIdx);
-                    }
-                    nFused++;
-                }
-            }
-        }
+                // if (bestDist <= TH_LOW) {
+        //             MapPoint* pMPinKF = connectedKFs[iKF]->GetMapPoint(bestIdx);
+        //             if (pMPinKF) {
+        //                 if (!pMPinKF->isBad()) {
+        //                     vpReplacePoints[iMP] = pMPinKF;
+        //                 }
+        //             }
+        //             else{
+        //                 pMP->AddObservation(connectedKFs[iKF],bestIdx);
+        //                 connectedKFs[iKF]->AddMapPoint(pMP, bestIdx);
+        //             }
+        //             nFused++;
+        //         }
+        //     }
+        // }
 
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> elapsed = end - start;
+        // auto end = std::chrono::high_resolution_clock::now();
+        // std::chrono::duration<double, std::milli> elapsed = end - start;
         // timing << "2 After launchFuseKernel: " << elapsed.count() << " ms" << std::endl;
 
         

@@ -114,8 +114,8 @@ namespace LOOP_CLOSING_DATA_WRAPPER
         }
         mnId = mp->mnId;
         mWorldPos = mp->GetWorldPos();
-        mfMaxDistance = mp->GetMaxDistanceInvariance();
-        mfMinDistance = mp->GetMinDistanceInvariance();
+        mfMaxDistance = mp->GetMaxDistance();
+        mfMinDistance = mp->GetMinDistance();
         mNormalVector = mp->GetNormal();
         const cv::Mat& descriptor = mp->GetDescriptor();
         std::memcpy(mDescriptor, descriptor.ptr<uint8_t>(0), descriptor.cols * sizeof(uint8_t));

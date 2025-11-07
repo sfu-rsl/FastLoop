@@ -14,36 +14,25 @@
 #define MAX_CONNECTED_KF_COUNT 100
 
 
-class SearchAndFuseKernel: public KernelInterface {
+class SearchAndFuseKernel{
 
     public:
-        SearchAndFuseKernel() { memory_is_initialized = false; 
-                       frameCounter = 0; };
-        void initialize() override;
-        void shutdown() override;
-        void launch() override { std::cout << "[SearchAndFuseKernel:] provide input for kernel launch.\n"; };
-        void launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
-                    std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
-                    vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs);
+        void initialize();
+        void shutdown();
+        int launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, float th,
+                std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints, vector<ORB_SLAM3::MapPoint*> &vpReplacePoints);
         void origFuse(ORB_SLAM3::KeyFrame *pKF, Sophus::Sim3f &Scw, const vector<ORB_SLAM3::MapPoint*> &vpPoints, const float th);
         int origDescriptorDistance(const cv::Mat &a, const cv::Mat &b);
-        void saveStats(const string &file_path) override;
 
     private:
         bool memory_is_initialized;
         int *d_bestDists, *d_bestIdxs;
-        CudaKeyFrame *d_connectedKFs;
-        // static CudaKeyFrame *d_keyframes, *h_keyframes;
-        LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *d_mapPoints;
-        Sophus::SE3f *d_Tcw;
-        Eigen::Vector3f *d_Ow;
+        int *bestDists, *bestIdxs;
+        LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
+        CudaKeyFrame *h_KeyFrames, *d_KeyFrames;
+        Eigen::Vector3f *h_Ow, *d_Ow;
+        Sophus::SE3f *h_Tcw, *d_Tcw;
 
-        std::vector<std::pair<long unsigned int, double>> input_data_wrap_time;
-        std::vector<std::pair<long unsigned int, double>> input_data_transfer_time;
-        std::vector<std::pair<long unsigned int, double>> kernel_exec_time;
-        std::vector<std::pair<long unsigned int, double>> output_data_transfer_time;
-        std::vector<std::pair<long unsigned int, double>> total_exec_time;
-        long unsigned int frameCounter;
 };
 
 #endif 

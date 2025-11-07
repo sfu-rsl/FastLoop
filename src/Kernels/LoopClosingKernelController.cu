@@ -6,32 +6,82 @@
 std::unique_ptr<SearchByProjectionKernel> LoopClosingKernelController::mpSearchByProjectionKernel = std::make_unique<SearchByProjectionKernel>();
 std::unique_ptr<SearchByBoWKernel> LoopClosingKernelController::mpSearchByBoWKernel = std::make_unique<SearchByBoWKernel>();
 std::unique_ptr<SearchAndFuseKernel> LoopClosingKernelController::mpSearchAndFuseKernel = std::make_unique<SearchAndFuseKernel>();
+bool LoopClosingKernelController::is_active = false;
+bool LoopClosingKernelController::mergedSearchByProjectionOnGPU;
+bool LoopClosingKernelController::searchAndFuseOnGPU;
+bool LoopClosingKernelController::singleSearchByProjectionOnGPU;
+bool LoopClosingKernelController::memory_is_initialized = false;
+
 
 __global__ void warmupKernel() {}
 
 
-void LoopClosingKernelController::shutdownKernels() {
-    mpSearchByProjectionKernel->shutdown();
-    mpSearchAndFuseKernel->shutdown();
-    mpSearchByBoWKernel->shutdown();
+void LoopClosingKernelController::activate()
+{
+    is_active = true;
+}
+
+
+void LoopClosingKernelController::setGPURunMode(bool _mergedSearchByProjectionEnabled, bool _searchAndFuseEnabled, bool _singleSearchByProjectionEnabled)
+{
+    mergedSearchByProjectionOnGPU = _mergedSearchByProjectionEnabled;
+    searchAndFuseOnGPU = _searchAndFuseEnabled;
+    singleSearchByProjectionOnGPU = _singleSearchByProjectionEnabled;
+}
+
+
+void LoopClosingKernelController::initializeKernels(){
+
+    cout << "Initializing Kernels...\n";
+    
+    // CudaKeyFrameStorage::initializeMemory();
+
+    // cudaKeyFramePtr = new CudaKeyFrame();
+
+    if (mergedSearchByProjectionOnGPU || singleSearchByProjectionOnGPU)
+        mpSearchByProjectionKernel->initialize();
+    
+    if (searchAndFuseOnGPU)
+        mpSearchAndFuseKernel->initialize();
+
+    checkCudaError(cudaDeviceSynchronize(), "[LoopClosing Kernel Controller:] Failed to initialize kernels.");
+    memory_is_initialized = true;
+}
+
+
+void LoopClosingKernelController::shutdownKernels()
+{
+    cout << "Shutting kernels down...\n";
+
+    if (memory_is_initialized) {
+        // CudaKeyFrameStorage::shutdown();
+        if (mergedSearchByProjectionOnGPU || singleSearchByProjectionOnGPU)
+            mpSearchByProjectionKernel->shutdown();
+        if (searchAndFuseOnGPU)
+            mpSearchAndFuseKernel->shutdown();
+        // mpSearchByBoWKernel->shutdown();
+    }
     CudaUtils::shutdown();
     cudaDeviceSynchronize();
 }
 
 
-void LoopClosingKernelController::launchSearchAndFuseKernel(
-        std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
-        std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,  
-        std::vector<ORB_SLAM3::MapPoint*> &validMapPoints, int* bestDists, int* bestIdxs
-    )
+int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
+                                            vector<ORB_SLAM3::MapPoint*> vpMapPoints, vector<ORB_SLAM3::MapPoint*> &vpReplacePoints)
 {
-
-    mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
-                        vpMapPoints,
-                        validMapPoints, bestDists, bestIdxs);
-    return;
-
+    std::ofstream timing("./test/timing.txt", std::ios::app);
+    auto start1 = std::chrono::high_resolution_clock::now();
+    
+    int nFused = mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
+                        vpMapPoints, vpReplacePoints);
+    
+    auto end1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    timing << "3 LoopClosingKernelController::launchSearchAndFuseKernel: " << elapsed1.count() << " ms" << std::endl;
+    
+    return nFused;
 }
+
 
 void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
                                 Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
@@ -50,8 +100,17 @@ void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyF
                         numProjMatches, numProjOptMatches);
 
     return;
+}
+
+
+int LoopClosingKernelController::launchSingleSearchByProjectionKernel2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw,
+                                const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
+                                std::vector<ORB_SLAM3::MapPoint*> &vpMatched, int th, float ratioHamming)
+{
+    return mpSearchByProjectionKernel->launch2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
 
 }
+
 
 int LoopClosingKernelController::launchSearchByBoWKernel(ORB_SLAM3::KeyFrame *pKF1, ORB_SLAM3::KeyFrame *pKF2, vector<ORB_SLAM3::MapPoint *> &vpMatches12)
 {
@@ -67,9 +126,4 @@ void LoopClosingKernelController::launchWarmUp()
     cudaDeviceSynchronize();
     std::cout << "[CUDA Warm-up] Completed GPU context initialization." << std::endl;
     return;
-
-    // std::thread([](){
-    //     cudaFree(0);
-    //     std::cout << "[CUDA Warm-up] GPU context initialized in background." << std::endl;
-    // }).detach();
 }
