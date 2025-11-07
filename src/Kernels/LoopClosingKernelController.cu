@@ -11,7 +11,7 @@ bool LoopClosingKernelController::mergedSearchByProjectionOnGPU;
 bool LoopClosingKernelController::searchAndFuseOnGPU;
 bool LoopClosingKernelController::singleSearchByProjectionOnGPU;
 bool LoopClosingKernelController::memory_is_initialized = false;
-
+CudaKeyFrame* LoopClosingKernelController::cudaKeyFramePtr;
 
 __global__ void warmupKernel() {}
 
@@ -34,9 +34,9 @@ void LoopClosingKernelController::initializeKernels(){
 
     cout << "Initializing Kernels...\n";
     
-    // CudaKeyFrameStorage::initializeMemory();
+    LoopClosingCudaKeyFrameStorage::initializeMemory();
 
-    // cudaKeyFramePtr = new CudaKeyFrame();
+    cudaKeyFramePtr = new CudaKeyFrame();
 
     if (mergedSearchByProjectionOnGPU || singleSearchByProjectionOnGPU)
         mpSearchByProjectionKernel->initialize();
@@ -54,7 +54,9 @@ void LoopClosingKernelController::shutdownKernels()
     cout << "Shutting kernels down...\n";
 
     if (memory_is_initialized) {
-        // CudaKeyFrameStorage::shutdown();
+        LoopClosingCudaKeyFrameStorage::shutdown();
+        cudaKeyFramePtr->freeMemory();
+        delete cudaKeyFramePtr;
         if (mergedSearchByProjectionOnGPU || singleSearchByProjectionOnGPU)
             mpSearchByProjectionKernel->shutdown();
         if (searchAndFuseOnGPU)

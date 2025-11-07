@@ -8,7 +8,7 @@ void SearchByProjectionKernel::initialize(){
     
     size_t mapPointVecSize = 1500;
     cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    cudaMallocHost((void**)&h_KeyFrame, sizeof(CudaKeyFrame));
+    // cudaMallocHost((void**)&h_KeyFrame, sizeof(CudaKeyFrame));
     cudaMallocHost((void**)&bestDists1, mapPointVecSize * sizeof(int));
     cudaMallocHost((void**)&bestIdxs1, mapPointVecSize * sizeof(int));
     cudaMallocHost((void**)&bestDists, mapPointVecSize * sizeof(int));
@@ -21,7 +21,7 @@ void SearchByProjectionKernel::initialize(){
     cudaMalloc(&d_bestDists, mapPointVecSize * sizeof(int));
     cudaMalloc(&d_bestIdxs, mapPointVecSize * sizeof(int));
 
-    *h_KeyFrame = CudaKeyFrame();
+    // *h_KeyFrame = CudaKeyFrame();
 
     memory_is_initialized = true;
 }
@@ -31,10 +31,10 @@ void SearchByProjectionKernel::shutdown() {
     if (!memory_is_initialized) 
         return;
 
-    h_KeyFrame->freeMemory();
+    // h_KeyFrame->freeMemory();
 
     cudaFreeHost(h_MapPoints);
-    cudaFreeHost(h_KeyFrame);
+    // cudaFreeHost(h_KeyFrame);
     cudaFreeHost(bestDists1);
     cudaFreeHost(bestIdxs1);
     cudaFreeHost(bestDists);
@@ -796,11 +796,21 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
     }
 
     // *h_KeyFrame = CudaKeyFrame();
-    h_KeyFrame->setMemory(pKF);
+    // h_KeyFrame->setMemory(pKF);
 
     cudaMemcpy(d_MapPoints, h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
+    // cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
 
+    d_KeyFrame = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
+    if (d_KeyFrame == nullptr){
+        cout << "Not evailable " << pKF->mnId << std::endl;
+        d_KeyFrame = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
+    }
+    else{
+        cout << "Evailable " << pKF->mnId << std::endl;
+    }
+
+    
     int threads = 256;
     int blocks = (mapPointVecSize + threads - 1) / threads;
     searchByProjectionKernel2<<<blocks, threads>>>(Ow, Tcw,

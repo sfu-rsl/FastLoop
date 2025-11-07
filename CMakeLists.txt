@@ -113,6 +113,7 @@ src/Kernels/TrackingKernelController.cu
 src/Kernels/MappingKernelController.cu
 src/Kernels/LoopClosingKernelController.cu
 src/Kernels/CudaKeyFrameStorage.cu
+src/Kernels/LoopClosingCudaKeyFrameStorage.cu
 src/Kernels/FuseKernel.cu
 src/Kernels/SearchAndFuseKernel.cu
 src/Kernels/SearchByProjectionKernel.cu
@@ -174,6 +175,7 @@ include/Kernels/TrackingKernelController.h
 include/Kernels/MappingKernelController.h
 include/Kernels/LoopClosingKernelController.h
 include/Kernels/CudaKeyFrameStorage.h
+include/Kernels/LoopClosingCudaKeyFrameStorage.h
 )
 
 set_target_properties( ${PROJECT_NAME}

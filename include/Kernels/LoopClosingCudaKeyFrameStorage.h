@@ -1,0 +1,34 @@
+#ifndef LOOP_CLOSING_CUDA_KEYFRAME_STORAGE_H
+#define LOOP_CLOSING_CUDA_KEYFRAME_STORAGE_H
+
+
+#include <vector>
+#include "KeyFrame.h"
+#include "CudaUtils.h"
+#include "CudaWrappers/CudaKeyFrame.h"
+#include <mutex>
+#include <queue>
+
+#define CUDA_KEYFRAME_STORAGE_SIZE 1000
+
+using ckd_buffer_index_t = int;
+
+
+class LoopClosingCudaKeyFrameStorage {
+    public:
+        static void initializeMemory();
+        static CudaKeyFrame* addCudaKeyFrame(ORB_SLAM3::KeyFrame* KF);
+        static CudaKeyFrame* getCudaKeyFrame(long unsigned int mnId);
+        static void shutdown();
+
+    public:
+        static CudaKeyFrame *d_keyframes, *h_keyframes;
+        static int num_keyframes;
+        static bool memory_is_initialized;
+        static ckd_buffer_index_t first_free_idx;
+        static std::queue<ckd_buffer_index_t> free_idx;
+        static std::unordered_map<long unsigned int, ckd_buffer_index_t> mnId_to_idx; 
+
+};
+
+#endif

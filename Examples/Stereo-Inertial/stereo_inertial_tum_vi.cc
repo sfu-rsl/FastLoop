@@ -85,10 +85,10 @@ int main(int argc, char **argv)
         
         MappingKernelController::setGPURunMode(searchForTriangulationEnabled, fuseEnabled, keyframeCullingEnabled, LBAEnabled);
     }
-    
+
     LoopClosingKernelController::activate();
-    bool mergedSearchByProjectionEnabled = true;
-    bool searchAndFuseEnabled = true;
+    bool mergedSearchByProjectionEnabled = false;
+    bool searchAndFuseEnabled = false;
     bool singleSearchByProjectionEnabled = true;
     LoopClosingKernelController::setGPURunMode(mergedSearchByProjectionEnabled, searchAndFuseEnabled, singleSearchByProjectionEnabled);
 

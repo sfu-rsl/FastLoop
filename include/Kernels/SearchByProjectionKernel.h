@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CudaWrappers/CudaMapPoint.h"
 #include "CudaWrappers/CudaKeyFrame.h"
+#include "LoopClosingCudaKeyFrameStorage.h"
 #include "CudaUtils.h"
 #include "CameraModels/GeometricCamera.h"
 #include <Eigen/Core>

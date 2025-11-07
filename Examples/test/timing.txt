@@ -1,469 +1,145 @@
+# SearchByProjection: 1.25239 ms
+# SearchByProjection: 1.17799 ms
+# SearchByProjection: 1.12602 ms
 Bad Loop
-*************** LoopClosing: 9.52233 ms
+*************** LoopClosing: 13.0254 ms
+# SearchByProjection: 1.60814 ms
+# SearchByProjection: 1.48858 ms
+# SearchByProjection: 2.38788 ms
 Bad Loop
-*************** LoopClosing: 9.67123 ms
-Bad Loop
-*************** LoopClosing: 11.2121 ms
-Search and Fuse(Part 9): 5.74207 ms
-Optimize Essential Graph(Part 11): 23.4331 ms
+*************** LoopClosing: 17.4858 ms
+# SearchByProjection: 1.60711 ms
+# SearchByProjection: 1.5654 ms
+# SearchByProjection: 1.57878 ms
+Search and Fuse(Part 9): 4.73555 ms
+Optimize Essential Graph(Part 11): 12.8013 ms
 Good Loop
-*************** LoopClosing: 44.9026 ms
-Bad Loop
-*************** LoopClosing: 10.4715 ms
+*************** LoopClosing: 40.7234 ms
 --------------------------------------------------------
-Search and Fuse(Part 9): 6.05379 ms
-Optimize Essential Graph(Part 11): 16.2594 ms
+# SearchByProjection: 1.51338 ms
+# SearchByProjection: 1.1077 ms
+# SearchByProjection: 1.20509 ms
+Bad Loop
+*************** LoopClosing: 14.4163 ms
+# SearchByProjection: 0.953288 ms
+# SearchByProjection: 1.04733 ms
+# SearchByProjection: 1.19975 ms
+Bad Loop
+*************** LoopClosing: 12.3855 ms
+# SearchByProjection: 1.3423 ms
+# SearchByProjection: 0.971616 ms
+# SearchByProjection: 0.968961 ms
+Bad Loop
+*************** LoopClosing: 11.9227 ms
+# SearchByProjection: 1.23388 ms
+# SearchByProjection: 1.07169 ms
+# SearchByProjection: 1.06474 ms
+Bad Loop
+*************** LoopClosing: 13.6527 ms
+# SearchByProjection: 1.1602 ms
+# SearchByProjection: 1.01857 ms
+# SearchByProjection: 0.999929 ms
+Bad Loop
+*************** LoopClosing: 12.369 ms
+# SearchByProjection: 1.48015 ms
+# SearchByProjection: 1.31488 ms
+# SearchByProjection: 1.08068 ms
+Bad Loop
+*************** LoopClosing: 12.5438 ms
+# SearchByProjection: 1.35903 ms
+# SearchByProjection: 1.22967 ms
+# SearchByProjection: 0.891998 ms
+Bad Loop
+*************** LoopClosing: 13.2559 ms
+# SearchByProjection: 0.908861 ms
+# SearchByProjection: 0.953831 ms
+# SearchByProjection: 0.871905 ms
+Bad Loop
+*************** LoopClosing: 10.3954 ms
+# SearchByProjection: 0.729444 ms
+# SearchByProjection: 0.695864 ms
+# SearchByProjection: 0.682495 ms
+Bad Loop
+*************** LoopClosing: 9.97599 ms
+# SearchByProjection: 1.03493 ms
+# SearchByProjection: 0.988758 ms
+# SearchByProjection: 0.989214 ms
+Bad Loop
+*************** LoopClosing: 12.0621 ms
+# SearchByProjection: 0.847963 ms
+# SearchByProjection: 0.804194 ms
+# SearchByProjection: 0.78569 ms
+Bad Loop
+*************** LoopClosing: 12.0295 ms
+# SearchByProjection: 1.18428 ms
+# SearchByProjection: 1.10824 ms
+# SearchByProjection: 1.09922 ms
+Bad Loop
+*************** LoopClosing: 10.7629 ms
+# SearchByProjection: 1.1311 ms
+# SearchByProjection: 1.07791 ms
+# SearchByProjection: 1.02152 ms
+Bad Loop
+*************** LoopClosing: 12.1225 ms
+# SearchByProjection: 1.15424 ms
+# SearchByProjection: 0.831692 ms
+# SearchByProjection: 0.829646 ms
+Bad Loop
+*************** LoopClosing: 10.259 ms
+# SearchByProjection: 0.862884 ms
+# SearchByProjection: 0.801347 ms
+# SearchByProjection: 0.799577 ms
+Search and Fuse(Part 9): 3.95219 ms
+Optimize Essential Graph(Part 11): 23.6457 ms
 Good Loop
-*************** LoopClosing: 39.1645 ms
+*************** LoopClosing: 43.1473 ms
+# SearchByProjection: 1.01628 ms
+# SearchByProjection: 0.896805 ms
+# SearchByProjection: 0.941012 ms
+Bad Loop
+*************** LoopClosing: 17.6409 ms
+# SearchByProjection: 1.11942 ms
+# SearchByProjection: 1.03457 ms
+# SearchByProjection: 1.25123 ms
+Bad Loop
+*************** LoopClosing: 13.893 ms
+# SearchByProjection: 7.39646 ms
+# SearchByProjection: 1.04762 ms
+# SearchByProjection: 1.01016 ms
+Bad Loop
+*************** LoopClosing: 18.751 ms
+# SearchByProjection: 0.870737 ms
+# SearchByProjection: 1.07288 ms
+# SearchByProjection: 1.02641 ms
+Bad Loop
+*************** LoopClosing: 11.2262 ms
+# SearchByProjection: 0.921337 ms
+# SearchByProjection: 1.13473 ms
+# SearchByProjection: 1.06712 ms
+# SearchByProjection: 0.941454 ms
+# SearchByProjection: 0.861106 ms
+# SearchByProjection: 0.85948 ms
+Bad Loop
+*************** LoopClosing: 34.5195 ms
+# SearchByProjection: 0.83493 ms
+# SearchByProjection: 1.04391 ms
+# SearchByProjection: 0.782979 ms
+Bad Loop
+*************** LoopClosing: 14.4004 ms
 --------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 8.52785 ms
-Bad Loop
-*************** LoopClosing: 8.18865 ms
-Bad Loop
-*************** LoopClosing: 8.30945 ms
-Bad Loop
-*************** LoopClosing: 16.3338 ms
-Bad Loop
-*************** LoopClosing: 10.4323 ms
-Bad Loop
-*************** LoopClosing: 8.20444 ms
-Bad Loop
-*************** LoopClosing: 7.01902 ms
-Bad Loop
-*************** LoopClosing: 8.2416 ms
-Search and Fuse(Part 9): 4.50171 ms
-Optimize Essential Graph(Part 11): 24.6245 ms
+# SearchByProjection: 1.70815 ms
+# SearchByProjection: 1.46932 ms
+# SearchByProjection: 1.65196 ms
+Search and Fuse(Part 9): 6.04886 ms
+Optimize Essential Graph(Part 11): 13.3929 ms
 Good Loop
-*************** LoopClosing: 44.4463 ms
-Bad Loop
-*************** LoopClosing: 19.006 ms
-Bad Loop
-*************** LoopClosing: 11.3056 ms
+*************** LoopClosing: 43.2944 ms
 --------------------------------------------------------
---------------------------------------------------------
-Search and Fuse(Part 9): 4.81052 ms
-Optimize Essential Graph(Part 11): 14.759 ms
+# SearchByProjection: 1.72123 ms
+# SearchByProjection: 1.68942 ms
+# SearchByProjection: 1.50811 ms
+Search and Fuse(Part 9): 4.85723 ms
+Optimize Essential Graph(Part 11): 19.6262 ms
 Good Loop
-*************** LoopClosing: 35.8649 ms
---------------------------------------------------------
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 12.7993 ms
-Bad Loop
-*************** LoopClosing: 9.0429 ms
-Bad Loop
-*************** LoopClosing: 10.5308 ms
-? Initialization: 0.000167 ms
-? h_Tcw: 0.00066 ms
-? h_MapPoints: 0.614878 ms
-? h_KeyFrames: 1.89168 ms
-? cudaMemcpy: 0.970753 ms
-? main Kernel: 0.27736 ms
-? cudaMemcpy Back: 0.030057 ms
-? result: 0.624912 ms
-Search and Fuse(Part 9): 7.24553 ms
-Optimize Essential Graph(Part 11): 24.2198 ms
-Good Loop
-*************** LoopClosing: 50.3721 ms
-Bad Loop
-*************** LoopClosing: 9.31828 ms
-? Initialization: 0.000186 ms
-? h_Tcw: 0.001194 ms
-? h_MapPoints: 0.534594 ms
-? h_KeyFrames: 4.99444 ms
-? cudaMemcpy: 1.99258 ms
-? main Kernel: 0.297543 ms
-? cudaMemcpy Back: 0.04552 ms
-? result: 1.16912 ms
-Search and Fuse(Part 9): 13.6542 ms
-Optimize Essential Graph(Part 11): 23.9456 ms
-Good Loop
-*************** LoopClosing: 65.0007 ms
---------------------------------------------------------
-
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 8.76081 ms
-? Initialization: 0.000205 ms
-? h_Tcw: 0.000973 ms
-? h_MapPoints: 0.774397 ms
-? h_KeyFrames: 1.79247 ms
-? cudaMemcpy: 1.05319 ms
-? main Kernel: 0.283807 ms
-? cudaMemcpy Back: 0.030119 ms
-? result: 0.443594 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 4.56488 ms
-2 ORBmatcher::GPUFuse: 4.57154 ms
-1 LoopClosing::GPUSearchAndFuse: 4.57798 ms
-Search and Fuse(Part 9): 6.12443 ms
-Optimize Essential Graph(Part 11): 14.0608 ms
-Good Loop
-*************** LoopClosing: 39.1947 ms
---------------------------------------------------------
-? Initialization: 0.00026 ms
-? h_Tcw: 0.000905 ms
-? h_MapPoints: 0.926462 ms
-? h_KeyFrames: 1.90692 ms
-? cudaMemcpy: 0.948772 ms
-? main Kernel: 0.305573 ms
-? cudaMemcpy Back: 0.035533 ms
-? result: 0.870997 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 5.23396 ms
-2 ORBmatcher::GPUFuse: 5.24543 ms
-1 LoopClosing::GPUSearchAndFuse: 5.25451 ms
-Search and Fuse(Part 9): 7.30563 ms
-Optimize Essential Graph(Part 11): 18.3762 ms
-Good Loop
-*************** LoopClosing: 44.5545 ms
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 8.15546 ms
-Bad Loop
-*************** LoopClosing: 8.01328 ms
-Bad Loop
-*************** LoopClosing: 14.8742 ms
-Bad Loop
-*************** LoopClosing: 12.0221 ms
-? Initialization: 7.2e-05 ms
-? h_Tcw: 0.000458 ms
-? h_MapPoints: 0.515593 ms
-? h_KeyFrames: 1.26242 ms
-? cudaMemcpy: 0.94921 ms
-? main Kernel: 0.283028 ms
-? cudaMemcpy Back: 0.029468 ms
-? result: 0.540035 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 3.64434 ms
-2 ORBmatcher::GPUFuse: 3.66251 ms
-1 LoopClosing::GPUSearchAndFuse: 3.66968 ms
-Search and Fuse(Part 9): 5.58759 ms
-Optimize Essential Graph(Part 11): 44.2075 ms
-Good Loop
-*************** LoopClosing: 76.6614 ms
-? Initialization: 0.000139 ms
-? h_Tcw: 0.000927 ms
-? h_MapPoints: 0.577799 ms
-? h_KeyFrames: 3.00085 ms
-? cudaMemcpy: 1.93164 ms
-? main Kernel: 0.288409 ms
-? cudaMemcpy Back: 0.057602 ms
-? result: 0.904472 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 6.8065 ms
-2 ORBmatcher::GPUFuse: 6.81224 ms
-1 LoopClosing::GPUSearchAndFuse: 6.81689 ms
-Search and Fuse(Part 9): 9.7175 ms
-Optimize Essential Graph(Part 11): 48.5091 ms
-Good Loop
-*************** LoopClosing: 89.8049 ms
-Bad Loop
-*************** LoopClosing: 10.8214 ms
-Bad Loop
-*************** LoopClosing: 10.26 ms
-? Initialization: 0.000184 ms
-? h_Tcw: 0.001265 ms
-? h_MapPoints: 0.527875 ms
---------------------------------------------------------
---------------------------------------------------------
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 10.0146 ms
-Bad Loop
-*************** LoopClosing: 9.85779 ms
-Bad Loop
-*************** LoopClosing: 10.3471 ms
-Bad Loop
-*************** LoopClosing: 8.46144 ms
-? Initialization: 5.3e-05 ms
-? h_Tcw: 0.000645 ms
-? h_MapPoints: 0.478158 ms
-? h_KeyFrames: 0.92871 ms
-? cudaMemcpy: 0.844861 ms
-? main Kernel: 0.261853 ms
-? cudaMemcpy Back: 0.02572 ms
-? result: 0.279593 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 2.86393 ms
-2 ORBmatcher::GPUFuse: 2.86995 ms
-1 LoopClosing::GPUSearchAndFuse: 2.87581 ms
-Search and Fuse(Part 9): 3.86579 ms
-Optimize Essential Graph(Part 11): 26.9804 ms
-Good Loop
-*************** LoopClosing: 49.2443 ms
-Bad Loop
-*************** LoopClosing: 12.0039 ms
-Bad Loop
-*************** LoopClosing: 11.3215 ms
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 10.1134 ms
-? Initialization: 6e-05 ms
-? h_Tcw: 0.000346 ms
-? h_MapPoints: 0.351765 ms
-? h_KeyFrames: 0.961911 ms
-? cudaMemcpy: 0.882996 ms
-? main Kernel: 0.260466 ms
-? cudaMemcpy Back: 0.025309 ms
-? result: 0.259473 ms
-3 LoopClosingKernelController::launchSearchAndFuseKernel: 6.0502 ms
-2 ORBmatcher::GPUFuse: 6.05516 ms
-1 LoopClosing::GPUSearchAndFuse: 6.06003 ms
-Search and Fuse(Part 9): 6.98781 ms
-Optimize Essential Graph(Part 11): 24.613 ms
-Good Loop
-*************** LoopClosing: 44.7964 ms
-Bad Loop
-*************** LoopClosing: 11.6196 ms
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 11.3093 ms
-Bad Loop
-*************** LoopClosing: 13.3376 ms
-Bad Loop
-*************** LoopClosing: 11.6827 ms
-Search and Fuse(Part 9): 6.88257 ms
-Optimize Essential Graph(Part 11): 13.282 ms
-Good Loop
-*************** LoopClosing: 39.0606 ms
---------------------------------------------------------
-Bad Loop
-*************** LoopClosing: 38.2943 ms
-Bad Loop
-*************** LoopClosing: 18.4324 ms
-Bad Loop
-*************** LoopClosing: 22.2929 ms
-Bad Loop
-*************** LoopClosing: 22.8635 ms
-Search and Fuse(Part 9): 10.1399 ms
-Optimize Essential Graph(Part 11): 16.0461 ms
-Good Loop
-*************** LoopClosing: 51.718 ms
-Bad Loop
-*************** LoopClosing: 14.9339 ms
-Bad Loop
-*************** LoopClosing: 17.285 ms
-Search and Fuse(Part 9): 6.6478 ms
-Optimize Essential Graph(Part 11): 16.0144 ms
-Good Loop
-*************** LoopClosing: 50.0407 ms
---------------------------------------------------------
---------------------------------------------------------
-# SearchByProjection: 1.73747 ms
-# SearchByProjection: 1.69385 ms
-# SearchByProjection: 1.67573 ms
-Bad Loop
-*************** LoopClosing: 14.1688 ms
-# SearchByProjection: 1.72686 ms
-# SearchByProjection: 1.83556 ms
-# SearchByProjection: 2.35892 ms
-Bad Loop
-*************** LoopClosing: 14.5875 ms
-# SearchByProjection: 2.00122 ms
-# SearchByProjection: 2.08675 ms
-# SearchByProjection: 2.08248 ms
-Search and Fuse(Part 9): 11.6282 ms
-Optimize Essential Graph(Part 11): 13.5379 ms
-Good Loop
-*************** LoopClosing: 47.5282 ms
---------------------------------------------------------
-# SearchByProjection: 1.14045 ms
-# SearchByProjection: 1.12555 ms
-# SearchByProjection: 1.11347 ms
-Bad Loop
-*************** LoopClosing: 11.5854 ms
-# SearchByProjection: 1.35972 ms
-# SearchByProjection: 1.23323 ms
-# SearchByProjection: 1.23357 ms
-Bad Loop
-*************** LoopClosing: 13.2593 ms
-# SearchByProjection: 1.41241 ms
-# SearchByProjection: 1.32711 ms
-# SearchByProjection: 1.60189 ms
-Bad Loop
-*************** LoopClosing: 13.2881 ms
-# SearchByProjection: 1.46281 ms
-# SearchByProjection: 1.53873 ms
-# SearchByProjection: 1.45837 ms
-Bad Loop
-*************** LoopClosing: 13.1198 ms
-# SearchByProjection: 1.40922 ms
-# SearchByProjection: 1.31967 ms
-# SearchByProjection: 1.2733 ms
-Bad Loop
-*************** LoopClosing: 13.5249 ms
-# SearchByProjection: 1.34011 ms
-# SearchByProjection: 1.2634 ms
-# SearchByProjection: 1.26976 ms
-Search and Fuse(Part 9): 9.52762 ms
-Optimize Essential Graph(Part 11): 14.8198 ms
-Good Loop
-*************** LoopClosing: 45.3635 ms
---------------------------------------------------------
-# SearchByProjection: 0.504041 ms
-# SearchByProjection: 0.523375 ms
-# SearchByProjection: 0.47288 ms
-Bad Loop
-*************** LoopClosing: 9.67846 ms
-# SearchByProjection: 0.507037 ms
-# SearchByProjection: 0.48408 ms
-# SearchByProjection: 0.45826 ms
-Bad Loop
-*************** LoopClosing: 9.7372 ms
-# SearchByProjection: 0.401376 ms
-# SearchByProjection: 0.414233 ms
-# SearchByProjection: 0.36995 ms
-Bad Loop
-*************** LoopClosing: 11.7922 ms
-# SearchByProjection: 0.503387 ms
-# SearchByProjection: 0.463394 ms
-# SearchByProjection: 0.407215 ms
-Bad Loop
-*************** LoopClosing: 10.1183 ms
-# SearchByProjection: 0.461299 ms
-# SearchByProjection: 0.48872 ms
-# SearchByProjection: 0.452819 ms
-Bad Loop
-*************** LoopClosing: 10.004 ms
-# SearchByProjection: 0.379225 ms
-# SearchByProjection: 0.4077 ms
-# SearchByProjection: 0.393057 ms
-Bad Loop
-*************** LoopClosing: 9.16877 ms
-# SearchByProjection: 0.348685 ms
-# SearchByProjection: 0.336973 ms
-# SearchByProjection: 0.306806 ms
-Bad Loop
-*************** LoopClosing: 7.92035 ms
-# SearchByProjection: 0.416548 ms
-# SearchByProjection: 0.385549 ms
-# SearchByProjection: 0.407114 ms
-Bad Loop
-*************** LoopClosing: 8.94981 ms
-# SearchByProjection: 0.563308 ms
-# SearchByProjection: 0.515712 ms
-# SearchByProjection: 0.489806 ms
-Bad Loop
-*************** LoopClosing: 11.7335 ms
-# SearchByProjection: 0.424544 ms
-# SearchByProjection: 0.472314 ms
-# SearchByProjection: 0.436915 ms
-Bad Loop
-*************** LoopClosing: 12.9044 ms
-# SearchByProjection: 0.461005 ms
-# SearchByProjection: 0.486424 ms
-# SearchByProjection: 0.526115 ms
-# SearchByProjection: 0.344691 ms
-# SearchByProjection: 0.382034 ms
-# SearchByProjection: 0.73707 ms
-Bad Loop
-*************** LoopClosing: 19.4727 ms
-# SearchByProjection: 0.437331 ms
-# SearchByProjection: 0.46796 ms
-# SearchByProjection: 0.496806 ms
-# SearchByProjection: 0.347308 ms
-# SearchByProjection: 0.360602 ms
-# SearchByProjection: 0.373152 ms
-Bad Loop
-*************** LoopClosing: 17.9649 ms
-# SearchByProjection: 0.370786 ms
-# SearchByProjection: 0.377507 ms
-# SearchByProjection: 0.380664 ms
-Search and Fuse(Part 9): 3.58927 ms
-Optimize Essential Graph(Part 11): 24.3698 ms
-Good Loop
-*************** LoopClosing: 40.3349 ms
-# SearchByProjection: 0.425803 ms
-# SearchByProjection: 0.43555 ms
-# SearchByProjection: 0.418588 ms
-Bad Loop
-*************** LoopClosing: 10.1013 ms
-# SearchByProjection: 0.400558 ms
-# SearchByProjection: 0.383908 ms
-# SearchByProjection: 0.376365 ms
-Search and Fuse(Part 9): 8.67682 ms
-Optimize Essential Graph(Part 11): 25.0856 ms
-Good Loop
-*************** LoopClosing: 56.911 ms
---------------------------------------------------------
-# SearchByProjection: 0.425591 ms
-# SearchByProjection: 0.365323 ms
-# SearchByProjection: 0.3407 ms
-Bad Loop
-*************** LoopClosing: 9.07285 ms
-# SearchByProjection: 0.480865 ms
-# SearchByProjection: 0.492966 ms
-# SearchByProjection: 0.505476 ms
-Search and Fuse(Part 9): 4.92572 ms
-Optimize Essential Graph(Part 11): 18.4418 ms
-Good Loop
-*************** LoopClosing: 41.0594 ms
---------------------------------------------------------
-# SearchByProjection: 0.412732 ms
-# SearchByProjection: 0.409082 ms
-# SearchByProjection: 0.604512 ms
-Bad Loop
-*************** LoopClosing: 17.1236 ms
-# SearchByProjection: 0.415652 ms
-# SearchByProjection: 0.451667 ms
-# SearchByProjection: 0.445127 ms
-Bad Loop
-*************** LoopClosing: 8.55501 ms
-# SearchByProjection: 0.503687 ms
-# SearchByProjection: 0.764116 ms
-# SearchByProjection: 0.71007 ms
-Bad Loop
-*************** LoopClosing: 10.5295 ms
-# SearchByProjection: 0.46418 ms
-# SearchByProjection: 0.415728 ms
-# SearchByProjection: 0.435905 ms
-Search and Fuse(Part 9): 5.31315 ms
-Optimize Essential Graph(Part 11): 18.0147 ms
-Good Loop
-*************** LoopClosing: 41.8603 ms
---------------------------------------------------------
-# SearchByProjection: 0.464622 ms
-# SearchByProjection: 0.438799 ms
-# SearchByProjection: 0.413032 ms
-Bad Loop
-*************** LoopClosing: 9.45188 ms
-# SearchByProjection: 0.518762 ms
-# SearchByProjection: 0.472766 ms
-# SearchByProjection: 0.49469 ms
-Bad Loop
-*************** LoopClosing: 9.18724 ms
-# SearchByProjection: 0.449422 ms
-# SearchByProjection: 0.479563 ms
-# SearchByProjection: 0.469343 ms
-Bad Loop
-*************** LoopClosing: 9.28922 ms
-# SearchByProjection: 0.415397 ms
-# SearchByProjection: 0.444037 ms
-# SearchByProjection: 0.460116 ms
-Bad Loop
-*************** LoopClosing: 9.59473 ms
-# SearchByProjection: 0.424347 ms
-# SearchByProjection: 0.414113 ms
-# SearchByProjection: 0.734432 ms
-Bad Loop
-*************** LoopClosing: 8.91787 ms
-# SearchByProjection: 0.393964 ms
-# SearchByProjection: 0.375431 ms
-# SearchByProjection: 0.376495 ms
-Bad Loop
-*************** LoopClosing: 8.17687 ms
-# SearchByProjection: 0.416005 ms
-# SearchByProjection: 0.4008 ms
-# SearchByProjection: 0.460645 ms
-Bad Loop
-*************** LoopClosing: 9.67798 ms
-# SearchByProjection: 0.385419 ms
-# SearchByProjection: 0.354013 ms
-# SearchByProjection: 0.340618 ms
-Bad Loop
-*************** LoopClosing: 11.6124 ms
-# SearchByProjection: 0.386757 ms
-# SearchByProjection: 0.428141 ms
-# SearchByProjection: 0.482607 ms
-Search and Fuse(Part 9): 5.04496 ms
-Optimize Essential Graph(Part 11): 18.9175 ms
-Good Loop
-*************** LoopClosing: 41.5312 ms
+*************** LoopClosing: 44.1535 ms
 --------------------------------------------------------

@@ -58,7 +58,7 @@ CudaKeyFrame::CudaKeyFrame() {
 }
 
 void CudaKeyFrame::setGPUAddress(CudaKeyFrame* ptr) {
-    // gpuAddr = ptr;
+    gpuAddr = ptr;
 }
 
 void CudaKeyFrame::setMemory(ORB_SLAM3::KeyFrame* KF) {

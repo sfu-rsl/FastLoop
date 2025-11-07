@@ -69,6 +69,8 @@ class CudaKeyFrame {
         int *mFeatVecStartIndexes;
 
         long unsigned int *temp_mapPointsId;
+
+        CudaKeyFrame* gpuAddr;
 };
 
 
