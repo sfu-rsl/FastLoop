@@ -5,7 +5,7 @@
 #include <iostream>
 #include "CudaWrappers/CudaMapPoint.h"
 #include "CudaWrappers/CudaKeyFrame.h"
-// #include "CudaKeyFrameStorage.h"
+#include "LoopClosingCudaKeyFrameStorage.h"
 #include "CudaUtils.h"
 #include "CameraModels/GeometricCamera.h"
 #include <Eigen/Core>
@@ -29,7 +29,7 @@ class SearchAndFuseKernel{
         int *d_bestDists, *d_bestIdxs;
         int *bestDists, *bestIdxs;
         LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
-        CudaKeyFrame *h_KeyFrames, *d_KeyFrames;
+        CudaKeyFrame **h_KeyFrames, **d_KeyFrames;
         Eigen::Vector3f *h_Ow, *d_Ow;
         Sophus::SE3f *h_Tcw, *d_Tcw;
 

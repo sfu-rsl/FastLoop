@@ -1,145 +1,223 @@
-# SearchByProjection: 1.25239 ms
-# SearchByProjection: 1.17799 ms
-# SearchByProjection: 1.12602 ms
+Run room3
 Bad Loop
-*************** LoopClosing: 13.0254 ms
-# SearchByProjection: 1.60814 ms
-# SearchByProjection: 1.48858 ms
-# SearchByProjection: 2.38788 ms
+*************** LoopClosing: 11.3518 ms
 Bad Loop
-*************** LoopClosing: 17.4858 ms
-# SearchByProjection: 1.60711 ms
-# SearchByProjection: 1.5654 ms
-# SearchByProjection: 1.57878 ms
-Search and Fuse(Part 9): 4.73555 ms
-Optimize Essential Graph(Part 11): 12.8013 ms
+*************** LoopClosing: 13.5974 ms
+Bad Loop
+*************** LoopClosing: 10.6856 ms
 Good Loop
-*************** LoopClosing: 40.7234 ms
+*************** LoopClosing: 45.4901 ms
 --------------------------------------------------------
-# SearchByProjection: 1.51338 ms
-# SearchByProjection: 1.1077 ms
-# SearchByProjection: 1.20509 ms
 Bad Loop
-*************** LoopClosing: 14.4163 ms
-# SearchByProjection: 0.953288 ms
-# SearchByProjection: 1.04733 ms
-# SearchByProjection: 1.19975 ms
+*************** LoopClosing: 10.2686 ms
 Bad Loop
-*************** LoopClosing: 12.3855 ms
-# SearchByProjection: 1.3423 ms
-# SearchByProjection: 0.971616 ms
-# SearchByProjection: 0.968961 ms
+*************** LoopClosing: 11.6945 ms
 Bad Loop
-*************** LoopClosing: 11.9227 ms
-# SearchByProjection: 1.23388 ms
-# SearchByProjection: 1.07169 ms
-# SearchByProjection: 1.06474 ms
+*************** LoopClosing: 10.9754 ms
 Bad Loop
-*************** LoopClosing: 13.6527 ms
-# SearchByProjection: 1.1602 ms
-# SearchByProjection: 1.01857 ms
-# SearchByProjection: 0.999929 ms
+*************** LoopClosing: 15.7165 ms
 Bad Loop
-*************** LoopClosing: 12.369 ms
-# SearchByProjection: 1.48015 ms
-# SearchByProjection: 1.31488 ms
-# SearchByProjection: 1.08068 ms
+*************** LoopClosing: 24.7745 ms
 Bad Loop
-*************** LoopClosing: 12.5438 ms
-# SearchByProjection: 1.35903 ms
-# SearchByProjection: 1.22967 ms
-# SearchByProjection: 0.891998 ms
-Bad Loop
-*************** LoopClosing: 13.2559 ms
-# SearchByProjection: 0.908861 ms
-# SearchByProjection: 0.953831 ms
-# SearchByProjection: 0.871905 ms
-Bad Loop
-*************** LoopClosing: 10.3954 ms
-# SearchByProjection: 0.729444 ms
-# SearchByProjection: 0.695864 ms
-# SearchByProjection: 0.682495 ms
-Bad Loop
-*************** LoopClosing: 9.97599 ms
-# SearchByProjection: 1.03493 ms
-# SearchByProjection: 0.988758 ms
-# SearchByProjection: 0.989214 ms
-Bad Loop
-*************** LoopClosing: 12.0621 ms
-# SearchByProjection: 0.847963 ms
-# SearchByProjection: 0.804194 ms
-# SearchByProjection: 0.78569 ms
-Bad Loop
-*************** LoopClosing: 12.0295 ms
-# SearchByProjection: 1.18428 ms
-# SearchByProjection: 1.10824 ms
-# SearchByProjection: 1.09922 ms
-Bad Loop
-*************** LoopClosing: 10.7629 ms
-# SearchByProjection: 1.1311 ms
-# SearchByProjection: 1.07791 ms
-# SearchByProjection: 1.02152 ms
-Bad Loop
-*************** LoopClosing: 12.1225 ms
-# SearchByProjection: 1.15424 ms
-# SearchByProjection: 0.831692 ms
-# SearchByProjection: 0.829646 ms
-Bad Loop
-*************** LoopClosing: 10.259 ms
-# SearchByProjection: 0.862884 ms
-# SearchByProjection: 0.801347 ms
-# SearchByProjection: 0.799577 ms
-Search and Fuse(Part 9): 3.95219 ms
-Optimize Essential Graph(Part 11): 23.6457 ms
+*************** LoopClosing: 15.1065 ms
 Good Loop
-*************** LoopClosing: 43.1473 ms
-# SearchByProjection: 1.01628 ms
-# SearchByProjection: 0.896805 ms
-# SearchByProjection: 0.941012 ms
+*************** LoopClosing: 82.4035 ms
 Bad Loop
-*************** LoopClosing: 17.6409 ms
-# SearchByProjection: 1.11942 ms
-# SearchByProjection: 1.03457 ms
-# SearchByProjection: 1.25123 ms
+*************** LoopClosing: 21.6052 ms
 Bad Loop
-*************** LoopClosing: 13.893 ms
-# SearchByProjection: 7.39646 ms
-# SearchByProjection: 1.04762 ms
-# SearchByProjection: 1.01016 ms
+*************** LoopClosing: 19.2082 ms
 Bad Loop
-*************** LoopClosing: 18.751 ms
-# SearchByProjection: 0.870737 ms
-# SearchByProjection: 1.07288 ms
-# SearchByProjection: 1.02641 ms
-Bad Loop
-*************** LoopClosing: 11.2262 ms
-# SearchByProjection: 0.921337 ms
-# SearchByProjection: 1.13473 ms
-# SearchByProjection: 1.06712 ms
-# SearchByProjection: 0.941454 ms
-# SearchByProjection: 0.861106 ms
-# SearchByProjection: 0.85948 ms
-Bad Loop
-*************** LoopClosing: 34.5195 ms
-# SearchByProjection: 0.83493 ms
-# SearchByProjection: 1.04391 ms
-# SearchByProjection: 0.782979 ms
-Bad Loop
-*************** LoopClosing: 14.4004 ms
+*************** LoopClosing: 15.7396 ms
 --------------------------------------------------------
-# SearchByProjection: 1.70815 ms
-# SearchByProjection: 1.46932 ms
-# SearchByProjection: 1.65196 ms
-Search and Fuse(Part 9): 6.04886 ms
-Optimize Essential Graph(Part 11): 13.3929 ms
-Good Loop
-*************** LoopClosing: 43.2944 ms
+Bad Loop
+*************** LoopClosing: 11.1145 ms
+Bad Loop
+*************** LoopClosing: 12.8404 ms
+Bad Loop
+*************** LoopClosing: 12.368 ms
+Bad Loop
+*************** LoopClosing: 9.55404 ms
+Bad Loop
+*************** LoopClosing: 17.0875 ms
+Bad Loop
+*************** LoopClosing: 9.34327 ms
+Bad Loop
+*************** LoopClosing: 17.0899 ms
+Bad Loop
+*************** LoopClosing: 24.6175 ms
+Bad Loop
+*************** LoopClosing: 14.3494 ms
+Bad Loop
+*************** LoopClosing: 13.2566 ms
+Bad Loop
+*************** LoopClosing: 25.6762 ms
+Bad Loop
+*************** LoopClosing: 16.8041 ms
+Bad Loop
+*************** LoopClosing: 16.0587 ms
+Bad Loop
+*************** LoopClosing: 15.5224 ms
+Bad Loop
+*************** LoopClosing: 12.2501 ms
 --------------------------------------------------------
-# SearchByProjection: 1.72123 ms
-# SearchByProjection: 1.68942 ms
-# SearchByProjection: 1.50811 ms
-Search and Fuse(Part 9): 4.85723 ms
-Optimize Essential Graph(Part 11): 19.6262 ms
+Bad Loop
+*************** LoopClosing: 9.25891 ms
+Bad Loop
+*************** LoopClosing: 10.2517 ms
+Bad Loop
+*************** LoopClosing: 9.83037 ms
+Bad Loop
+*************** LoopClosing: 15.7247 ms
+Bad Loop
+*************** LoopClosing: 31.9206 ms
 Good Loop
-*************** LoopClosing: 44.1535 ms
+*************** LoopClosing: 80.1305 ms
+Bad Loop
+*************** LoopClosing: 16.0431 ms
+Bad Loop
+*************** LoopClosing: 21.4879 ms
+Bad Loop
+*************** LoopClosing: 10.6509 ms
+Bad Loop
+*************** LoopClosing: 11.7468 ms
+Bad Loop
+*************** LoopClosing: 11.8609 ms
+Bad Loop
+*************** LoopClosing: 16.8766 ms
+Good Loop
+*************** LoopClosing: 78.777 ms
+--------------------------------------------------------
+Bad Loop
+*************** LoopClosing: 10.1775 ms
+Bad Loop
+*************** LoopClosing: 10.1419 ms
+Bad Loop
+*************** LoopClosing: 9.83762 ms
+Good Loop
+*************** LoopClosing: 52.7666 ms
+Bad Loop
+*************** LoopClosing: 13.836 ms
+Good Loop
+*************** LoopClosing: 66.9985 ms
+Bad Loop
+*************** LoopClosing: 11.229 ms
+Good Loop
+*************** LoopClosing: 61.7693 ms
+--------------------------------------------------------
+--------------------------------------------------------
+Bad Loop
+*************** LoopClosing: 11.8586 ms
+Good Loop
+*************** LoopClosing: 40.8881 ms
+--------------------------------------------------------
+Run room4
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run room5
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run room6
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run corridor1
+Bad Loop
+*************** LoopClosing: 12.8843 ms
+Bad Loop
+*************** LoopClosing: 15.5691 ms
+Bad Loop
+*************** LoopClosing: 13.7447 ms
+Bad Loop
+*************** LoopClosing: 15.4666 ms
+Bad Loop
+*************** LoopClosing: 16.4496 ms
+Bad Loop
+*************** LoopClosing: 15.5207 ms
+Bad Loop
+*************** LoopClosing: 15.6107 ms
+Bad Loop
+*************** LoopClosing: 12.4527 ms
+Bad Loop
+*************** LoopClosing: 12.7343 ms
+Good Loop
+*************** LoopClosing: 278.601 ms
+--------------------------------------------------------
+--------------------------------------------------------
+Bad Loop
+*************** LoopClosing: 11.8226 ms
+Bad Loop
+*************** LoopClosing: 11.6316 ms
+Bad Loop
+*************** LoopClosing: 17.2184 ms
+Bad Loop
+*************** LoopClosing: 13.0093 ms
+Good Loop
+*************** LoopClosing: 293.838 ms
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run corridor2
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run corridor3
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run corridor4
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run corridor5
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+Run magistrale1
+Bad Loop
+*************** LoopClosing: 9.64693 ms
+Bad Loop
+*************** LoopClosing: 7.49097 ms
+Run magistrale2
+Bad Loop
+*************** LoopClosing: 11.1831 ms
+Run magistrale3
+Run outdoors1
+Run outdoors2
+Run outdoors3
+Run outdoors4
+Run outdoors5
+Run outdoors6
+Run outdoors7
 --------------------------------------------------------

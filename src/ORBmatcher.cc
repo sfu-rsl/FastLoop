@@ -1806,7 +1806,7 @@ namespace ORB_SLAM3
 
         auto end2 = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-        timing << "2 ORBmatcher::GPUFuse: " << elapsed2.count() << " ms" << std::endl;
+        // timing << "2 ORBmatcher::GPUFuse: " << elapsed2.count() << " ms" << std::endl;
 
 
         // auto start = std::chrono::high_resolution_clock::now();

@@ -25,10 +25,10 @@ void SearchAndFuseKernel::initialize()
     cudaMalloc(&d_bestDists, connectedKFSize * mapPointVecSize * sizeof(int));
     cudaMalloc(&d_bestIdxs, connectedKFSize * mapPointVecSize * sizeof(int));
 
-    for (int i=0; i < connectedKFSize; i++)
-    {
-        h_KeyFrames[i] = CudaKeyFrame();
-    }
+    // for (int i=0; i < connectedKFSize; i++)
+    // {
+    //     h_KeyFrames[i] = CudaKeyFrame();
+    // }
 
     memory_is_initialized = true;
 }
@@ -38,11 +38,11 @@ void SearchAndFuseKernel::shutdown()
     if (!memory_is_initialized) 
         return;
 
-    size_t connectedKFSize = 30;
-    for (int i=0; i < connectedKFSize; i++)
-    {
-        h_KeyFrames[i].freeMemory();
-    }
+    // size_t connectedKFSize = 30;
+    // for (int i=0; i < connectedKFSize; i++)
+    // {
+    //     h_KeyFrames[i].freeMemory();
+    // }
 
     cudaFreeHost(h_MapPoints);
     cudaFreeHost(h_KeyFrames);
@@ -97,7 +97,7 @@ __device__ int predictScale1(float currentDist, float maxDistance, CudaKeyFrame*
 }
 
 __global__ void searchAndFuseKernel(Eigen::Vector3f* Ow, Sophus::SE3f *Tcw, 
-                            CudaKeyFrame* connectedKFs, LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint* mapPoints,
+                            CudaKeyFrame** connectedKFs, LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint* mapPoints,
                             int chunkNumKFs, int totalNumKFs, int baseKFIdx, int numPoints, float th,
                             int* bestDists, int* bestIdxs) 
 {
@@ -114,7 +114,7 @@ __global__ void searchAndFuseKernel(Eigen::Vector3f* Ow, Sophus::SE3f *Tcw,
     bestIdxs[idx] = -1;
 
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[mapPointIdx];
-    CudaKeyFrame *connectedKF = &connectedKFs[connectedKFIdx];
+    CudaKeyFrame *connectedKF = connectedKFs[connectedKFIdx];
 
     for (int i = 0; i < connectedKF->mapPointsId_size; ++i) {
         if (connectedKF->mapPointsId[i] == pMP.mnId) {
@@ -233,7 +233,7 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
         initialize();
     auto end1 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-    timing << "? Initialization: " << elapsed1.count() << " ms" << std::endl;
+    // timing << "? Initialization: " << elapsed1.count() << " ms" << std::endl;
 
     const int TH_LOW = 50;
     int numValidPoints = 0;
@@ -270,7 +270,7 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     }
     auto end2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-    timing << "? h_Tcw: " << elapsed2.count() << " ms" << std::endl;
+    // timing << "? h_Tcw: " << elapsed2.count() << " ms" << std::endl;
 
     auto start3 = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < mapPointVecSize; i++) {
@@ -284,18 +284,26 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     }
     auto end3 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
-    timing << "? h_MapPoints: " << elapsed3.count() << " ms" << std::endl;
+    // timing << "? h_MapPoints: " << elapsed3.count() << " ms" << std::endl;
     // cout << "numValidPoints: " << numValidPoints << std::endl;
 
     auto start4 = std::chrono::high_resolution_clock::now();
     for (int i=0; i < connectedKFSize; i++){
         ORB_SLAM3::KeyFrame* pKF = connectedKFs[i];
         // h_KeyFrames[i] = CudaKeyFrame();
-        h_KeyFrames[i].setMemory(pKF);
+        // h_KeyFrames[i].setMemory(pKF);
+        h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
+        if (h_KeyFrames[i] == nullptr){
+            // timing << "No " << pKF->mnId << std::endl;
+            h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
+        }
+        // else{
+        //     timing << "Yes " << pKF->mnId << std::endl;
+        // }
     }
     auto end4 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
-    timing << "? h_KeyFrames: " << elapsed4.count() << " ms" << std::endl;
+    // timing << "? h_KeyFrames fuse: " << elapsed4.count() << " ms" << std::endl;
 
     auto start5 = std::chrono::high_resolution_clock::now();
     checkCudaError(cudaMemcpy(d_MapPoints, h_MapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice), "Failed to copy h_MapPoints to host");
@@ -304,7 +312,7 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     checkCudaError(cudaMemcpy(d_Tcw, h_Tcw, connectedKFSize * sizeof(Sophus::SE3f), cudaMemcpyHostToDevice), "Failed to copy h_Tcw to host");
     auto end5 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
-    timing << "? cudaMemcpy: " << elapsed5.count() << " ms" << std::endl;
+    // timing << "? cudaMemcpy: " << elapsed5.count() << " ms" << std::endl;
 
     int threads = 256;
     int blocks = (connectedKFSize * numValidPoints + threads - 1) / threads;
@@ -316,14 +324,14 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     cudaDeviceSynchronize();
     auto end6 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-    timing << "? main Kernel: " << elapsed6.count() << " ms" << std::endl;
+    // timing << "? main Kernel: " << elapsed6.count() << " ms" << std::endl;
 
     auto start7 = std::chrono::high_resolution_clock::now();
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * connectedKFSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host");
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * connectedKFSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
     auto end7 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
-    timing << "? cudaMemcpy Back: " << elapsed7.count() << " ms" << std::endl;
+    // timing << "? cudaMemcpy Back: " << elapsed7.count() << " ms" << std::endl;
 
     cudaError_t err = cudaGetLastError();
     if (err != cudaSuccess) {
@@ -385,7 +393,7 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     }
     auto end8 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
-    timing << "? result: " << elapsed8.count() << " ms" << std::endl;
+    // timing << "? result: " << elapsed8.count() << " ms" << std::endl;
 
 
     return nFused;
@@ -434,6 +442,8 @@ void SearchAndFuseKernel::origFuse(ORB_SLAM3::KeyFrame *pKF, Sophus::Sim3f &Scw,
             continue;
         
         validMapPointCounter++;
+
+        // cpuOutFile << "idx: " << validMapPointCounter << ", pMP.mnId: " << pMP->mnId << ", keyframe.mnId: " << pKF->mnId << std::endl;
 
         // Get 3D Coords.
         Eigen::Vector3f p3Dw = pMP->GetWorldPos();

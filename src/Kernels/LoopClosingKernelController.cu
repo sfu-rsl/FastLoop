@@ -79,7 +79,7 @@ int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::Key
     
     auto end1 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-    timing << "3 LoopClosingKernelController::launchSearchAndFuseKernel: " << elapsed1.count() << " ms" << std::endl;
+    // timing << "3 LoopClosingKernelController::launchSearchAndFuseKernel: " << elapsed1.count() << " ms" << std::endl;
     
     return nFused;
 }
