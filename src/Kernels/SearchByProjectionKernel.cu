@@ -858,23 +858,23 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
         printf("CUDA error: %s\n", cudaGetErrorString(err));
     }
 
-    std::ofstream gpuOutFile("./test/GPU-Side.txt", std::ios::app);
-    gpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
+    // std::ofstream gpuOutFile("./test/GPU-Side.txt", std::ios::app);
+    // gpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
     
-    std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
-    cpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
+    // std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
+    // cpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
         
-    for (int i = 0; i < numValidPoints; i++) {
-        if(bestDists[i] != 256)
-            gpuOutFile << "(i: " << i << ", bestDist: " << bestDists[i] << ", bestIdx: " << bestIdxs[i] << ")\n";
-    }
-    gpuOutFile << "\n\n";
+    // for (int i = 0; i < numValidPoints; i++) {
+    //     if(bestDists[i] != 256)
+    //         gpuOutFile << "(i: " << i << ", bestDist: " << bestDists[i] << ", bestIdx: " << bestIdxs[i] << ")\n";
+    // }
+    // gpuOutFile << "\n\n";
     
-    // cout << "************ CPU Side ************\n";
-    origSearchByProjection2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
+    // // cout << "************ CPU Side ************\n";
+    // origSearchByProjection2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
 
-    gpuOutFile << "**********************************************************\n";
-    cpuOutFile << "**********************************************************\n";
+    // gpuOutFile << "**********************************************************\n";
+    // cpuOutFile << "**********************************************************\n";
 
     auto start8 = std::chrono::high_resolution_clock::now();
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
@@ -1007,19 +1007,19 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     auto start7 = std::chrono::high_resolution_clock::now();
     // cudaStream_t stream;
     // cudaStreamCreate(&stream);
-    cudaMemcpy(d_MapPoints, h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice); //todo2
+    cudaMemcpy(d_MapPoints, h_MapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice); //todo2
     // cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
     auto end7 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
     // timing << "? cudaMemcpy: " << elapsed7.count() << " ms" << std::endl;
 
     int threads = 256;
-    int blocks = (mapPointVecSize + threads - 1) / threads;
+    int blocks = (numValidPoints + threads - 1) / threads;
 
     auto start75 = std::chrono::high_resolution_clock::now();
     mergedSearchByProjectionKernel<<<blocks, threads>>>(Ow1, Tcw1, Ow, Tcw,
                                         d_KeyFrame, d_MapPoints, 
-                                        mapPointVecSize, th1, th, 
+                                        numValidPoints, th1, th, 
                                         d_bestDists1, d_bestIdxs1, d_bestDists, d_bestIdxs);
     
     cudaDeviceSynchronize(); // ensure kernel errors propagate
@@ -1028,10 +1028,10 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // timing << "? Merged Kernel 1: " << elapsed75.count() << " ms" << "\n";
 
     auto start8 = std::chrono::high_resolution_clock::now();
-    checkCudaError(cudaMemcpy(bestDists1, d_bestDists1, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo3
-    checkCudaError(cudaMemcpy(bestIdxs1, d_bestIdxs1, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo4
-    checkCudaError(cudaMemcpy(bestDists, d_bestDists, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo5
-    checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo6
+    checkCudaError(cudaMemcpy(bestDists1, d_bestDists1, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo3
+    checkCudaError(cudaMemcpy(bestIdxs1, d_bestIdxs1, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo4
+    checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo5
+    checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo6
     auto end8 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
     // timing << "? back cudaMemcpy: " << elapsed8.count() << " ms" << std::endl;
@@ -1065,7 +1065,6 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // }
     // gpuOutFile << "\n\n";
 
-    // cout << "************ CPU Side ************\n";
     // origSearchByProjection(pKF, Scw, vpPoints, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming);
     // origSearchByProjection2(pKF, Scw1, vpPoints, vpMatched1, th1, ratioHamming1);
 
@@ -1073,27 +1072,42 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // cpuOutFile << "**********************************************************\n";
 
     auto start10 = std::chrono::high_resolution_clock::now();
+    // cout << "mapPointVecSize: " << mapPointVecSize << ", numValidPoints: " << numValidPoints << std::endl;
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
         ORB_SLAM3::KeyFrame* pKFi = vpPointsKFs[iMP];
-        int bestDist1 = bestDists1[iMP];
-        int bestIdx1 = bestIdxs1[iMP];
         int bestDist = bestDists[iMP];
         int bestIdx = bestIdxs[iMP];
 
-        if (bestDist1 == 256 || bestIdx1 == -1)
+        if (!pMP || pMP->isBad() )//|| spAlreadyFound1.count(pMP)) //todo1
             continue;
+
         if (bestDist == 256 || bestIdx == -1)
             continue;
 
-        if (bestDist1 <= TH_LOW*ratioHamming1) {
-            vpMatched1[bestIdx1] = pMP;
-            numProjOptMatches++;
-        }
         if (bestDist <= TH_LOW*ratioHamming) {
+            // cout << "(i: " << iMP << ", bestDist: " << bestDists[iMP] << ", bestIdx: " << bestIdxs[iMP] << ")\n";
             vpMatched[bestIdx] = pMP;
             vpMatchedKF[bestIdx] = pKFi;
             numProjMatches++;
+        }
+    }
+    for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
+        ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
+        int bestDist1 = bestDists1[iMP];
+        int bestIdx1 = bestIdxs1[iMP];
+
+        if (!pMP || pMP->isBad() )//|| spAlreadyFound1.count(pMP)) //todo1
+            continue;
+
+        if (bestDist1 == 256 || bestIdx1 == -1)
+            continue;
+        
+        if (bestDist1 <= TH_LOW*ratioHamming1) {
+            // cout << "(i: " << iMP << ", bestDist1: " << bestDists1[iMP] << ", bestIdx1: " << bestIdxs1[iMP] << ")\n";
+            vpMatched1[bestIdx1] = pMP;
+            numProjOptMatches++;
+            // cout << "numProjOptMatches: " << numProjOptMatches << std::endl;
         }
     }
     auto end10 = std::chrono::high_resolution_clock::now();
@@ -1321,8 +1335,8 @@ void SearchByProjectionKernel::origSearchByProjection2(ORB_SLAM3::KeyFrame* pKF,
         for(vector<size_t>::const_iterator vit=vIndices.begin(), vend=vIndices.end(); vit!=vend; vit++)
         {
             const size_t idx = *vit;
-            // if(vpMatched[idx])
-            //     continue;
+            if(vpMatched[idx])
+                continue;
 
             const int &kpLevel= pKF->mvKeysUn[idx].octave;
             // cpuOutFile << "Host: idx = " << validMapPointCounter << ", id = " << pMP->mnId << ", kpLevel = " << kpLevel << endl;
