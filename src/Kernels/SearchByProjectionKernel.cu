@@ -863,24 +863,33 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
     
     // std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
     // cpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
-        
+    
+    // const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+
     // for (int i = 0; i < numValidPoints; i++) {
+    //     ORB_SLAM3::MapPoint* pMP = vpPoints[i];
+    //     if(spAlreadyFound.count(pMP))
+    //             continue;
+
     //     if(bestDists[i] != 256)
     //         gpuOutFile << "(i: " << i << ", bestDist: " << bestDists[i] << ", bestIdx: " << bestIdxs[i] << ")\n";
     // }
     // gpuOutFile << "\n\n";
     
-    // // cout << "************ CPU Side ************\n";
     // origSearchByProjection2(pKF, Scw, vpPoints, vpMatched, th, ratioHamming);
 
     // gpuOutFile << "**********************************************************\n";
     // cpuOutFile << "**********************************************************\n";
 
     auto start8 = std::chrono::high_resolution_clock::now();
+    const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
         int bestDist = bestDists[iMP];
         int bestIdx = bestIdxs[iMP];
+
+        if(spAlreadyFound.count(pMP))
+                continue;
 
         if (bestDist == 256 || bestIdx == -1)
             continue;
@@ -1004,13 +1013,13 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
     // timing << "? h_KeyFrame Merged: " << elapsed6.count() << " ms" << std::endl;
 
-    auto start7 = std::chrono::high_resolution_clock::now();
+    // auto start7 = std::chrono::high_resolution_clock::now();
     // cudaStream_t stream;
     // cudaStreamCreate(&stream);
     cudaMemcpy(d_MapPoints, h_MapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice); //todo2
     // cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
-    auto end7 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
+    // auto end7 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
     // timing << "? cudaMemcpy: " << elapsed7.count() << " ms" << std::endl;
 
     int threads = 256;
@@ -1053,13 +1062,25 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // std::ofstream cpuOutFile("./test/CPU-Side.txt", std::ios::app);
     // cpuOutFile << "\n\n////////////////////////////////////////// Current KF: " << pKF->mnId << " //////////////////////////////////////////" << endl;
         
+    // const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+
     // for (int i = 0; i < numValidPoints; i++) {
+    //     ORB_SLAM3::MapPoint* pMP = vpMapPoints[i];
+        
+    //     if(spAlreadyFound.count(pMP))
+    //             continue;
+
     //     if(bestDists[i] != 256)
     //         gpuOutFile << "(i: " << i << ", bestDist: " << bestDists[i] << ", bestIdx: " << bestIdxs[i] << ")\n";
     // }
     // gpuOutFile << "\n\n";
     
     // for (int i = 0; i < numValidPoints; i++) {
+    //     ORB_SLAM3::MapPoint* pMP = vpMapPoints[i];
+        
+    //     if(spAlreadyFound.count(pMP))
+    //             continue;
+    
     //     if(bestDists1[i] != 256)
     //         gpuOutFile << "(i: " << i << ", bestDist1: " << bestDists1[i] << ", bestIdx1: " << bestIdxs1[i] << ")\n";
     // }
@@ -1071,47 +1092,46 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // gpuOutFile << "**********************************************************\n";
     // cpuOutFile << "**********************************************************\n";
 
-    auto start10 = std::chrono::high_resolution_clock::now();
-    // cout << "mapPointVecSize: " << mapPointVecSize << ", numValidPoints: " << numValidPoints << std::endl;
+    // auto start10 = std::chrono::high_resolution_clock::now();
+    const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
         ORB_SLAM3::KeyFrame* pKFi = vpPointsKFs[iMP];
         int bestDist = bestDists[iMP];
         int bestIdx = bestIdxs[iMP];
 
-        if (!pMP || pMP->isBad() )//|| spAlreadyFound1.count(pMP)) //todo1
+        if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
             continue;
 
         if (bestDist == 256 || bestIdx == -1)
             continue;
 
         if (bestDist <= TH_LOW*ratioHamming) {
-            // cout << "(i: " << iMP << ", bestDist: " << bestDists[iMP] << ", bestIdx: " << bestIdxs[iMP] << ")\n";
             vpMatched[bestIdx] = pMP;
             vpMatchedKF[bestIdx] = pKFi;
             numProjMatches++;
         }
     }
+
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
         int bestDist1 = bestDists1[iMP];
         int bestIdx1 = bestIdxs1[iMP];
 
-        if (!pMP || pMP->isBad() )//|| spAlreadyFound1.count(pMP)) //todo1
+        if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
             continue;
 
         if (bestDist1 == 256 || bestIdx1 == -1)
             continue;
         
         if (bestDist1 <= TH_LOW*ratioHamming1) {
-            // cout << "(i: " << iMP << ", bestDist1: " << bestDists1[iMP] << ", bestIdx1: " << bestIdxs1[iMP] << ")\n";
             vpMatched1[bestIdx1] = pMP;
             numProjOptMatches++;
-            // cout << "numProjOptMatches: " << numProjOptMatches << std::endl;
         }
     }
-    auto end10 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
+    // auto end10 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
     // timing << "? result: " << elapsed10.count() << " ms" << std::endl;
     
     // auto start11 = std::chrono::high_resolution_clock::now();

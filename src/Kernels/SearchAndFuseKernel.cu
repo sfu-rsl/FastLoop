@@ -116,11 +116,11 @@ __global__ void searchAndFuseKernel(Eigen::Vector3f* Ow, Sophus::SE3f *Tcw,
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[mapPointIdx];
     CudaKeyFrame *connectedKF = connectedKFs[connectedKFIdx];
 
-    for (int i = 0; i < connectedKF->mapPointsId_size; ++i) {
-        if (connectedKF->mapPointsId[i] == pMP.mnId) {
-            return;
-        }
-    }
+    // for (int i = 0; i < connectedKF->mapPointsId_size; ++i) {
+    //     if (connectedKF->mapPointsId[i] == pMP.mnId) {
+    //         return;
+    //     }
+    // }
 
     Sophus::SE3f currTcw = Tcw[connectedKFIdx];
     Eigen::Vector3f currOw = Ow[connectedKFIdx];
@@ -363,10 +363,15 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     int nFused = 0;
     for (int iKF = 0; iKF < connectedKFSize; iKF++)
     {
+        const set<ORB_SLAM3::MapPoint*> spAlreadyFound = connectedKFs[iKF]->GetMapPoints();
+
         for (int iMP = 0; iMP < numValidPoints; iMP++)
         {
             ORB_SLAM3::MapPoint* pMP = vpMapPoints[iMP];
             if (!pMP || pMP->isBad())
+                continue;
+
+            if(spAlreadyFound.count(pMP))
                 continue;
             
             int idx = iKF*numValidPoints + iMP;
