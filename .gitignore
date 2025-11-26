@@ -90,22 +90,13 @@ my_settings.txt
 
 borrar/*
 
-*/ExecMean.txt
-
 Examples/*.csv
 Examples/*.png
+Examples/*.txt
+Examples/test/*
 
-Examples/123456789example.txt
-Examples/eval_log.txt
-Examples/example.txt
-Examples/run_100_times.sh
-
-plot.py
-KFCulling_dist.py
-sort.py
-checkresults.py
 !Dockerfile
 
 average_times.csv
-
-Examples/test/*
+average_results.py
+generate_table.py

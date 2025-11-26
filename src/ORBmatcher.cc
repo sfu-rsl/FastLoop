@@ -1517,7 +1517,7 @@ namespace ORB_SLAM3
         return nFused;
     }
 
-    int ORBmatcher::GPUFuse(KeyFrame *neighKF, KeyFrame *currKF, const float th, const bool bRight)
+    int ORBmatcher::GPUFuse(KeyFrame *neighKF, const vector<MapPoint*> &vpMapPoints, const float th, const bool bRight)
     {
         GeometricCamera* pCamera;
         Sophus::SE3f Tcw;
@@ -1542,13 +1542,12 @@ namespace ORB_SLAM3
 
         int nFused = 0;
         
-        vector<MapPoint*> vpMapPoints = currKF->GetMapPointMatches();
         int numPoints = vpMapPoints.size();
         vector<MapPoint*> validMapPoints;
         int bestDists[numPoints];
         int bestIdxs[numPoints];
 
-        MappingKernelController::launchFuseKernel(neighKF, currKF, th,  bRight, pCamera, Tcw, Ow, validMapPoints, bestDists, bestIdxs);
+        MappingKernelController::launchFuseKernel(neighKF, vpMapPoints, th,  bRight, pCamera, Tcw, Ow, validMapPoints, bestDists, bestIdxs);
 
         for(size_t iMP = 0; iMP < validMapPoints.size(); iMP++) {
 
@@ -1596,13 +1595,15 @@ namespace ORB_SLAM3
 
         MappingKernelController::launchFuseKernelV2(neighKFs, currKF, th, validMapPoints, bestDists, bestIdxs);
         int validMapPointsSize = validMapPoints.size();
-        int iterations = (currKF->NLeft == -1) ? 1 : 2; 
+        vector<bool> mapPointToSkip(validMapPointsSize, false);
 
         for (int iKF = 0; iKF < numNeighKFs; iKF++) {
             for (size_t iMP = 0; iMP < validMapPointsSize; iMP++) {
                 MapPoint* pMP = validMapPoints[iMP];
-                if (pMP->IsInKeyFrame(neighKFs[iKF]))
+                if (pMP->IsInKeyFrame(neighKFs[iKF]) || pMP->isBad()) {
+                    mapPointToSkip[iMP] = true;
                     continue;
+                }
 
                 int idx = (currKF->NLeft == -1) ? iKF*validMapPointsSize + iMP : iKF*validMapPointsSize*2 + iMP; 
                 int bestDist = bestDists[idx];
@@ -1630,11 +1631,12 @@ namespace ORB_SLAM3
                     nFused++;
                 }
             }
+
             // For the right image in fisheye setting
             if (currKF->NLeft != -1) {
                 for (size_t iMP = 0; iMP < validMapPointsSize; iMP++) {
                     MapPoint* pMP = validMapPoints[iMP];
-                    if (pMP->IsInKeyFrame(neighKFs[iKF]))
+                    if (mapPointToSkip[iMP])
                         continue;
 
                     int idx = iKF*validMapPointsSize*2 + validMapPointsSize + iMP; 
