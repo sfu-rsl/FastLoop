@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(ORB_SLAM3 LANGUAGES CUDA CXX)
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr --extended-lambda")
+set(CMAKE_CUDA_ARCHITECTURES 72 75 80 86 87 89 90 100)
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release)
@@ -64,6 +66,7 @@ ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
 )
 
 add_subdirectory(Thirdparty/graphite)
+set(BUILD_EXAMPLES OFF)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
@@ -82,6 +85,7 @@ src/Atlas.cc
 src/Map.cc
 src/MapDrawer.cc
 src/Optimizer.cc
+src/Optimizer.cu
 src/Frame.cc
 src/KeyFrameDatabase.cc
 src/Sim3Solver.cc
@@ -142,6 +146,8 @@ include/Kernels/CudaWrappers/CudaKeyPoint.h
 include/Kernels/LoopClosingCudaKeyFrameStorage.h
 include/Kernels/SearchByProjectionKernel.h
 include/Kernels/SearchAndFuseKernel.h
+include/GPUPose.h
+include/PGOTypes.h
 )
 
 set_target_properties( ${PROJECT_NAME}
