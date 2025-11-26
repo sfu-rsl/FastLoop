@@ -63,6 +63,8 @@ ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/src/include
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/external/VulkanMemoryAllocator/include
 )
 
+add_subdirectory(Thirdparty/graphite)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(${PROJECT_NAME} SHARED
@@ -212,6 +214,7 @@ OpenMP::OpenMP_CXX
 # new
 compute
 fmt::fmt
+graphite
 )
 
 # If RealSense SDK is found the library is added and its examples compiled
