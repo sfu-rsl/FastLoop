@@ -187,6 +187,7 @@ add_compile_options(-w)
 add_compile_definitions(SPDLOG_ACTIVE_LEVEL=5)
 add_subdirectory(Thirdparty/g2o)
 
+include(CheckLanguage)
 check_language(CUDA)
 
 if(CMAKE_CUDA_COMPILER)
