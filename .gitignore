@@ -106,3 +106,9 @@ my_settings.txt
 borrar/*
 
 !Dockerfile
+
+average_times.csv
+average_results.py
+generate_table.py
+
+!Thirdparty/graphite
