@@ -10,12 +10,15 @@
 	},
 
 	"runArgs": [
-		"--gpus",
-		"all"
+		"--gpus=all",
+		"--privileged"
+		// "--security-opt=seccomp=unconfined"
 	],
 
 	"mounts": [
-		"source=${localEnv:HOME}/datasets/slam/euroc,target=/root/SLAM/Datasets/EuRoc,type=bind,consistency=cached"
+		"source=${localEnv:HOME}/datasets/slam/euroc,target=/root/SLAM/Datasets/EuRoc,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/datasets/slam/euroc,target=/root/SLAM/Datasets/EuRoC,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/datasets/slam/tumvi,target=/root/slam/datasets/tumvi,type=bind,consistency=cached"
   	]
   
 
