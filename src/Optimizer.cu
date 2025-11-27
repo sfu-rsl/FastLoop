@@ -54,9 +54,10 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
     vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vCorrectedSwc(nMaxKFid+1);
 
     // vector<VertexPose4DoF*> vpVertices(nMaxKFid+1);
-    managed_vector<Pose4DoF<FP>> poses;
+    // managed_vector<Pose6DoF<FP>> poses;
+    managed_vector<Sophus::SE3<FP>> poses;
     poses.resize(nMaxKFid+1);
-    auto pose_desc = Pose4DoFDescriptor<FP, SP>();
+    auto pose_desc = Pose6DoFDescriptor<FP, SP>();
     pose_desc.reserve(nMaxKFid+1);
     graph.add_vertex_descriptor(&pose_desc);
 
@@ -83,7 +84,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             Eigen::Matrix3d Rwc = Swc.rotation().toRotationMatrix();
             Eigen::Vector3d twc = Swc.translation();
             // V4DoF = new VertexPose4DoF(Rwc, twc, pKF);
-            poses[nIDi] = Pose4DoF<FP>(Rwc, twc, pKF);
+            // poses[nIDi] = Pose6DoF<FP>(Rwc, twc, pKF);
+            poses[nIDi] = Sophus::SE3<FP>(Rwc, twc);
         }
         else
         {
@@ -92,7 +94,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
 
             vScw[nIDi] = Siw;
             // V4DoF = new VertexPose4DoF(pKF);
-            poses[nIDi] = Pose4DoF<FP>(pKF);
+            // poses[nIDi] = Pose6DoF<FP>(pKF);
+            poses[nIDi] = Tcw;
         }
         pose_desc.add_vertex(nIDi, &poses[nIDi]);
 
@@ -116,7 +119,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
 
     // Set up descriptor
     using L = DefaultLoss<FP, 6>;
-    auto edge_desc = Factor4DoFDescriptor<FP, SP, L>(&pose_desc, &pose_desc);
+    auto edge_desc = Factor6DoFDescriptor<FP, SP, L>(&pose_desc, &pose_desc);
     graph.add_factor_descriptor(&edge_desc);
 
     // Set Loop edges
@@ -141,10 +144,12 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             Tij.block<3,1>(0,3) = Sij.translation();
             Tij(3,3) = 1.;
 
+            Sophus::SE3<FP> z(Tij);
+
             // Edge4DoF* e = new Edge4DoF(Tij);
             // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
             // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, Tij, matLambda.data(), Empty(), L());
+            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
 
             // e->information() = matLambda;
             // e_loop = e;
@@ -198,7 +203,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             // e->information() = matLambda;
             // optimizer.addEdge(e);
 
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, Tij, matLambda.data(), Empty(), L());
+            Sophus::SE3<FP> z(Tij);
+            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
         }
 
         // 1.1.1 Inertial edges
@@ -227,7 +233,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
             // e->information() = matLambda;
             // optimizer.addEdge(e);
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, Tij, matLambda.data(), Empty(), L());
+            Sophus::SE3<FP> z(Tij);
+            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
         }
 
         // 1.2 Loop edges
@@ -257,8 +264,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
                 // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pLKF->mnId)));
                 // e->information() = matLambda;
                 // optimizer.addEdge(e);
-
-                edge_desc.add_factor({(size_t)nIDi, (size_t)pLKF->mnId}, Til, matLambda.data(), Empty(), L());
+                Sophus::SE3<FP> z(Til);
+                edge_desc.add_factor({(size_t)nIDi, (size_t)pLKF->mnId}, z, matLambda.data(), Empty(), L());
             }
         }
 
@@ -293,7 +300,8 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
                     // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFn->mnId)));
                     // e->information() = matLambda;
                     // optimizer.addEdge(e);
-                    edge_desc.add_factor({(size_t)nIDi, (size_t)pKFn->mnId}, Tin, matLambda.data(), Empty(), L());
+                    Sophus::SE3<FP> z(Tin);
+                    edge_desc.add_factor({(size_t)nIDi, (size_t)pKFn->mnId}, z, matLambda.data(), Empty(), L());
                 }
             }
         }
@@ -302,7 +310,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
     // optimizer.initializeOptimization();
     // optimizer.computeActiveErrors();
     // optimizer.optimize(20);
-    optimizer::levenberg_marquardt(&graph, &options);
+    optimizer::levenberg_marquardt2(&graph, &options);
 
     unique_lock<mutex> lock(pMap->mMutexMapUpdate);
 
@@ -316,10 +324,13 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
         // VertexPose4DoF* Vi = static_cast<VertexPose4DoF*>(optimizer.vertex(nIDi));
         // Eigen::Matrix3d Ri = Vi->estimate().Rcw[0];
         // Eigen::Vector3d ti = Vi->estimate().tcw[0];
-        Eigen::Matrix3d Ri = poses[nIDi].Rcw[0];
-        Eigen::Vector3d ti = poses[nIDi].tcw[0];
+        // Eigen::Matrix3d Ri = poses[nIDi].Rcw[0];
+        // Eigen::Vector3d ti = poses[nIDi].tcw[0];
 
-        g2o::Sim3 CorrectedSiw = g2o::Sim3(Ri,ti,1.);
+        Sophus::SE3<FP> pose = poses[nIDi];
+
+        g2o::Sim3 CorrectedSiw(pose.unit_quaternion(), pose.translation(), 1.0);
+        // g2o::Sim3 CorrectedSiw = g2o::Sim3(Ri,ti,1.);
         vCorrectedSwc[nIDi]=CorrectedSiw.inverse();
 
         Sophus::SE3d Tiw(CorrectedSiw.rotation(),CorrectedSiw.translation());
