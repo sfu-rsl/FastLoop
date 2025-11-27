@@ -262,19 +262,36 @@ namespace gpu {
     //     }
     // };
 
-    // template <typename T> struct Pose4DoFTraits {
-    //     static constexpr size_t dimension = 4;
-    //     using Vertex = Sophus::SE3<T>;
+    template <typename T> struct Pose4DoFTraits {
+        static constexpr size_t dimension = 4;
+        using Vertex = Sophus::SE3<T>;
 
-    //     template <typename P>
-    //     hd_fn static void parameters(const Vertex &vertex, P* params) {}
+        template <typename P>
+        hd_fn static void parameters(const Vertex &vertex, P* params) {
+            Eigen::Map<Eigen::Matrix<P, 4, 1>> p(params);
 
-    //     hd_fn static void update(Vertex &vertex, const T *delta) {
-    //     }
-    // };
+            // pose in tangent space
+            const auto tangent  = vertex.log().template cast<P>();
 
-    // template <typename T, typename S>
-    // using Pose4DoFDescriptor = VertexDescriptor<T, S, Pose4DoFTraits<T>>;
+            p(0) = tangent(0); // first three components are translation
+            p(1) = tangent(1);
+            p(2) = tangent(2);
+            p(3) = tangent(5); // yaw
+
+        }
+
+        hd_fn static void update(Vertex &vertex, const T *delta) {
+            Eigen::Map<const Eigen::Matrix<T, 4, 1>> d(delta);
+            Eigen::Matrix<T, 6, 1> update;
+            update << d(0), d(1), d(2), 0, 0, d(3);
+
+            vertex = Sophus::SE3<T>::exp(update) * vertex;
+            vertex.normalize();
+        }
+    };
+
+    template <typename T, typename S>
+    using Pose4DoFDescriptor = VertexDescriptor<T, S, Pose4DoFTraits<T>>;
 
 
     template <typename T> struct Pose6DoFTraits {
@@ -289,7 +306,6 @@ namespace gpu {
 
         hd_fn static void update(Vertex &vertex, const T *delta) {
             Eigen::Map<const Eigen::Matrix<T, 6, 1>> d(delta);
-            // vertex = Sophus::SE3<T>::exp(d) * vertex;
             vertex = Sophus::SE3<T>::exp(d) * vertex;
             vertex.normalize();
         }
