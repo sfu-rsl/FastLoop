@@ -33,12 +33,17 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
     Graph<FP, SP> graph;
     // TODO: Replace with sparse Hessian + LDLT/LLT
     BlockJacobiPreconditioner<FP, SP> preconditioner;
-    PCGSolver<FP, SP> solver(50, 1e-1, 5.0, &preconditioner);
+    // PCGSolver<FP, SP> solver(50, 1e-1, 5.0, &preconditioner);
+    PCGSolver<FP, SP> solver(10, 1e-6, std::numeric_limits<FP>::infinity(), &preconditioner);
+
+    StreamPool streams(2);
 
     optimizer::LevenbergMarquardtOptions<FP, SP> options;
     options.solver = &solver;
     options.iterations = 20;
     options.initial_damping = 1e-4; // note: original code uses g2o to autocompute initial lambda
+    options.streams = &streams;
+    options.verbose = true;
 
 
 

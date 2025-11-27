@@ -294,6 +294,55 @@ namespace gpu {
     using Pose4DoFDescriptor = VertexDescriptor<T, S, Pose4DoFTraits<T>>;
 
 
+
+    template <typename T, typename S, typename L> struct Factor4DoFTraits {
+    static constexpr size_t dimension = 4;
+    using VertexDescriptors = std::tuple<Pose4DoFDescriptor<T, S>, Pose4DoFDescriptor<T, S>>;
+    using Observation = Sophus::SE3<T>;
+    using Data = Empty;
+    using Loss = L;
+    using Differentiation = DifferentiationMode::Auto;
+
+    using Pose = typename Pose4DoFDescriptor<T, S>::VertexType;
+
+    // need to combine 4DoF AD params into full 6DoF SE3
+    template <typename D>
+    hd_fn static Sophus::SE3<T> make_4DoF_SE3(const D* p, const Pose* pose) {
+        const auto t = pose->log(); // full tangent
+        
+        Eigen::Matrix<D, 6, 1> tangent;
+        tangent << p[0], p[1], p[2], t(3), t(4), p[3]; // fill in the missing 2 DoF
+        return Sophus::SE3<T>::exp(tangent);
+    }
+
+    template <typename D, typename M>
+    hd_fn static void
+    error(const D *p1, const D *p2, const M *obs, D *error,
+            const std::tuple<Pose *, Pose*> &vertices, const Data *data) {
+        
+        // const auto Pi = std::get<0>(vertices);
+        // const auto Pj = std::get<1>(vertices);
+        
+        Sophus::SE3<D> Pi = make_4DoF_SE3(p1, std::get<0>(vertices));
+        Sophus::SE3<D> Pj = make_4DoF_SE3(p2, std::get<1>(vertices));
+
+        Sophus::SE3<D> delta = obs->template cast<D>();
+
+        const auto r = Pi.inverse()*delta*Pj;
+        Eigen::Map<Eigen::Matrix<D, 6, 1>> residual(error);
+        residual = r.log();
+
+    }
+
+
+
+    };
+
+    template <typename T, typename S, typename L>
+    using Factor4DoFDescriptor = FactorDescriptor<T, S, Factor4DoFTraits<T, S, L>>;
+
+
+
     template <typename T> struct Pose6DoFTraits {
         static constexpr size_t dimension = 6;
         using Vertex = Sophus::SE3<T>;
