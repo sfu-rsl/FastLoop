@@ -316,7 +316,6 @@ namespace gpu {
     error(const D *p1, const D *p2, const M *obs, D *error,
             const std::tuple<Pose *, Pose*> &vertices, const Data *data) {
         
-        Eigen::Map<Eigen::Matrix<D, 6, 1>> residual(error);
 
         // const auto Pi = std::get<0>(vertices);
         // const auto Pj = std::get<1>(vertices);
@@ -329,7 +328,8 @@ namespace gpu {
 
         Sophus::SE3<D> delta = obs->template cast<D>();
 
-        const auto r = Pi*delta*Pj.inverse();
+        const auto r = Pi.inverse()*delta*Pj;
+        Eigen::Map<Eigen::Matrix<D, 6, 1>> residual(error);
         residual = r.log();
 
         // _error << LogSO3(VPi->Rcw[0]*VPj->Rcw[0].transpose()*dRij.transpose()),
