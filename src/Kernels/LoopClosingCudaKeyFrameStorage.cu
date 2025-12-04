@@ -7,10 +7,12 @@ bool LoopClosingCudaKeyFrameStorage::memory_is_initialized = false;
 ckd_buffer_index_t LoopClosingCudaKeyFrameStorage::first_free_idx = 0;
 std::unordered_map<long unsigned int, ckd_buffer_index_t> LoopClosingCudaKeyFrameStorage::mnId_to_idx;
 std::queue<ckd_buffer_index_t> LoopClosingCudaKeyFrameStorage::free_idx;
+std::mutex LoopClosingCudaKeyFrameStorage::mtx;
 
 
-void LoopClosingCudaKeyFrameStorage::initializeMemory(){   
+void LoopClosingCudaKeyFrameStorage::initializeMemory(){  
     if (memory_is_initialized) return;
+
     checkCudaError(cudaMallocHost((void**)&h_keyframes, CUDA_KEYFRAME_STORAGE_SIZE * sizeof(CudaKeyFrame)), "[CudaKeyFrameStorage::] Failed to allocate memory for h_keyframes");  
     for (int i = 0; i < CUDA_KEYFRAME_STORAGE_SIZE; ++i) {
         h_keyframes[i] = CudaKeyFrame();
@@ -25,13 +27,13 @@ CudaKeyFrame* LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(ORB_SLAM3::KeyFram
   
     if (!memory_is_initialized) {
         cout << "[ERROR] CudaKeyFrameStorage::addCudaKeyFrame: ] memory not initialized!\n";
-        LoopClosingKernelController::shutdownKernels();
+        LoopClosingKernelController::shutdownKernels(true, true);
         exit(EXIT_FAILURE);
     }
 
     if (num_keyframes >= CUDA_KEYFRAME_STORAGE_SIZE) {
         cout << "[ERROR] CudaKeyFrameStorage::addCudaKeyFrame: ] number of keyframes: " << num_keyframes << " is greater than CUDA_KEYFRAME_STORAGE_SIZE: " << CUDA_KEYFRAME_STORAGE_SIZE << "\n";
-        LoopClosingKernelController::shutdownKernels();
+        LoopClosingKernelController::shutdownKernels(true, true);
         exit(EXIT_FAILURE);
     }
 
@@ -81,4 +83,24 @@ void LoopClosingCudaKeyFrameStorage::shutdown() {
     
     cudaFree(d_keyframes);
     cudaFreeHost(h_keyframes);
+
+    memory_is_initialized = false;
+}
+
+void LoopClosingCudaKeyFrameStorage::eraseCudaKeyFrame(ORB_SLAM3::KeyFrame* KF) {
+    if (!memory_is_initialized) 
+        return;
+
+    // std::unique_lock<std::mutex> lock(mtx);
+    auto it = mnId_to_idx.find(KF->mnId);
+    if (it == mnId_to_idx.end()) {
+        cout << "CudaKeyFrameStorage::eraseCudaKeyFrame: ] KF " << KF->mnId << " not in GPU storage!\n";
+        return;        
+    }
+    ckd_buffer_index_t idx = it->second;
+
+    h_keyframes[idx].setAsEmpty();
+    mnId_to_idx.erase(KF->mnId);
+    free_idx.push(idx);
+    num_keyframes--;
 }

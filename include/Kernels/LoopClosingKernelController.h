@@ -26,7 +26,7 @@ public:
 
     static void initializeKernels();
 
-    static void shutdownKernels();
+    static void shutdownKernels(bool _localMappingFinished, bool _loopClosingFinished);
 
     static void launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
                                     Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
@@ -43,11 +43,12 @@ public:
     
 
 private:
-    static bool memory_is_initialized;
+    static bool memory_is_initialized, isShuttingDown, localMappingFinished, loopClosingFinished;
     static std::unique_ptr<SearchByProjectionKernel> mpSearchByProjectionKernel;
     static std::unique_ptr<SearchByBoWKernel> mpSearchByBoWKernel;
     static std::unique_ptr<SearchAndFuseKernel> mpSearchAndFuseKernel;
     static CudaKeyFrame *cudaKeyFramePtr;
+    static std::mutex shutDownMutex;
 };
 
 #endif

@@ -4,14 +4,18 @@
 
 
 std::unique_ptr<SearchByProjectionKernel> LoopClosingKernelController::mpSearchByProjectionKernel = std::make_unique<SearchByProjectionKernel>();
-std::unique_ptr<SearchByBoWKernel> LoopClosingKernelController::mpSearchByBoWKernel = std::make_unique<SearchByBoWKernel>();
+// std::unique_ptr<SearchByBoWKernel> LoopClosingKernelController::mpSearchByBoWKernel = std::make_unique<SearchByBoWKernel>();
 std::unique_ptr<SearchAndFuseKernel> LoopClosingKernelController::mpSearchAndFuseKernel = std::make_unique<SearchAndFuseKernel>();
 bool LoopClosingKernelController::is_active = false;
-bool LoopClosingKernelController::mergedSearchByProjectionOnGPU;
-bool LoopClosingKernelController::searchAndFuseOnGPU;
-bool LoopClosingKernelController::singleSearchByProjectionOnGPU;
+bool LoopClosingKernelController::mergedSearchByProjectionOnGPU = false;
+bool LoopClosingKernelController::searchAndFuseOnGPU = false;
+bool LoopClosingKernelController::singleSearchByProjectionOnGPU = false;
 bool LoopClosingKernelController::memory_is_initialized = false;
 CudaKeyFrame* LoopClosingKernelController::cudaKeyFramePtr;
+std::mutex LoopClosingKernelController::shutDownMutex;
+bool LoopClosingKernelController::localMappingFinished = false;
+bool LoopClosingKernelController::loopClosingFinished = false;
+bool LoopClosingKernelController::isShuttingDown = false;
 
 __global__ void warmupKernel() {}
 
@@ -31,7 +35,6 @@ void LoopClosingKernelController::setGPURunMode(bool _mergedSearchByProjectionEn
 
 
 void LoopClosingKernelController::initializeKernels(){
-
     cout << "Initializing Kernels...\n";
     
     LoopClosingCudaKeyFrameStorage::initializeMemory();
@@ -49,8 +52,18 @@ void LoopClosingKernelController::initializeKernels(){
 }
 
 
-void LoopClosingKernelController::shutdownKernels()
-{
+void LoopClosingKernelController::shutdownKernels(bool _localMappingFinished, bool _loopClosingFinished)
+{   
+    unique_lock<mutex> lock(shutDownMutex);
+
+    localMappingFinished = _localMappingFinished ? true : localMappingFinished;
+    loopClosingFinished = _localMappingFinished ? true : loopClosingFinished;
+    
+    if (!localMappingFinished || !loopClosingFinished || isShuttingDown)
+        return;
+
+    isShuttingDown = true;
+
     cout << "Shutting kernels down...\n";
 
     if (memory_is_initialized) {
@@ -65,6 +78,8 @@ void LoopClosingKernelController::shutdownKernels()
     }
     CudaUtils::shutdown();
     cudaDeviceSynchronize();
+    // memory_is_initialized = false;
+
 }
 
 
@@ -73,8 +88,8 @@ int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::Key
 {
     std::ofstream timing("./test/timing.txt", std::ios::app);
     auto start1 = std::chrono::high_resolution_clock::now();
-    
-    int nFused = mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
+    int nFused = 0;
+    nFused = mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
                         vpMapPoints, vpReplacePoints);
     
     auto end1 = std::chrono::high_resolution_clock::now();
@@ -90,17 +105,11 @@ void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyF
                                 Sophus::Sim3<float> &Scw1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                                 int &numProjMatches, int &numProjOptMatches)
 {
-
-    // SearchByProjectionKernel kernel;
-    // kernel.mergedlaunch(pKF, vpPoints,
-    //                     Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
-    //                     Scw1, vpMatched1, th1, ratioHamming1,
-    //                     numProjMatches, numProjOptMatches);
     mpSearchByProjectionKernel->mergedlaunch(pKF, vpPoints,
                         Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
                         Scw1, vpMatched1, th1, ratioHamming1,
                         numProjMatches, numProjOptMatches);
-
+    
     return;
 }
 
@@ -117,7 +126,7 @@ int LoopClosingKernelController::launchSingleSearchByProjectionKernel2(ORB_SLAM3
 int LoopClosingKernelController::launchSearchByBoWKernel(ORB_SLAM3::KeyFrame *pKF1, ORB_SLAM3::KeyFrame *pKF2, vector<ORB_SLAM3::MapPoint *> &vpMatches12)
 {
     
-    return mpSearchByBoWKernel->launch(pKF1, pKF2, vpMatches12);
+    // return mpSearchByBoWKernel->launch(pKF1, pKF2, vpMatches12);
 }
 
 

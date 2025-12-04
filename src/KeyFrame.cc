@@ -20,7 +20,9 @@
 #include "Converter.h"
 #include "ImuTypes.h"
 #include "Kernels/CudaKeyFrameStorage.h"
+#include "Kernels/LoopClosingCudaKeyFrameStorage.h"
 #include "Kernels/MappingKernelController.h"
+#include "Kernels/LoopClosingKernelController.h"
 #include<mutex>
 
 namespace ORB_SLAM3
@@ -701,6 +703,9 @@ void KeyFrame::SetBadFlag()
 
     if (MappingKernelController::is_active) {
         CudaKeyFrameStorage::eraseCudaKeyFrame(this);
+    }
+    if (LoopClosingKernelController::is_active) {
+        LoopClosingCudaKeyFrameStorage::eraseCudaKeyFrame(this);
     }
 }
 

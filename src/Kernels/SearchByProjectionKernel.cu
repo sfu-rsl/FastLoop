@@ -1,14 +1,14 @@
 #include <iostream>
 #include "Kernels/SearchByProjectionKernel.h"
+#include <omp.h>
 
 
 void SearchByProjectionKernel::initialize(){
     if (memory_is_initialized)
         return;
     
-    size_t mapPointVecSize = 1500;
+    size_t mapPointVecSize = 2000;
     cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMallocHost((void**)&h_KeyFrame, sizeof(CudaKeyFrame));
     cudaMallocHost((void**)&bestDists1, mapPointVecSize * sizeof(int));
     cudaMallocHost((void**)&bestIdxs1, mapPointVecSize * sizeof(int));
     cudaMallocHost((void**)&bestDists, mapPointVecSize * sizeof(int));
@@ -21,8 +21,6 @@ void SearchByProjectionKernel::initialize(){
     cudaMalloc(&d_bestDists, mapPointVecSize * sizeof(int));
     cudaMalloc(&d_bestIdxs, mapPointVecSize * sizeof(int));
 
-    // *h_KeyFrame = CudaKeyFrame();
-
     memory_is_initialized = true;
 }
 
@@ -31,10 +29,7 @@ void SearchByProjectionKernel::shutdown() {
     if (!memory_is_initialized) 
         return;
 
-    // h_KeyFrame->freeMemory();
-
     cudaFreeHost(h_MapPoints);
-    // cudaFreeHost(h_KeyFrame);
     cudaFreeHost(bestDists1);
     cudaFreeHost(bestIdxs1);
     cudaFreeHost(bestDists);
@@ -45,6 +40,8 @@ void SearchByProjectionKernel::shutdown() {
     cudaFree(d_bestIdxs1);
     cudaFree(d_bestDists);
     cudaFree(d_bestIdxs);
+
+    memory_is_initialized = false;
 }
 
 __device__ inline bool isInImage(CudaKeyFrame* keyframe, const float &x, const float &y) {
@@ -98,17 +95,6 @@ __global__ void searchByProjectionKernel(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     bestIdxs[idx] = -1;
 
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[idx];
-    
-    // printf("Device:\n");
-    // Eigen::Matrix3f Rcw = Tcw.rotationMatrix();
-    // Eigen::Vector3f tcw = Tcw.translation();
-    // printf("Tcw rotation:\n");
-    // for(int i = 0; i < 3; i++) {
-    //     printf("%f %f %f\n", Rcw(i,0), Rcw(i,1), Rcw(i,2));
-    // }
-    // printf("Tcw translation: %f %f %f\n", tcw(0), tcw(1), tcw(2));
-    // printf("Ow: %f %f %f\n", Ow(0), Ow(1), Ow(2));
-    // printf("Device: KeyFrame = %llu\n", connectedKF->mnId);
 
     const float &fx = connectedKF->fx;
     const float &fy = connectedKF->fy;
@@ -132,12 +118,11 @@ __global__ void searchByProjectionKernel(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     if(!isInImage(connectedKF, u, v))
         return;
 
-    const float maxDistance = 1.2f * pMP.mfMaxDistance; // pMP->GetMaxDistanceInvariance();
-    const float minDistance = 0.8f * pMP.mfMinDistance; // pMP->GetMinDistanceInvariance();
+    const float maxDistance = 1.2f * pMP.mfMaxDistance;
+    const float minDistance = 0.8f * pMP.mfMinDistance;
     Eigen::Vector3f PO = p3Dw-Ow;
     const float dist = PO.norm();
 
-    // printf("Device: idx = %llu, id = %llu, dist = %f, minDistance = %f, maxDistance = %f\n", idx, pMP.mnId, dist, minDistance, maxDistance);
 
     if(dist<minDistance || dist>maxDistance)
         return;
@@ -147,7 +132,7 @@ __global__ void searchByProjectionKernel(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     if(PO.dot(Pn)<0.5*dist)
         return;
 
-    int nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF); // pMP->PredictScale(dist,pKF);
+    int nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF);
     const float radius = th*connectedKF->mvScaleFactors[nPredictedLevel];
 
     const uint8_t* MPdescriptor = &pMP.mDescriptor[0];
@@ -236,17 +221,6 @@ __global__ void searchByProjectionKernel2(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     bestIdxs[idx] = -1;
     
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[idx];
-    
-    // printf("Device:\n");
-    // Eigen::Matrix3f Rcw = Tcw.rotationMatrix();
-    // Eigen::Vector3f tcw = Tcw.translation();
-    // printf("Tcw rotation:\n");
-    // for(int i = 0; i < 3; i++) {
-    //     printf("%f %f %f\n", Rcw(i,0), Rcw(i,1), Rcw(i,2));
-    // }
-    // printf("Tcw translation: %f %f %f\n", tcw(0), tcw(1), tcw(2));
-    // printf("Ow: %f %f %f\n", Ow(0), Ow(1), Ow(2));
-    // printf("Device: KeyFrame = %llu\n", connectedKF->mnId);
 
     const float &fx = connectedKF->fx;
     const float &fy = connectedKF->fy;
@@ -268,8 +242,8 @@ __global__ void searchByProjectionKernel2(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
         return;
     }
 
-    const float maxDistance = 1.2f * pMP.mfMaxDistance; // pMP->GetMaxDistanceInvariance();
-    const float minDistance = 0.8f * pMP.mfMinDistance; // pMP->GetMinDistanceInvariance();
+    const float maxDistance = 1.2f * pMP.mfMaxDistance;
+    const float minDistance = 0.8f * pMP.mfMinDistance;
     Eigen::Vector3f PO = p3Dw-Ow;
     const float dist = PO.norm();
 
@@ -281,9 +255,8 @@ __global__ void searchByProjectionKernel2(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     if(PO.dot(Pn)<0.5*dist)
         return;
 
-    int nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF); // pMP->PredictScale(dist,pKF);
+    int nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF);
     const float radius = th*connectedKF->mvScaleFactors[nPredictedLevel];
-    // printf("Device: idx = %llu, id = %llu, radius = %f\n", idx, pMP.mnId, radius);
     
     const uint8_t* MPdescriptor = &pMP.mDescriptor[0];
 
@@ -360,13 +333,11 @@ __global__ void searchByProjectionKernel2(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
 int SearchByProjectionKernel::launch(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs,
                     std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming) {
     
-    // printf("Hello\n");
     int numValidPoints = 0;
     const int TH_LOW = 50;
     int nmatches=0;
 
     size_t mapPointVecSize = vpPoints.size();
-    // cout << "mapPointVecSize: " << mapPointVecSize << endl;
 
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
     CudaKeyFrame *h_KeyFrame, *d_KeyFrame;
@@ -385,36 +356,21 @@ int SearchByProjectionKernel::launch(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<floa
 
     Sophus::SE3f Tcw = Sophus::SE3f(Scw.rotationMatrix(),Scw.translation()/Scw.scale());
     Eigen::Vector3f Ow = Tcw.inverse().translation();
-
-    // printf("Host:\n");
-    // Eigen::Matrix3f Rcw = Tcw.rotationMatrix();
-    // Eigen::Vector3f tcw = Tcw.translation();
-    // printf("Tcw rotation:\n");
-    // for(int i = 0; i < 3; i++) {
-    //     printf("%f %f %f\n", Rcw(i,0), Rcw(i,1), Rcw(i,2));
-    // }
-    // printf("Tcw translation: %f %f %f\n", tcw(0), tcw(1), tcw(2));
-    // printf("Ow: %f %f %f\n", Ow(0), Ow(1), Ow(2));
     
     // Set of MapPoints already found in the KeyFrame
     set<ORB_SLAM3::MapPoint*> spAlreadyFound(vpMatched.begin(), vpMatched.end());
     spAlreadyFound.erase(static_cast<ORB_SLAM3::MapPoint*>(NULL));
-    // cout << "spAlreadyFound: " << spAlreadyFound.size() << endl;
 
     for (int i = 0; i < mapPointVecSize; i++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[i];
         if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
             continue;
         else {
-            // printf("Host: id = %llu\n", pMP->mnId);
             h_MapPoints[numValidPoints] = LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint(pMP);
             numValidPoints++;
         }
     }
 
-    // cout << "numValidPoints: " << numValidPoints << endl;
-
-    // printf("Host: KeyFrame = %llu\n", pKF->mnId);
     *h_KeyFrame = CudaKeyFrame();
     h_KeyFrame->setMemory(pKF);
 
@@ -434,13 +390,13 @@ int SearchByProjectionKernel::launch(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<floa
                                         d_KeyFrame, d_MapPoints, 
                                         mapPointVecSize, th, 
                                         d_bestDists, d_bestIdxs);
+    cudaDeviceSynchronize(); // ensure kernel errors propagate
+
     
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
     float ms_pinned = 0;
     cudaEventElapsedTime(&ms_pinned, start, stop);
-    // std::cout << ms_pinned << "\n";
-
 
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host");
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
@@ -449,7 +405,6 @@ int SearchByProjectionKernel::launch(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<floa
     if (err != cudaSuccess) {
         printf("CUDA error: %s\n", cudaGetErrorString(err));
     }
-    cudaDeviceSynchronize(); // ensure kernel errors propagate
 
     
     // printf("Buy\n");
@@ -550,8 +505,6 @@ __global__ void mergedSearchByProjectionKernel(Eigen::Vector3f Ow1, Sophus::SE3f
 
         if (!isInImage(connectedKF, uv(0), uv(1)))
             terminated1 = true;
-        
-        // printf("Device: idx = %llu, id = %llu, uv(0) = %f, uv(1) = %f\n", idx, pMP.mnId, uv(0), uv(1));
     }
     
     float u, v;
@@ -568,8 +521,8 @@ __global__ void mergedSearchByProjectionKernel(Eigen::Vector3f Ow1, Sophus::SE3f
             terminated = true;
     }
 
-    const float maxDistance = 1.2f * pMP.mfMaxDistance; // pMP->GetMaxDistanceInvariance();
-    const float minDistance = 0.8f * pMP.mfMinDistance; // pMP->GetMinDistanceInvariance();
+    const float maxDistance = 1.2f * pMP.mfMaxDistance;
+    const float minDistance = 0.8f * pMP.mfMinDistance;
     Eigen::Vector3f Pn = pMP.mNormalVector;
     float dist1, dist;
 
@@ -598,12 +551,12 @@ __global__ void mergedSearchByProjectionKernel(Eigen::Vector3f Ow1, Sophus::SE3f
     float radius1, radius;
 
     if(!terminated1){
-        nPredictedLevel1 = predictScale(dist1, pMP.mfMaxDistance, connectedKF); // pMP->PredictScale(dist,pKF);
+        nPredictedLevel1 = predictScale(dist1, pMP.mfMaxDistance, connectedKF);
         radius1 = th1*connectedKF->mvScaleFactors[nPredictedLevel1];
     }
 
     if(!terminated){
-        nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF); // pMP->PredictScale(dist,pKF);
+        nPredictedLevel = predictScale(dist, pMP.mfMaxDistance, connectedKF);
         radius = th*connectedKF->mvScaleFactors[nPredictedLevel];
     }
 
@@ -753,11 +706,11 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
 {
     std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // auto start1 = std::chrono::high_resolution_clock::now();
     if (!memory_is_initialized)
         initialize();
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
     // timing << "? initialize: " << elapsed1.count() << " ms" << std::endl;
 
 
@@ -767,73 +720,48 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
 
     size_t mapPointVecSize = vpPoints.size();
 
-    // LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
-    // CudaKeyFrame *h_KeyFrame, *d_KeyFrame;
-    // int *d_bestDists, *d_bestIdxs;
-    // int *bestDists, *bestIdxs;
 
-    // cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMallocHost((void**)&h_KeyFrame, sizeof(CudaKeyFrame));
-    // cudaMallocHost((void**)&bestDists, mapPointVecSize * sizeof(int));
-    // cudaMallocHost((void**)&bestIdxs, mapPointVecSize * sizeof(int));
-
-    // cudaMalloc(&d_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMalloc(&d_KeyFrame, sizeof(CudaKeyFrame));
-    // cudaMalloc(&d_bestDists, mapPointVecSize * sizeof(int));
-    // cudaMalloc(&d_bestIdxs, mapPointVecSize * sizeof(int));
-
-    auto start2 = std::chrono::high_resolution_clock::now();
+    // auto start2 = std::chrono::high_resolution_clock::now();
     Sophus::SE3f Tcw = Sophus::SE3f(Scw.rotationMatrix(),Scw.translation()/Scw.scale());
     Eigen::Vector3f Ow = Tcw.inverse().translation();
-    auto end2 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+    // auto end2 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
     // timing << "? Tcw: " << elapsed2.count() << " ms" << std::endl;
 
-    // Set of MapPoints already found in the KeyFrame
-    // set<ORB_SLAM3::MapPoint*> spAlreadyFound(vpMatched.begin(), vpMatched.end());
-    // spAlreadyFound.erase(static_cast<ORB_SLAM3::MapPoint*>(NULL));
-
-    auto start3 = std::chrono::high_resolution_clock::now();
+    // auto start3 = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < mapPointVecSize; i++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[i];
-        if (!pMP || pMP->isBad() ) // || spAlreadyFound.count(pMP)) todo1
+        if (!pMP || pMP->isBad()) 
             continue;
         else {
-            // printf("mnId = %llu\n", pMP->mnId);
-            // printf("Before Host: mfMinDistance = %f, mfMaxDistance = %f\n", pMP->mfMinDistance, pMP->mfMaxDistance);
             h_MapPoints[numValidPoints] = LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint(pMP);
-            // printf("After Host: mfMinDistance = %f, mfMaxDistance = %f\n", h_MapPoints[numValidPoints].mfMinDistance, h_MapPoints[numValidPoints].mfMaxDistance);
             numValidPoints++;
         }
     }
-    auto end3 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
+    // auto end3 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
     // timing << "? h_MapPoints: " << elapsed3.count() << " ms" << std::endl;
 
 
-    auto start4 = std::chrono::high_resolution_clock::now();
-    // *h_KeyFrame = CudaKeyFrame();
-    // h_KeyFrame->setMemory(pKF);
-    d_KeyFrame = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
-    if (d_KeyFrame == nullptr){
+    // auto start4 = std::chrono::high_resolution_clock::now();
+    CudaKeyFrame* tempKF = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
+    if (tempKF == nullptr){
         // timing << "No " << pKF->mnId << std::endl;
-        d_KeyFrame = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
+        tempKF = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
     }
-    // else{
-    //     timing << "Yes " << pKF->mnId << std::endl;
-    // }
-    auto end4 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+    cudaMemcpy(d_KeyFrame, tempKF, sizeof(CudaKeyFrame), cudaMemcpyDeviceToDevice);
+
+    // auto end4 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
     // timing << "? h_KeyFrames Single: " << elapsed4.count() << " ms" << std::endl;
 
-    auto start5 = std::chrono::high_resolution_clock::now();
+    // auto start5 = std::chrono::high_resolution_clock::now();
     cudaMemcpy(d_MapPoints, h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice);
-    // cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
-    auto end5 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+    // auto end5 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
     // timing << "? cudaMemcpy: " << elapsed5.count() << " ms" << std::endl;
 
-    auto start6 = std::chrono::high_resolution_clock::now();
+    // auto start6 = std::chrono::high_resolution_clock::now();
     int threads = 256;
     int blocks = (mapPointVecSize + threads - 1) / threads;
     searchByProjectionKernel2<<<blocks, threads>>>(Ow, Tcw,
@@ -842,15 +770,15 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
                                         d_bestDists, d_bestIdxs);
     
     cudaDeviceSynchronize(); // ensure kernel errors propagate
-    auto end6 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    // auto end6 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
     // timing << "? Kernel: " << elapsed6.count() << " ms" << std::endl;
 
-    auto start7 = std::chrono::high_resolution_clock::now();
+    // auto start7 = std::chrono::high_resolution_clock::now();
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host");
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, mapPointVecSize * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
-    auto end7 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
+    // auto end7 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
     // timing << "? cudaMemcpy back: " << elapsed7.count() << " ms" << std::endl;
 
     cudaError_t err = cudaGetLastError();
@@ -881,15 +809,17 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
     // gpuOutFile << "**********************************************************\n";
     // cpuOutFile << "**********************************************************\n";
 
-    auto start8 = std::chrono::high_resolution_clock::now();
+    // auto start8 = std::chrono::high_resolution_clock::now();
     const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
-        int bestDist = bestDists[iMP];
-        int bestIdx = bestIdxs[iMP];
 
         if(spAlreadyFound.count(pMP))
                 continue;
+        
+        int bestDist = bestDists[iMP];
+        int bestIdx = bestIdxs[iMP];
 
         if (bestDist == 256 || bestIdx == -1)
             continue;
@@ -899,19 +829,9 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
             nmatches++;
         }
     }
-    auto end8 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
+    // auto end8 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
     // timing << "? result: " << elapsed8.count() << " ms" << std::endl;
-
-    
-    // cudaFreeHost(h_MapPoints);
-    // cudaFreeHost(h_KeyFrame);
-    // cudaFreeHost(bestDists);
-    // cudaFreeHost(bestIdxs);
-    // cudaFree(d_MapPoints);
-    // cudaFree(d_KeyFrame);
-    // cudaFree(d_bestDists);
-    // cudaFree(d_bestIdxs);
 
     return nmatches;
 }
@@ -921,10 +841,9 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
                         Sophus::Sim3<float> &Scw1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                         int &numProjMatches, int &numProjOptMatches)
 {
-
     std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // auto start1 = std::chrono::high_resolution_clock::now();
     if (!memory_is_initialized)
         initialize();
 
@@ -934,90 +853,49 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     numProjMatches = 0;
 
     size_t mapPointVecSize = vpPoints.size();
-    // timing << "mapPointVecSize: " << mapPointVecSize << std::endl;
-    // cout << "mapPointVecSize: " << mapPointVecSize << endl;
-
-    // LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
-    // CudaKeyFrame *h_KeyFrame, *d_KeyFrame;
-    // int *d_bestDists1, *d_bestIdxs1;
-    // int *bestDists1, *bestIdxs1;
-    // int *d_bestDists, *d_bestIdxs;
-    // int *bestDists, *bestIdxs;
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
     // timing << "? Initialization 1: " << elapsed1.count() << " ms" << std::endl;
 
-    // auto start2 = std::chrono::high_resolution_clock::now();
-    // cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMallocHost((void**)&h_KeyFrame, sizeof(CudaKeyFrame));
-    // cudaMallocHost((void**)&bestDists1, mapPointVecSize * sizeof(int));
-    // cudaMallocHost((void**)&bestIdxs1, mapPointVecSize * sizeof(int));
-    // cudaMallocHost((void**)&bestDists, mapPointVecSize * sizeof(int));
-    // cudaMallocHost((void**)&bestIdxs, mapPointVecSize * sizeof(int));
-    // auto end2 = std::chrono::high_resolution_clock::now();
-    // std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
-    // timing << "? cudaMallocHost: " << elapsed2.count() << " ms" << std::endl;
-
-    // auto start3 = std::chrono::high_resolution_clock::now();
-    // cudaMalloc(&d_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMalloc(&d_KeyFrame, sizeof(CudaKeyFrame));
-    // cudaMalloc(&d_bestDists1, mapPointVecSize * sizeof(int));
-    // cudaMalloc(&d_bestIdxs1, mapPointVecSize * sizeof(int));
-    // cudaMalloc(&d_bestDists, mapPointVecSize * sizeof(int));
-    // cudaMalloc(&d_bestIdxs, mapPointVecSize * sizeof(int));
-    // auto end3 = std::chrono::high_resolution_clock::now();
-    // std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
-    // timing << "? cudaMalloc: " << elapsed3.count() << " ms" << std::endl;
-
-    auto start4 = std::chrono::high_resolution_clock::now();
+    // auto start4 = std::chrono::high_resolution_clock::now();
     Sophus::SE3f Tcw1 = Sophus::SE3f(Scw1.rotationMatrix(),Scw1.translation()/Scw1.scale());
     Eigen::Vector3f Ow1 = Tcw1.inverse().translation();
     Sophus::SE3f Tcw = Sophus::SE3f(Scw.rotationMatrix(),Scw.translation()/Scw.scale());
     Eigen::Vector3f Ow = Tcw.inverse().translation();
-    auto end4 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+    // auto end4 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
     // timing << "? Tcw: " << elapsed4.count() << " ms" << std::endl;
 
-    // set<ORB_SLAM3::MapPoint*> spAlreadyFound1(vpMatched1.begin(), vpMatched1.end());
-    // spAlreadyFound1.erase(static_cast<ORB_SLAM3::MapPoint*>(NULL));
-    
-    auto start5 = std::chrono::high_resolution_clock::now();
+    // auto start5 = std::chrono::high_resolution_clock::now();
+    // omp_set_num_threads(4);
+    // #pragma omp parallel for
+    // cout << "mapPointVecSize: " << mapPointVecSize << std::endl;
     for (int i = 0; i < mapPointVecSize; i++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[i];
-        if (!pMP || pMP->isBad() )//|| spAlreadyFound1.count(pMP)) //todo1
+        if (!pMP || pMP->isBad())
             continue;
         else {
-            // printf("mnId = %llu\n", pMP->mnId);
-            // printf("Before Host: mfMinDistance = %f, mfMaxDistance = %f\n", pMP->mfMinDistance, pMP->mfMaxDistance);
             h_MapPoints[numValidPoints] = LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint(pMP);
-            // printf("After Host: mfMinDistance = %f, mfMaxDistance = %f\n", h_MapPoints[numValidPoints].mfMinDistance, h_MapPoints[numValidPoints].mfMaxDistance);
             numValidPoints++;
         }
     }
-    auto end5 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+    // auto end5 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
     // timing << "? CudaMapPoint: " << elapsed5.count() << " ms" << std::endl;
 
-    auto start6 = std::chrono::high_resolution_clock::now();
-    // *h_KeyFrame = CudaKeyFrame();
-    // h_KeyFrame->setMemory(pKF);
-    d_KeyFrame = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
+    // auto start6 = std::chrono::high_resolution_clock::now();
+    CudaKeyFrame* d_KeyFrame = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
     if (d_KeyFrame == nullptr){
-        // timing << "No " << pKF->mnId << std::endl;
         d_KeyFrame = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
     }
-    // else{
-    //     timing << "Yes " << pKF->mnId << std::endl;
-    // }
-    auto end6 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    // cudaMemcpy(d_KeyFrame, tempKF, sizeof(CudaKeyFrame), cudaMemcpyDeviceToDevice);
+
+    // auto end6 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
     // timing << "? h_KeyFrame Merged: " << elapsed6.count() << " ms" << std::endl;
 
     // auto start7 = std::chrono::high_resolution_clock::now();
-    // cudaStream_t stream;
-    // cudaStreamCreate(&stream);
     cudaMemcpy(d_MapPoints, h_MapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice); //todo2
-    // cudaMemcpy(d_KeyFrame, h_KeyFrame, sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
     // auto end7 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
     // timing << "? cudaMemcpy: " << elapsed7.count() << " ms" << std::endl;
@@ -1025,24 +903,24 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     int threads = 256;
     int blocks = (numValidPoints + threads - 1) / threads;
 
-    auto start75 = std::chrono::high_resolution_clock::now();
+    // auto start75 = std::chrono::high_resolution_clock::now();
     mergedSearchByProjectionKernel<<<blocks, threads>>>(Ow1, Tcw1, Ow, Tcw,
                                         d_KeyFrame, d_MapPoints, 
                                         numValidPoints, th1, th, 
                                         d_bestDists1, d_bestIdxs1, d_bestDists, d_bestIdxs);
     
     cudaDeviceSynchronize(); // ensure kernel errors propagate
-    auto end75 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed75 = end75 - start75;
+    // auto end75 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed75 = end75 - start75;
     // timing << "? Merged Kernel 1: " << elapsed75.count() << " ms" << "\n";
 
-    auto start8 = std::chrono::high_resolution_clock::now();
+    // auto start8 = std::chrono::high_resolution_clock::now();
     checkCudaError(cudaMemcpy(bestDists1, d_bestDists1, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo3
     checkCudaError(cudaMemcpy(bestIdxs1, d_bestIdxs1, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo4
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host"); //todo5
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host"); //todo6
-    auto end8 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
+    // auto end8 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
     // timing << "? back cudaMemcpy: " << elapsed8.count() << " ms" << std::endl;
 
     // auto start9 = std::chrono::high_resolution_clock::now();
@@ -1050,8 +928,6 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     if (err != cudaSuccess) {
         printf("CUDA error: %s\n", cudaGetErrorString(err));
     }
-    // cudaStreamSynchronize(stream);
-    // cudaStreamDestroy(stream);
     // auto end9 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
     // timing << "? cudaGetLastError: " << elapsed9.count() << " ms" << std::endl;
@@ -1098,11 +974,12 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
         ORB_SLAM3::KeyFrame* pKFi = vpPointsKFs[iMP];
-        int bestDist = bestDists[iMP];
-        int bestIdx = bestIdxs[iMP];
 
         if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
             continue;
+        
+        int bestDist = bestDists[iMP];
+        int bestIdx = bestIdxs[iMP];
 
         if (bestDist == 256 || bestIdx == -1)
             continue;
@@ -1116,11 +993,12 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
 
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
-        int bestDist1 = bestDists1[iMP];
-        int bestIdx1 = bestIdxs1[iMP];
 
         if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
             continue;
+
+        int bestDist1 = bestDists1[iMP];
+        int bestIdx1 = bestIdxs1[iMP];
 
         if (bestDist1 == 256 || bestIdx1 == -1)
             continue;
@@ -1133,24 +1011,6 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
     // auto end10 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
     // timing << "? result: " << elapsed10.count() << " ms" << std::endl;
-    
-    // auto start11 = std::chrono::high_resolution_clock::now();
-    // cudaFreeHost(h_MapPoints);
-    // cudaFreeHost(h_KeyFrame);
-    // cudaFreeHost(bestDists1);
-    // cudaFreeHost(bestIdxs1);
-    // cudaFreeHost(bestDists);
-    // cudaFreeHost(bestIdxs);
-    // cudaFree(d_MapPoints);
-    // cudaFree(d_KeyFrame);
-    // cudaFree(d_bestDists1);
-    // cudaFree(d_bestIdxs1);
-    // cudaFree(d_bestDists);
-    // cudaFree(d_bestIdxs);
-    // auto end11 = std::chrono::high_resolution_clock::now();
-    // std::chrono::duration<double, std::milli> elapsed11 = end11 - start11;
-    // timing << "? cudaFree: " << elapsed11.count() << " ms" << std::endl;
-
 }
 
 void SearchByProjectionKernel::origSearchByProjection(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs,
@@ -1238,8 +1098,6 @@ void SearchByProjectionKernel::origSearchByProjection(ORB_SLAM3::KeyFrame* pKF, 
         // Match to the most similar keypoint in the radius
         const cv::Mat dMP = pMP->GetDescriptor();
         
-        // cpuOutFile << "Host: idx = " << validMapPointCounter << ", id = " << pMP->mnId << endl;
-
         int bestDist = 256;
         int bestIdx = -1;
         for(vector<size_t>::const_iterator vit=vIndices.begin(), vend=vIndices.end(); vit!=vend; vit++)
@@ -1359,7 +1217,6 @@ void SearchByProjectionKernel::origSearchByProjection2(ORB_SLAM3::KeyFrame* pKF,
                 continue;
 
             const int &kpLevel= pKF->mvKeysUn[idx].octave;
-            // cpuOutFile << "Host: idx = " << validMapPointCounter << ", id = " << pMP->mnId << ", kpLevel = " << kpLevel << endl;
 
             if(kpLevel<nPredictedLevel-1 || kpLevel>nPredictedLevel)
                 continue;

@@ -29,6 +29,7 @@
 #include<mutex>
 #include<chrono>
 #include <csignal>
+#include "Kernels/LoopClosingKernelController.h"
 
 namespace ORB_SLAM3
 {
@@ -357,6 +358,8 @@ void LocalMapping::Run()
             if(CheckFinish()) {
                 if (MappingKernelController::is_active)
                     MappingKernelController::shutdownKernels(true, false);
+                if (LoopClosingKernelController::is_active)
+                    LoopClosingKernelController::shutdownKernels(true, false);
                 break;
             }
         }
@@ -369,6 +372,8 @@ void LocalMapping::Run()
         if(CheckFinish()) {
             if (MappingKernelController::is_active)
                 MappingKernelController::shutdownKernels(true, false);
+            if (LoopClosingKernelController::is_active)
+                    LoopClosingKernelController::shutdownKernels(true, false);
             break;
         }
 
