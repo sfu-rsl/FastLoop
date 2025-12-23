@@ -184,6 +184,7 @@ include/Kernels/CudaKeyFrameStorage.h
 include/Kernels/LoopClosingCudaKeyFrameStorage.h
 include/GPUPose.h
 include/PGOTypes.h
+include/PGOInterface.h
 )
 
 set_target_properties( ${PROJECT_NAME}

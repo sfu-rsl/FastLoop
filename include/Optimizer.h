@@ -111,6 +111,9 @@ namespace OptimizerGPU {
                                        const map<KeyFrame *, set<KeyFrame *> > &LoopConnections);
 }
 
+void init_pgo(unsigned int max_poses);
+void cleanup_pgo();
+
 } //namespace ORB_SLAM3
 
 #endif // OPTIMIZER_H

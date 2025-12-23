@@ -1,372 +1,157 @@
 #include "Optimizer.h"
 #include "PGOTypes.h"
+#include <graphite/eigen_solver.hpp>
+#include "PGOInterface.h"
 
 namespace ORB_SLAM3 {
-namespace OptimizerGPU {
+class PoseGraphOptimizer {
+    public:
 
-void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
-                                       const LoopClosing::KeyFrameAndPose &NonCorrectedSim3,
-                                       const LoopClosing::KeyFrameAndPose &CorrectedSim3,
-                                       const map<KeyFrame *, set<KeyFrame *> > &LoopConnections)
-{
-    using namespace gpu;
-    using namespace graphite;
 
-    /*
-    typedef g2o::BlockSolver< g2o::BlockSolverTraits<4, 4> > BlockSolver_4_4;
+    PoseGraphOptimizer(const unsigned int max_poses);
 
-    // Setup optimizer
-    g2o::SparseOptimizer optimizer;
-    optimizer.setVerbose(false);
-    g2o::BlockSolverX::LinearSolverType * linearSolver =
-            new g2o::LinearSolverEigen<g2o::BlockSolverX::PoseMatrixType>();
-    g2o::BlockSolverX * solver_ptr = new g2o::BlockSolverX(linearSolver);
 
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(solver_ptr);
+    // void add_pose(const int id, const Pose4DoF<double> &pose);
 
-    optimizer.setAlgorithm(solver);
-    */
+    void add_pose(const int id, ORB_SLAM3::KeyFrame* pKF);
+    void add_pose(const int id, Eigen::Matrix3d &Rwc, Eigen::Vector3d &twc, ORB_SLAM3::KeyFrame* pKF);
+    
+    SE3Pose get_pose(const int id);
+    void set_fixed(const int id, const bool fixed);
+    void add_factor(const int id1, const int id2, const Sophus::SE3d &relative_pose, const double* info);
+    void optimize(const size_t iterations, const double lambda, const bool verbose);
+    void clear();
+    void reserve(const unsigned int max_poses);
 
-    using FP = double;
-    using SP = double;
+    private:
 
-    Graph<FP, SP> graph;
-    // TODO: Replace with sparse Hessian + LDLT/LLT
-    BlockJacobiPreconditioner<FP, SP> preconditioner;
-    // PCGSolver<FP, SP> solver(50, 1e-1, 5.0, &preconditioner);
-    PCGSolver<FP, SP> solver(10, 1e-6, std::numeric_limits<FP>::infinity(), &preconditioner);
+    graphite::Graph<double, double> graph;
+    // graphite::BlockJacobiPreconditioner<double, double> preconditioner;
+    // graphite::PCGSolver<double, double> solver;
+    graphite::EigenLDLTSolver<double, double> solver;
+    // graphite::cudssSolver<double, double> solver;
+    graphite::StreamPool streams;
 
-    StreamPool streams(2);
+    using Pose = gpu::ImuCamPose<double, gpu::PinholeCamera<double>>;
+    graphite::managed_vector<Pose> poses;
+    gpu::Pose4DoFDescriptor<double, double> pose_desc;
+    gpu::Factor4DoFDescriptor<double, double, graphite::DefaultLoss<double, 6>> edge_desc;
 
-    optimizer::LevenbergMarquardtOptions<FP, SP> options;
-    options.solver = &solver;
-    options.iterations = 20;
-    options.initial_damping = 1e-4; // note: original code uses g2o to autocompute initial lambda
-    options.streams = &streams;
-    options.verbose = true;
+};
 
-
-
-
-
-
-    const vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
-    const vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
-
-    const unsigned int nMaxKFid = pMap->GetMaxKFid();
-
-    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vScw(nMaxKFid+1);
-    vector<g2o::Sim3,Eigen::aligned_allocator<g2o::Sim3> > vCorrectedSwc(nMaxKFid+1);
-
-    // vector<VertexPose4DoF*> vpVertices(nMaxKFid+1);
-    // managed_vector<Pose6DoF<FP>> poses;
-    managed_vector<Sophus::SE3<FP>> poses;
-    poses.resize(nMaxKFid+1);
-    auto pose_desc = Pose6DoFDescriptor<FP, SP>();
-    pose_desc.reserve(nMaxKFid+1);
-    graph.add_vertex_descriptor(&pose_desc);
-
-
-
-    const int minFeat = 100;
-    // Set KeyFrame vertices
-    for(size_t i=0, iend=vpKFs.size(); i<iend;i++)
-    {
-        KeyFrame* pKF = vpKFs[i];
-        if(pKF->isBad())
-            continue;
-
-        // VertexPose4DoF* V4DoF;
-
-        const int nIDi = pKF->mnId;
-
-        LoopClosing::KeyFrameAndPose::const_iterator it = CorrectedSim3.find(pKF);
-
-        if(it!=CorrectedSim3.end())
-        {
-            vScw[nIDi] = it->second;
-            const g2o::Sim3 Swc = it->second.inverse();
-            Eigen::Matrix3d Rwc = Swc.rotation().toRotationMatrix();
-            Eigen::Vector3d twc = Swc.translation();
-            // V4DoF = new VertexPose4DoF(Rwc, twc, pKF);
-            // poses[nIDi] = Pose6DoF<FP>(Rwc, twc, pKF);
-            poses[nIDi] = Sophus::SE3<FP>(Rwc, twc);
-        }
-        else
-        {
-            Sophus::SE3d Tcw = pKF->GetPose().cast<double>();
-            g2o::Sim3 Siw(Tcw.unit_quaternion(),Tcw.translation(),1.0);
-
-            vScw[nIDi] = Siw;
-            // V4DoF = new VertexPose4DoF(pKF);
-            // poses[nIDi] = Pose6DoF<FP>(pKF);
-            poses[nIDi] = Tcw;
-        }
-        pose_desc.add_vertex(nIDi, &poses[nIDi]);
-
-        if(pKF==pLoopKF) {
-            // V4DoF->setFixed(true);
-            pose_desc.set_fixed(nIDi, true);
-        }
-        // V4DoF->setId(nIDi);
-        // V4DoF->setMarginalized(false);
-
-        // optimizer.addVertex(V4DoF);
-        // vpVertices[nIDi]=V4DoF;
-    }
-    set<pair<long unsigned int,long unsigned int> > sInsertedEdges;
-
-    // Edge used in posegraph has still 6Dof, even if updates of camera poses are just in 4DoF
-    Eigen::Matrix<FP,6,6> matLambda = Eigen::Matrix<FP,6,6>::Identity();
-    matLambda(0,0) = 1e3;
-    matLambda(1,1) = 1e3;
-    matLambda(0,0) = 1e3;
-
-    // Set up descriptor
-    using L = DefaultLoss<FP, 6>;
-    auto edge_desc = Factor6DoFDescriptor<FP, SP, L>(&pose_desc, &pose_desc);
-    graph.add_factor_descriptor(&edge_desc);
-
-    // Set Loop edges
-    // Edge4DoF* e_loop;
-    for(map<KeyFrame *, set<KeyFrame *> >::const_iterator mit = LoopConnections.begin(), mend=LoopConnections.end(); mit!=mend; mit++)
-    {
-        KeyFrame* pKF = mit->first;
-        const long unsigned int nIDi = pKF->mnId;
-        const set<KeyFrame*> &spConnections = mit->second;
-        const g2o::Sim3 Siw = vScw[nIDi];
-
-        for(set<KeyFrame*>::const_iterator sit=spConnections.begin(), send=spConnections.end(); sit!=send; sit++)
-        {
-            const long unsigned int nIDj = (*sit)->mnId;
-            if((nIDi!=pCurKF->mnId || nIDj!=pLoopKF->mnId) && pKF->GetWeight(*sit)<minFeat)
-                continue;
-
-            const g2o::Sim3 Sjw = vScw[nIDj];
-            const g2o::Sim3 Sij = Siw * Sjw.inverse();
-            Eigen::Matrix4d Tij;
-            Tij.block<3,3>(0,0) = Sij.rotation().toRotationMatrix();
-            Tij.block<3,1>(0,3) = Sij.translation();
-            Tij(3,3) = 1.;
-
-            Sophus::SE3<FP> z(Tij);
-
-            // Edge4DoF* e = new Edge4DoF(Tij);
-            // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
-            // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
-
-            // e->information() = matLambda;
-            // e_loop = e;
-            // optimizer.addEdge(e);
-
-            sInsertedEdges.insert(make_pair(min(nIDi,nIDj),max(nIDi,nIDj)));
-        }
-    }
-
-    // 1. Set normal edges
-    for(size_t i=0, iend=vpKFs.size(); i<iend; i++)
-    {
-        KeyFrame* pKF = vpKFs[i];
-
-        const int nIDi = pKF->mnId;
-
-        g2o::Sim3 Siw;
-
-        // Use noncorrected poses for posegraph edges
-        LoopClosing::KeyFrameAndPose::const_iterator iti = NonCorrectedSim3.find(pKF);
-
-        if(iti!=NonCorrectedSim3.end())
-            Siw = iti->second;
-        else
-            Siw = vScw[nIDi];
-
-        // 1.1.0 Spanning tree edge
-        KeyFrame* pParentKF = static_cast<KeyFrame*>(NULL);
-        if(pParentKF)
-        {
-            int nIDj = pParentKF->mnId;
-
-            g2o::Sim3 Swj;
-
-            LoopClosing::KeyFrameAndPose::const_iterator itj = NonCorrectedSim3.find(pParentKF);
-
-            if(itj!=NonCorrectedSim3.end())
-                Swj = (itj->second).inverse();
-            else
-                Swj =  vScw[nIDj].inverse();
-
-            g2o::Sim3 Sij = Siw * Swj;
-            Eigen::Matrix4d Tij;
-            Tij.block<3,3>(0,0) = Sij.rotation().toRotationMatrix();
-            Tij.block<3,1>(0,3) = Sij.translation();
-            Tij(3,3)=1.;
-
-            // Edge4DoF* e = new Edge4DoF(Tij);
-            // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
-            // e->information() = matLambda;
-            // optimizer.addEdge(e);
-
-            Sophus::SE3<FP> z(Tij);
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
-        }
-
-        // 1.1.1 Inertial edges
-        KeyFrame* prevKF = pKF->mPrevKF;
-        if(prevKF)
-        {
-            int nIDj = prevKF->mnId;
-
-            g2o::Sim3 Swj;
-
-            LoopClosing::KeyFrameAndPose::const_iterator itj = NonCorrectedSim3.find(prevKF);
-
-            if(itj!=NonCorrectedSim3.end())
-                Swj = (itj->second).inverse();
-            else
-                Swj =  vScw[nIDj].inverse();
-
-            g2o::Sim3 Sij = Siw * Swj;
-            Eigen::Matrix4d Tij;
-            Tij.block<3,3>(0,0) = Sij.rotation().toRotationMatrix();
-            Tij.block<3,1>(0,3) = Sij.translation();
-            Tij(3,3)=1.;
-
-            // Edge4DoF* e = new Edge4DoF(Tij);
-            // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-            // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDj)));
-            // e->information() = matLambda;
-            // optimizer.addEdge(e);
-            Sophus::SE3<FP> z(Tij);
-            edge_desc.add_factor({(size_t)nIDi, (size_t)nIDj}, z, matLambda.data(), Empty(), L());
-        }
-
-        // 1.2 Loop edges
-        const set<KeyFrame*> sLoopEdges = pKF->GetLoopEdges();
-        for(set<KeyFrame*>::const_iterator sit=sLoopEdges.begin(), send=sLoopEdges.end(); sit!=send; sit++)
-        {
-            KeyFrame* pLKF = *sit;
-            if(pLKF->mnId<pKF->mnId)
-            {
-                g2o::Sim3 Swl;
-
-                LoopClosing::KeyFrameAndPose::const_iterator itl = NonCorrectedSim3.find(pLKF);
-
-                if(itl!=NonCorrectedSim3.end())
-                    Swl = itl->second.inverse();
-                else
-                    Swl = vScw[pLKF->mnId].inverse();
-
-                g2o::Sim3 Sil = Siw * Swl;
-                Eigen::Matrix4d Til;
-                Til.block<3,3>(0,0) = Sil.rotation().toRotationMatrix();
-                Til.block<3,1>(0,3) = Sil.translation();
-                Til(3,3) = 1.;
-
-                // Edge4DoF* e = new Edge4DoF(Til);
-                // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-                // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pLKF->mnId)));
-                // e->information() = matLambda;
-                // optimizer.addEdge(e);
-                Sophus::SE3<FP> z(Til);
-                edge_desc.add_factor({(size_t)nIDi, (size_t)pLKF->mnId}, z, matLambda.data(), Empty(), L());
-            }
-        }
-
-        // 1.3 Covisibility graph edges
-        const vector<KeyFrame*> vpConnectedKFs = pKF->GetCovisiblesByWeight(minFeat);
-        for(vector<KeyFrame*>::const_iterator vit=vpConnectedKFs.begin(); vit!=vpConnectedKFs.end(); vit++)
-        {
-            KeyFrame* pKFn = *vit;
-            if(pKFn && pKFn!=pParentKF && pKFn!=prevKF && pKFn!=pKF->mNextKF && !pKF->hasChild(pKFn) && !sLoopEdges.count(pKFn))
-            {
-                if(!pKFn->isBad() && pKFn->mnId<pKF->mnId)
-                {
-                    if(sInsertedEdges.count(make_pair(min(pKF->mnId,pKFn->mnId),max(pKF->mnId,pKFn->mnId))))
-                        continue;
-
-                    g2o::Sim3 Swn;
-
-                    LoopClosing::KeyFrameAndPose::const_iterator itn = NonCorrectedSim3.find(pKFn);
-
-                    if(itn!=NonCorrectedSim3.end())
-                        Swn = itn->second.inverse();
-                    else
-                        Swn = vScw[pKFn->mnId].inverse();
-
-                    g2o::Sim3 Sin = Siw * Swn;
-                    Eigen::Matrix4d Tin;
-                    Tin.block<3,3>(0,0) = Sin.rotation().toRotationMatrix();
-                    Tin.block<3,1>(0,3) = Sin.translation();
-                    Tin(3,3) = 1.;
-                    // Edge4DoF* e = new Edge4DoF(Tin);
-                    // e->setVertex(0, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(nIDi)));
-                    // e->setVertex(1, dynamic_cast<g2o::OptimizableGraph::Vertex*>(optimizer.vertex(pKFn->mnId)));
-                    // e->information() = matLambda;
-                    // optimizer.addEdge(e);
-                    Sophus::SE3<FP> z(Tin);
-                    edge_desc.add_factor({(size_t)nIDi, (size_t)pKFn->mnId}, z, matLambda.data(), Empty(), L());
-                }
-            }
-        }
-    }
-
-    // optimizer.initializeOptimization();
-    // optimizer.computeActiveErrors();
-    // optimizer.optimize(20);
-    optimizer::levenberg_marquardt2(&graph, &options);
-
-    unique_lock<mutex> lock(pMap->mMutexMapUpdate);
-
-    // SE3 Pose Recovering. Sim3:[sR t;0 1] -> SE3:[R t/s;0 1]
-    for(size_t i=0;i<vpKFs.size();i++)
-    {
-        KeyFrame* pKFi = vpKFs[i];
-
-        const int nIDi = pKFi->mnId;
-
-        // VertexPose4DoF* Vi = static_cast<VertexPose4DoF*>(optimizer.vertex(nIDi));
-        // Eigen::Matrix3d Ri = Vi->estimate().Rcw[0];
-        // Eigen::Vector3d ti = Vi->estimate().tcw[0];
-        // Eigen::Matrix3d Ri = poses[nIDi].Rcw[0];
-        // Eigen::Vector3d ti = poses[nIDi].tcw[0];
-
-        Sophus::SE3<FP> pose = poses[nIDi];
-
-        g2o::Sim3 CorrectedSiw(pose.unit_quaternion(), pose.translation(), 1.0);
-        // g2o::Sim3 CorrectedSiw = g2o::Sim3(Ri,ti,1.);
-        vCorrectedSwc[nIDi]=CorrectedSiw.inverse();
-
-        Sophus::SE3d Tiw(CorrectedSiw.rotation(),CorrectedSiw.translation());
-        pKFi->SetPose(Tiw.cast<float>());
-    }
-
-    // Correct points. Transform to "non-optimized" reference keyframe pose and transform back with optimized pose
-    for(size_t i=0, iend=vpMPs.size(); i<iend; i++)
-    {
-        MapPoint* pMP = vpMPs[i];
-
-        if(pMP->isBad())
-            continue;
-
-        int nIDr;
-
-        KeyFrame* pRefKF = pMP->GetReferenceKeyFrame();
-        nIDr = pRefKF->mnId;
-
-        g2o::Sim3 Srw = vScw[nIDr];
-        g2o::Sim3 correctedSwr = vCorrectedSwc[nIDr];
-
-        Eigen::Matrix<double,3,1> eigP3Dw = pMP->GetWorldPos().cast<double>();
-        Eigen::Matrix<double,3,1> eigCorrectedP3Dw = correctedSwr.map(Srw.map(eigP3Dw));
-        pMP->SetWorldPos(eigCorrectedP3Dw.cast<float>());
-
-        pMP->UpdateNormalAndDepth();
-    }
-    pMap->IncreaseChangeIndex();
 }
 
+namespace ORB_SLAM3 {
 
-} // namespace OptimizerGPU
+    // Interface implementation
+    PoseGraphOptimizerInterface::PoseGraphOptimizerInterface(const unsigned int max_poses) {
+        pgo = new PoseGraphOptimizer(max_poses);
+    }
+
+    PoseGraphOptimizerInterface::~PoseGraphOptimizerInterface() {
+    
+        if (pgo) {
+            delete pgo;
+        }
+        pgo = nullptr;
+    
+    }
+
+    void PoseGraphOptimizerInterface::clear() {
+        pgo->clear();
+    }
+
+    void PoseGraphOptimizerInterface::reserve(const unsigned int max_poses) {
+        pgo->reserve(max_poses);
+    }
+
+    void PoseGraphOptimizerInterface::add_pose(const int id, ORB_SLAM3::KeyFrame* pKF) {
+        pgo->add_pose(id, pKF);
+    }
+
+    void PoseGraphOptimizerInterface::add_pose(const int id, Eigen::Matrix3d &Rwc, Eigen::Vector3d &twc, ORB_SLAM3::KeyFrame* pKF) {
+        pgo->add_pose(id, Rwc, twc, pKF);
+    }
+
+    // void PoseGraphOptimizerInterface::add_pose(const int id, const Pose4DoF<double> & pose) {
+    //     pgo->add_pose(id, pose);
+    // }
+    SE3Pose PoseGraphOptimizerInterface::get_pose(const int id) {
+        return pgo->get_pose(id);
+    }
+
+    void PoseGraphOptimizerInterface::set_fixed(const int id, const bool fixed) {
+        pgo->set_fixed(id, fixed);
+    }
+
+    void PoseGraphOptimizerInterface::add_factor(const int id1, const int id2,
+                    const Sophus::SE3d& relative_pose,
+                    const double* info) {
+        pgo->add_factor(id1, id2, relative_pose, info);
+    }
+
+    void PoseGraphOptimizerInterface::optimize(const size_t iterations, const double lambda, const bool verbose) {
+        pgo->optimize(iterations, lambda, verbose);
+    }
+
+
+    // Implementation of PoseGraphOptimizer
+    PoseGraphOptimizer::PoseGraphOptimizer(const unsigned int max_poses): 
+    // solver(true), // cuDSS solver
+    // solver(10, 1e-6, std::numeric_limits<double>::infinity(), &preconditioner),
+    streams(2), poses(max_poses), edge_desc(&pose_desc, &pose_desc) {
+        this->reserve(max_poses);
+    }
+
+    void PoseGraphOptimizer::clear() {
+        graph.clear();
+        pose_desc.clear();
+        edge_desc.clear();
+    }
+
+    void PoseGraphOptimizer::reserve(const unsigned int max_poses) {
+        pose_desc.reserve(max_poses);
+        poses.resize(max_poses);
+        edge_desc.reserve(max_poses * 2); // rough estimate
+        graph.add_vertex_descriptor(&pose_desc);
+        graph.add_factor_descriptor(&edge_desc);
+    }
+
+    void PoseGraphOptimizer::add_pose(const int id, ORB_SLAM3::KeyFrame* pKF) {
+        poses[id] = Pose(pKF, nullptr);
+        pose_desc.add_vertex(id, &poses[id]);
+    }
+
+    void PoseGraphOptimizer::add_pose(const int id, Eigen::Matrix3d &Rwc, Eigen::Vector3d &twc, ORB_SLAM3::KeyFrame* pKF) {
+        poses[id] = Pose(Rwc, twc, pKF);
+        pose_desc.add_vertex(id, &poses[id]);
+    }
+
+    SE3Pose PoseGraphOptimizer::get_pose(const int id) {
+        const auto & p = poses[id];
+        // return Sophus::SE3d (p.Rcw[0], p.tcw[0]);
+        return SE3Pose{p.Rcw[0], p.tcw[0]};
+    }
+
+    void PoseGraphOptimizer::set_fixed(const int id, const bool fixed) {
+        pose_desc.set_fixed(id, fixed);
+    }
+
+    void PoseGraphOptimizer::add_factor(const int id1, const int id2,
+                    const Sophus::SE3d& relative_pose,
+                    const double* info) {
+        edge_desc.add_factor({(size_t)id1, (size_t)id2}, relative_pose, info, graphite::Empty(), graphite::DefaultLoss<double, 6>());
+    }
+
+    void PoseGraphOptimizer::optimize(const size_t iterations, const double lambda, const bool verbose) {
+        graphite::optimizer::LevenbergMarquardtOptions<double, double> options;
+        options.solver = &solver;
+        options.iterations = iterations;
+        options.initial_damping = lambda; // note: original code uses g2o to autocompute initial lambda
+        options.streams = &streams;
+        options.verbose = verbose;
+
+        graphite::optimizer::levenberg_marquardt2(&graph, &options);
+
+    }
 } // namespace ORB_SLAM3

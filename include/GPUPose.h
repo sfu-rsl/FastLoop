@@ -207,7 +207,7 @@ namespace gpu {
         }
         else
         {
-            Mat3<T> res = Mat3<T>::Identity() + W*sin(d)/d + W*W*(1.0-cos(d))/d2;
+            Mat3<T> res = Mat3<T>::Identity() + W*sin(d)/d + W*W*(T(1.0)-cos(d))/d2;
             return NormalizeRotation(res);
         }
     }
@@ -228,7 +228,8 @@ namespace gpu {
             return w;
         const T theta = acos(costheta);
         const T s = sin(theta);
-        if(fabs(s)<1e-5)
+        // if(fabs(s)<1e-5)
+        if(abs(s)<1e-5)
             return w;
         else
             return theta*w/s;
@@ -299,10 +300,12 @@ namespace gpu {
             Rcb[0] = pKF->mImuCalib.mTcb.rotationMatrix().cast<T>();
             Rbc[0] = Rcb[0].transpose();
             tbc[0] = pKF->mImuCalib.mTbc.translation().cast<T>();
-            pCamera[0] = cameras[0];
+            if (cameras) {
+                pCamera[0] = cameras[0];
+            }
             bf = pKF->mbf;
 
-            if (cameras[1])
+            if (cameras && cameras[1])
             {
                 Mat4<T> Trl = pKF->GetRelativePoseTrl().matrix().cast<T>();
                 Rcw[1] = Trl.template block<3,3>(0,0) * Rcw[0];
@@ -322,6 +325,35 @@ namespace gpu {
             Rwb0 = Rwb;
             DR.setIdentity();   
         }
+
+        ImuCamPose(Eigen::Matrix3d &_Rwc, Eigen::Vector3d &_twc, ORB_SLAM3::KeyFrame* pKF): its(0)
+        {
+            // This is only for posegrpah, we do not care about multicamera
+            // tcw.resize(1);
+            // Rcw.resize(1);
+            // tcb.resize(1);
+            // Rcb.resize(1);
+            // Rbc.resize(1);
+            // tbc.resize(1);
+            // pCamera.resize(1);
+
+            tcb[0] = pKF->mImuCalib.mTcb.translation().cast<double>();
+            Rcb[0] = pKF->mImuCalib.mTcb.rotationMatrix().cast<double>();
+            Rbc[0] = Rcb[0].transpose();
+            tbc[0] = pKF->mImuCalib.mTbc.translation().cast<double>();
+            twb = _Rwc * tcb[0] + _twc;
+            Rwb = _Rwc * Rcb[0];
+            Rcw[0] = _Rwc.transpose();
+            tcw[0] = -Rcw[0] * _twc;
+            // pCamera[0] = pKF->mpCamera;
+            pCamera[0] = nullptr; // didn't implement because we don't use it
+            bf = pKF->mbf;
+            num_cams = 1; // added
+
+            // For posegraph 4DoF
+            Rwb0 = Rwb;
+            DR.setIdentity();
+        }        
 
         hd_fn Vec2<T> Project(const Vec3<T> &Xw, int cam_idx) const
         {
@@ -372,7 +404,7 @@ namespace gpu {
 
         }
 
-        void UpdateW(const T *pu)
+        hd_fn void UpdateW(const T *pu)
         {
             Vec3<T> ur, ut;
             ur << pu[0], pu[1], pu[2];
@@ -407,6 +439,20 @@ namespace gpu {
                 tcw[i] = Rcb[i] * tbw+tcb[i];
             }
         }
+        
+        // template <typename P>
+        // hd_fn void get_pgo_params(P* params) const
+        // {
+        //     Eigen::Map<Eigen::Matrix<P, 4, 1>> p(params);
+
+        //     const auto tvec = twb;
+        //     const auto rvec = LogSO3(DR);
+        //     p(0) = tvec(0);
+        //     p(1) = tvec(1);
+        //     p(2) = tvec(2);
+        //     p(3) = rvec(2);
+
+        // }
 
         hd_fn bool isDepthPositive(const Vec3<T>& Xw, int cam_idx) const
         {
@@ -443,7 +489,7 @@ namespace gpu {
         using Vertex = ImuCamPose<T, C>;
 
         template <typename P>
-        hd_fn static void parameters(const Vertex &vertex, P* params) {}
+        hd_fn static std::array<T, dimension> parameters(const Vertex &vertex, P* params) {}
 
         hd_fn static void update(Vertex &vertex, const T *delta) {
             vertex.Update(delta);

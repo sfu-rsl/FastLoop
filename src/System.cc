@@ -260,6 +260,8 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     // Fix verbosity
     Verbose::SetTh(Verbose::VERBOSITY_QUIET);
 
+    init_pgo(1000);
+
 }
 
 
@@ -597,6 +599,7 @@ void System::Shutdown()
     mpTracker->PrintTimeStats();
 #endif
 
+    cleanup_pgo();
 }
 
 bool System::isShutDown() {
