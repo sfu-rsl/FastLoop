@@ -22,7 +22,7 @@ RUN apt-get -y install libopencv-dev libopencv-core-dev libeigen3-dev libboost-s
 
 # Install CUDA Toolkit 12.6
 # RUN apt-get -y install cuda-toolkit-12-6 cuda-gdb-12-6
-RUN apt-get -y install cuda-toolkit-12-8 cuda-gdb-12-8
+RUN apt-get -y install cuda-toolkit-12-8 cuda-gdb-12-8 cudss-cuda-12
 
 # ORB-SLAM3 Stuff
 # Install pangolin

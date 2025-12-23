@@ -148,6 +148,7 @@ include/Kernels/SearchByProjectionKernel.h
 include/Kernels/SearchAndFuseKernel.h
 include/GPUPose.h
 include/PGOTypes.h
+include/PGOInterface.h
 )
 
 set_target_properties( ${PROJECT_NAME}
