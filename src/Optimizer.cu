@@ -112,7 +112,7 @@ namespace ORB_SLAM3 {
     void PoseGraphOptimizer::reserve(const unsigned int max_poses) {
         pose_desc.reserve(max_poses);
         poses.resize(max_poses);
-        edge_desc.reserve(max_poses * 2); // rough estimate
+        edge_desc.reserve(max_poses * 10); // rough estimate
         graph.add_vertex_descriptor(&pose_desc);
         graph.add_factor_descriptor(&edge_desc);
     }
