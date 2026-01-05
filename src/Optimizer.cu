@@ -101,6 +101,18 @@ namespace ORB_SLAM3 {
     // solver(10, 1e-6, std::numeric_limits<double>::infinity(), &preconditioner),
     streams(2), poses(max_poses), edge_desc(&pose_desc, &pose_desc) {
         this->reserve(max_poses);
+        // set up a simple PGO problem and optimize it to deal with startup overhead
+        if (max_poses > 1) {
+            poses[0] = Pose();
+            poses[1] = Pose();
+            pose_desc.add_vertex(0, &poses[0]);
+            pose_desc.add_vertex(1, &poses[1]);
+            edge_desc.add_factor({0, 1}, Sophus::SE3d(), nullptr, graphite::Empty(), graphite::DefaultLoss<double, 6>());
+
+            optimize(1, 1e-4, false);
+
+            clear();
+        }
     }
 
     void PoseGraphOptimizer::clear() {
