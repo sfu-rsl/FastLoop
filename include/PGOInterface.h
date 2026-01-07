@@ -15,7 +15,7 @@ namespace ORB_SLAM3{
     class PoseGraphOptimizerInterface {
         public:
 
-        PoseGraphOptimizerInterface(const unsigned int max_poses);
+        PoseGraphOptimizerInterface(const unsigned int max_poses, const unsigned int max_edges);
         ~PoseGraphOptimizerInterface();
 
         void add_pose(const int id, ORB_SLAM3::KeyFrame* pKF);
@@ -26,7 +26,7 @@ namespace ORB_SLAM3{
         void optimize(const size_t iterations, const double lambda, const bool verbose);
 
         void clear();
-        void reserve(const unsigned int max_poses);
+        void reserve(const unsigned int max_poses, const unsigned int max_edges);
 
         private:
 

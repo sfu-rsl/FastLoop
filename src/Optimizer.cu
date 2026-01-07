@@ -8,7 +8,7 @@ class PoseGraphOptimizer {
     public:
 
 
-    PoseGraphOptimizer(const unsigned int max_poses);
+    PoseGraphOptimizer(const unsigned int max_poses, const unsigned int max_edges);
 
 
     // void add_pose(const int id, const Pose4DoF<double> &pose);
@@ -21,7 +21,7 @@ class PoseGraphOptimizer {
     void add_factor(const int id1, const int id2, const Sophus::SE3d &relative_pose, const double* info);
     void optimize(const size_t iterations, const double lambda, const bool verbose);
     void clear();
-    void reserve(const unsigned int max_poses);
+    void reserve(const unsigned int max_poses, const unsigned int max_edges);
 
     private:
 
@@ -44,8 +44,8 @@ class PoseGraphOptimizer {
 namespace ORB_SLAM3 {
 
     // Interface implementation
-    PoseGraphOptimizerInterface::PoseGraphOptimizerInterface(const unsigned int max_poses) {
-        pgo = new PoseGraphOptimizer(max_poses);
+    PoseGraphOptimizerInterface::PoseGraphOptimizerInterface(const unsigned int max_poses, const unsigned int max_edges) {
+        pgo = new PoseGraphOptimizer(max_poses, max_edges);
     }
 
     PoseGraphOptimizerInterface::~PoseGraphOptimizerInterface() {
@@ -61,8 +61,8 @@ namespace ORB_SLAM3 {
         pgo->clear();
     }
 
-    void PoseGraphOptimizerInterface::reserve(const unsigned int max_poses) {
-        pgo->reserve(max_poses);
+    void PoseGraphOptimizerInterface::reserve(const unsigned int max_poses, const unsigned int max_edges) {
+        pgo->reserve(max_poses, max_edges);
     }
 
     void PoseGraphOptimizerInterface::add_pose(const int id, ORB_SLAM3::KeyFrame* pKF) {
@@ -96,23 +96,22 @@ namespace ORB_SLAM3 {
 
 
     // Implementation of PoseGraphOptimizer
-    PoseGraphOptimizer::PoseGraphOptimizer(const unsigned int max_poses): 
+    PoseGraphOptimizer::PoseGraphOptimizer(const unsigned int max_poses, const unsigned int max_edges):
     // solver(true), // cuDSS solver
     // solver(10, 1e-6, std::numeric_limits<double>::infinity(), &preconditioner),
     streams(2), poses(max_poses), edge_desc(&pose_desc, &pose_desc) {
-        this->reserve(max_poses);
+        this->reserve(max_poses, max_edges);
         // set up a simple PGO problem and optimize it to deal with startup overhead
-        if (max_poses > 1) {
-            poses[0] = Pose();
-            poses[1] = Pose();
-            pose_desc.add_vertex(0, &poses[0]);
-            pose_desc.add_vertex(1, &poses[1]);
-            edge_desc.add_factor({0, 1}, Sophus::SE3d(), nullptr, graphite::Empty(), graphite::DefaultLoss<double, 6>());
+        // if (max_poses > 1) {
+        //     poses[0] = Pose();
+        //     poses[1] = Pose();
+        //     pose_desc.add_vertex(0, &poses[0]);
+        //     pose_desc.add_vertex(1, &poses[1]);
+        //     edge_desc.add_factor({0, 1}, Sophus::SE3d(), nullptr, graphite::Empty(), graphite::DefaultLoss<double, 6>());
+        //     optimize(1, 1e-4, false);
 
-            optimize(1, 1e-4, false);
-
-            clear();
-        }
+        //     clear();
+        // }
     }
 
     void PoseGraphOptimizer::clear() {
@@ -121,10 +120,10 @@ namespace ORB_SLAM3 {
         edge_desc.clear();
     }
 
-    void PoseGraphOptimizer::reserve(const unsigned int max_poses) {
+    void PoseGraphOptimizer::reserve(const unsigned int max_poses, const unsigned int max_edges) {
         pose_desc.reserve(max_poses);
         poses.resize(max_poses);
-        edge_desc.reserve(max_poses * 10); // rough estimate
+        edge_desc.reserve(max_edges);
         graph.add_vertex_descriptor(&pose_desc);
         graph.add_factor_descriptor(&edge_desc);
     }

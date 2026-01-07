@@ -49,9 +49,9 @@ static std::unique_ptr<ORB_SLAM3::PoseGraphOptimizerInterface> pose_graph_optimi
 namespace ORB_SLAM3
 {
 
-void init_pgo(unsigned int max_poses) {
+void init_pgo(unsigned int max_poses, unsigned int max_edges) {
     if (!pose_graph_optimizer) {
-        pose_graph_optimizer = std::make_unique<PoseGraphOptimizerInterface>(max_poses);
+        pose_graph_optimizer = std::make_unique<PoseGraphOptimizerInterface>(max_poses, max_edges);
     }
 }
 
@@ -5646,7 +5646,43 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
 
     auto & optimizer = *pose_graph_optimizer;
     optimizer.clear();
-    optimizer.reserve(nMaxKFid+1);
+
+
+    size_t max_edges = 0; // just need an approximate upper bound
+
+    for(map<KeyFrame *, set<KeyFrame *> >::const_iterator mit = LoopConnections.begin(), mend=LoopConnections.end(); mit!=mend; mit++)
+    {
+        KeyFrame* pKF = mit->first;
+        const long unsigned int nIDi = pKF->mnId;
+        const set<KeyFrame*> &spConnections = mit->second;
+        max_edges += spConnections.size();
+    }
+
+    // 1. Set normal edges
+    for(size_t i=0, iend=vpKFs.size(); i<iend; i++)
+    {
+        KeyFrame* pKF = vpKFs[i];
+
+        // // 1.1.0 Spanning tree edge
+        max_edges++;
+
+        // 1.1.1 Inertial edges
+        KeyFrame* prevKF = pKF->mPrevKF;
+        if(prevKF)
+        {
+            max_edges++;
+        }
+
+        // 1.2 Loop edges
+        const set<KeyFrame*> sLoopEdges = pKF->GetLoopEdges();
+        max_edges += sLoopEdges.size();
+
+        // 1.3 Covisibility graph edges
+        const vector<KeyFrame*> vpConnectedKFs = pKF->GetCovisiblesByWeight(100); // minFeat=100
+        max_edges += vpConnectedKFs.size();
+    }
+
+    optimizer.reserve(nMaxKFid+1, max_edges);
 
     const int minFeat = 100;
     // Set KeyFrame vertices
