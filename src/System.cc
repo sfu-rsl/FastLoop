@@ -260,7 +260,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     // Fix verbosity
     Verbose::SetTh(Verbose::VERBOSITY_QUIET);
 
-    init_pgo(1000);
+    init_pgo(1000, 1000);
 
 }
 
