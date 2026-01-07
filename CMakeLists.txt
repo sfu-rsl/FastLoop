@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(ORB_SLAM3)
+project(ORB_SLAM3 LANGUAGES CUDA CXX)
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Release)
@@ -7,26 +7,32 @@ ENDIF()
 
 MESSAGE("Build type: " ${CMAKE_BUILD_TYPE})
 
+add_compile_options(-w)
+# -fsanitize=address for debugging
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall   -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3  ${OpenMP_CXX_FLAGS} -g")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native")
 
-# Check C++11 or C++0x support
+# Check C++14 or C++0x support
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if(COMPILER_SUPPORTS_CXX14)
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
    add_definitions(-DCOMPILEDWITHC11)
-   message(STATUS "Using flag -std=c++11.")
+   message(STATUS "Using flag -std=c++14.")
 elseif(COMPILER_SUPPORTS_CXX0X)
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
    add_definitions(-DCOMPILEDWITHC0X)
    message(STATUS "Using flag -std=c++0x.")
 else()
-   message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+   message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
+
+add_compile_definitions(SPDLOG_ACTIVE_LEVEL=5)
+add_compile_definitions(KOMPUTE_VK_API_MAJOR_VERSION=1 KOMPUTE_VK_API_MINOR_VERSION=2)
+add_compile_definitions(KOMPUTE_DISABLE_VK_DEBUG_LAYERS)
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
@@ -40,6 +46,7 @@ MESSAGE(${OpenCV_VERSION})
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
+find_package(OpenMP REQUIRED)
 find_package(realsense2)
 
 include_directories(
@@ -49,6 +56,11 @@ ${PROJECT_SOURCE_DIR}/include/CameraModels
 ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
+${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
+# new
+# ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/src/include
+# ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/src/include
+# ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/compute-engine/external/kompute/external/VulkanMemoryAllocator/include
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -82,6 +94,13 @@ src/GeometricTools.cc
 src/TwoViewReconstruction.cc
 src/Config.cc
 src/Settings.cc
+src/Kernels/CudaUtils.cu
+src/Kernels/LoopClosingKernelController.cu
+src/Kernels/CudaWrappers/CudaMapPoint.cu
+src/Kernels/CudaWrappers/CudaKeyFrame.cu
+src/Kernels/LoopClosingCudaKeyFrameStorage.cu
+src/Kernels/SearchByProjectionKernel.cu
+src/Kernels/SearchAndFuseKernel.cu
 include/System.h
 include/Tracking.h
 include/LocalMapping.h
@@ -111,9 +130,38 @@ include/GeometricTools.h
 include/TwoViewReconstruction.h
 include/SerializationUtils.h
 include/Config.h
-include/Settings.h)
+include/Settings.h
+include/Kernels/CudaUtils.h
+include/Kernels/LoopClosingKernelController.h
+include/Kernels/CudaWrappers/CudaMapPoint.h
+include/Kernels/CudaWrappers/CudaCamera.h
+include/Kernels/CudaWrappers/CudaKeyFrame.h
+include/Kernels/CudaWrappers/CudaKeyPoint.h
+include/Kernels/LoopClosingCudaKeyFrameStorage.h
+include/Kernels/SearchByProjectionKernel.h
+include/Kernels/SearchAndFuseKernel.h
+)
 
+set_target_properties( ${PROJECT_NAME}
+                       PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+add_compile_options(-w)
+
+add_compile_definitions(SPDLOG_ACTIVE_LEVEL=5)
 add_subdirectory(Thirdparty/g2o)
+
+# check_language(CUDA)
+
+if(CMAKE_CUDA_COMPILER)
+message("CUDA IS AVAILABLE")
+
+find_package(CUDAToolkit REQUIRED)
+target_link_libraries(${PROJECT_NAME} CUDA::cusparse CUDA::cusolver CUDA::cudart)
+add_compile_definitions(CUDA_ENABLED)
+else()
+message("CUDA IS NOT AVAILABLE")
+endif()
 
 target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
@@ -123,6 +171,10 @@ ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
 -lboost_serialization
 -lcrypto
+OpenMP::OpenMP_CXX
+# new
+# compute
+# fmt::fmt
 )
 
 # If RealSense SDK is found the library is added and its examples compiled

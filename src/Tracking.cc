@@ -29,6 +29,8 @@
 #include "MLPnPsolver.h"
 #include "GeometricTools.h"
 
+#include "Kernels/CudaUtils.h"
+
 #include <iostream>
 
 #include <mutex>
@@ -591,14 +593,18 @@ void Tracking::newParameterLoader(Settings *settings) {
     int fIniThFAST = settings->initThFAST();
     int fMinThFAST = settings->minThFAST();
     float fScaleFactor = settings->scaleFactor();
+    bool cameraIsFisheye = (settings->cameraType() == Settings::KannalaBrandt);
 
     mpORBextractorLeft = new ORBextractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
 
-    if(mSensor==System::STEREO || mSensor==System::IMU_STEREO)
+    if(mSensor==System::STEREO || mSensor==System::IMU_STEREO) {
         mpORBextractorRight = new ORBextractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
-
-    if(mSensor==System::MONOCULAR || mSensor==System::IMU_MONOCULAR)
+        CudaUtils::loadSetting(nFeatures, nLevels, false, fScaleFactor, settings->newImSize().width, settings->newImSize().height, cameraIsFisheye);
+    }
+    if(mSensor==System::MONOCULAR || mSensor==System::IMU_MONOCULAR){
         mpIniORBextractor = new ORBextractor(5*nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
+        CudaUtils::loadSetting(5*nFeatures, nLevels, true, fScaleFactor, settings->newImSize().width, settings->newImSize().height, cameraIsFisheye);
+    }
 
     //IMU parameters
     Sophus::SE3f Tbc = settings->Tbc();

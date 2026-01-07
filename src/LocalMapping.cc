@@ -23,6 +23,7 @@
 #include "Optimizer.h"
 #include "Converter.h"
 #include "GeometricTools.h"
+#include "Kernels/LoopClosingKernelController.h"
 
 #include<mutex>
 #include<chrono>
@@ -263,8 +264,11 @@ void LocalMapping::Run()
             {
                 usleep(3000);
             }
-            if(CheckFinish())
+            if(CheckFinish()){
+                if (LoopClosingKernelController::is_active)
+                    LoopClosingKernelController::shutdownKernels(true, false);
                 break;
+            }
         }
 
         ResetIfRequested();
@@ -272,8 +276,11 @@ void LocalMapping::Run()
         // Tracking will see that Local Mapping is busy
         SetAcceptKeyFrames(true);
 
-        if(CheckFinish())
+        if(CheckFinish()){
+            if (LoopClosingKernelController::is_active)
+                    LoopClosingKernelController::shutdownKernels(true, false);
             break;
+        }
 
         usleep(3000);
     }

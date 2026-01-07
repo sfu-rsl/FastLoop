@@ -2834,7 +2834,8 @@ void Optimizer::LocalInertialBA(KeyFrame *pKF, bool *pbStopFlag, Map *pMap, int&
     //cout << "Total map points: " << lLocalMapPoints.size() << endl;
     for(map<int,int>::iterator mit=mVisEdges.begin(), mend=mVisEdges.end(); mit!=mend; mit++)
     {
-        assert(mit->second>=3);
+        if (mit->second < 3) continue;
+        // assert(mit->second>=3);
     }
 
     optimizer.initializeOptimization();

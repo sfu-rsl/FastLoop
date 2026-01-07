@@ -20,6 +20,8 @@
 #include "Converter.h"
 #include "ImuTypes.h"
 #include<mutex>
+#include "Kernels/LoopClosingKernelController.h"
+#include "Kernels/LoopClosingCudaKeyFrameStorage.h"
 
 namespace ORB_SLAM3
 {
@@ -673,9 +675,12 @@ void KeyFrame::SetBadFlag()
         mbBad = true;
     }
 
-
     mpMap->EraseKeyFrame(this);
     mpKeyFrameDB->erase(this);
+
+    if (LoopClosingKernelController::is_active) {
+        LoopClosingCudaKeyFrameStorage::eraseCudaKeyFrame(this);
+    }
 }
 
 bool KeyFrame::isBad()
@@ -1154,6 +1159,11 @@ void KeyFrame::SetORBVocabulary(ORBVocabulary* pORBVoc)
 void KeyFrame::SetKeyFrameDatabase(KeyFrameDatabase* pKFDB)
 {
     mpKeyFrameDB = pKFDB;
+}
+
+const std::vector<std::vector<std::vector<size_t>>>& KeyFrame::getMGrid() const
+{
+    return mGrid;
 }
 
 } //namespace ORB_SLAM

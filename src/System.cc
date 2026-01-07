@@ -32,6 +32,9 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
+#include "Kernels/LoopClosingKernelController.h"
+#include "Kernels/CudaUtils.h"
+
 
 namespace ORB_SLAM3
 {
@@ -523,6 +526,21 @@ void System::Shutdown()
 
     mpLocalMapper->RequestFinish();
     mpLoopCloser->RequestFinish();
+
+    while(!mpLocalMapper->isFinished() || !mpLoopCloser->isFinished())
+    {
+        if(!mpLocalMapper->isFinished())
+            cout << "mpLocalMapper is not finished" << endl;
+        if(!mpLoopCloser->isFinished())
+            cout << "mpLoopCloser is not finished" << endl;
+        usleep(100000);
+    }
+
+    // if (LoopClosingKernelController::is_active) {
+    //     LoopClosingKernelController::shutdownKernels();
+    // }
+    // CudaUtils::shutdown();
+
     /*if(mpViewer)
     {
         mpViewer->RequestFinish();
