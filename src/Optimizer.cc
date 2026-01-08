@@ -19,8 +19,6 @@
 
 #include "Optimizer.h"
 
-#include "Thirdparty/g2o/g2o/gpu/block_solver2.h"
-
 #include <complex>
 
 #include <Eigen/StdVector>
@@ -60,24 +58,6 @@ void cleanup_pgo() {
     if (pose_graph_optimizer) {
         pose_graph_optimizer.reset();
     }
-}
-
-static compute::ComputeEngine* engine = nullptr;
-
-void initialize_compute_engine() {
-    if (!engine) {
-        engine = new compute::ComputeEngine();
-    }
-
-    // Temporary allocation to reduce initialization overhead on first use
-    auto buf = engine->create_buffer<double>(nullptr, 1000000, compute::BufferType::DeviceCached);
-    auto buf2 = engine->create_buffer<double>(nullptr, 1000000, compute::BufferType::Host);
-    auto buf3 = engine->create_buffer<double>(nullptr, 1000000, compute::BufferType::Storage);
-}
-
-void destroy_compute_engine() {
-    delete engine;
-    engine = nullptr;
 }
 
 bool sortByVal(const pair<MapPoint*, int> &a, const pair<MapPoint*, int> &b)
