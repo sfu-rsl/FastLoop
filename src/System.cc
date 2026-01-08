@@ -34,6 +34,7 @@
 #include <boost/archive/xml_oarchive.hpp>
 #include "Kernels/LoopClosingKernelController.h"
 #include "Kernels/CudaUtils.h"
+#include "Optimizer.h"
 
 
 namespace ORB_SLAM3

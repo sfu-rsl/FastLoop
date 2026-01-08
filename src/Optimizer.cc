@@ -19,6 +19,7 @@
 
 #include "Optimizer.h"
 
+#include "Thirdparty/g2o/g2o/gpu/block_solver2.h"
 
 #include <complex>
 
