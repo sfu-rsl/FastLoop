@@ -655,14 +655,14 @@ namespace ORB_SLAM3
         return nmatches;
     }
 
-    void ORBmatcher::MergedSearchByProjection(KeyFrame* pKF, const std::vector<MapPoint*> &vpPoints,
-                                    Sophus::Sim3<float> &Scw, const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
-                                    Sophus::Sim3<float> &Scw1, std::vector<MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+    void ORBmatcher::MergedSearchByProjection(KeyFrame* pKF, const std::vector<MapPoint*> &vpPoints, Sophus::Sim3<float> &Scw1,
+                                    const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                    std::vector<MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                                     int &numProjMatches, int &numProjOptMatches)
     {
-        LoopClosingKernelController::launchSearchByProjectionKernel(pKF, vpPoints,
-                            Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
-                            Scw1, vpMatched1, th1, ratioHamming1,
+        LoopClosingKernelController::launchSearchByProjectionKernel(pKF, vpPoints, Scw1,
+                            vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
+                            vpMatched1, th1, ratioHamming1,
                             numProjMatches, numProjOptMatches);
         return;
 

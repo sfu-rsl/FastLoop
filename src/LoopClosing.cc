@@ -852,9 +852,9 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     auto start57 = std::chrono::high_resolution_clock::now();
 
                     g2o::Sim3 gScm(solver.GetEstimatedRotation().cast<double>(),solver.GetEstimatedTranslation().cast<double>(), (double) solver.GetEstimatedScale());
-                    g2o::Sim3 gSmw(pMostBoWMatchesKF->GetRotation().cast<double>(),pMostBoWMatchesKF->GetTranslation().cast<double>(),1.0);
-                    g2o::Sim3 gScw = gScm*gSmw; // Similarity matrix of current from the world position
-                    Sophus::Sim3f mScw = Converter::toSophus(gScw);
+                    // g2o::Sim3 gSmw(pMostBoWMatchesKF->GetRotation().cast<double>(),pMostBoWMatchesKF->GetTranslation().cast<double>(),1.0);
+                    // g2o::Sim3 gScw = gScm*gSmw; // Similarity matrix of current from the world position
+                    // Sophus::Sim3f mScw = Converter::toSophus(gScw);
                     vector<MapPoint*> vpMatchedMP;
                     vpMatchedMP.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
                     vector<KeyFrame*> vpMatchedKF;
@@ -875,13 +875,6 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     Sophus::Sim3f mScw1 = Converter::toSophus(gScw1);
                     vector<MapPoint*> vpMatchedMP1;
                     vpMatchedMP1.resize(mpCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
-                    
-                    float tol = 1e-6f;
-                    if ((mScw.matrix() - mScw1.matrix()).norm() < tol) {
-                        std::cout << "mScw and mScw1 are equal." << std::endl;
-                    } else {
-                        std::cout << "mScw and mScw1 are NOT equal." << std::endl;
-                    }
 
                     int numProjMatches = 0;
                     int numProjOptMatches = 0;
@@ -892,7 +885,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
 
                     if(false){
                         // auto start6 = std::chrono::high_resolution_clock::now();
-                        numProjMatches = matcher.SearchByProjection(mpCurrentKF, mScw, vpMapPoints, vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5);
+                        numProjMatches = matcher.SearchByProjection(mpCurrentKF, mScw1, vpMapPoints, vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5);
                         // auto end6 = std::chrono::high_resolution_clock::now();
                         // std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
                         // std::cout << "+ Search By Projection: " << elapsed6.count() << " ms" << std::endl;
@@ -906,9 +899,9 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     }
                     else{
                         auto start6 = std::chrono::high_resolution_clock::now();
-                        matcher.MergedSearchByProjection(mpCurrentKF, vpMapPoints,
-                                                        mScw, vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5,
-                                                        mScw1, vpMatchedMP1, 5, 1.0,
+                        matcher.MergedSearchByProjection(mpCurrentKF, vpMapPoints, mScw1,
+                                                        vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5,
+                                                        vpMatchedMP1, 5, 1.0,
                                                         numProjMatches, numProjOptMatches);
                         auto end6 = std::chrono::high_resolution_clock::now();
                         std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
@@ -1388,7 +1381,7 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
     vpCovKFm.push_back(pMatchedKFw);
     set<KeyFrame*> spCheckKFs(vpCovKFm.begin(), vpCovKFm.end());
     set<KeyFrame*> spCurrentCovisbles = pCurrentKF->GetConnectedKeyFrames();
-    cout << "spCurrentCovisbles.size(): " << spCurrentCovisbles.size() << std::endl;
+
     if(nInitialCov < nNumCovisibles)
     {
         for(int i=0; i<nInitialCov; ++i)
@@ -1432,13 +1425,8 @@ int LoopClosing::FindMatchesByProjection(KeyFrame* pCurrentKF, KeyFrame* pMatche
     ORBmatcher matcher(0.9, true);
 
     vpMatchedMapPoints.resize(pCurrentKF->GetMapPointMatches().size(), static_cast<MapPoint*>(NULL));
-    // cout << "pCurrentKF->mnId: " << pCurrentKF->mnId << std::endl;
-    // cout << "mScw[0]: " << mScw.translation() << std::endl;
-    // cout << "vpMapPoints.size(): " << vpMapPoints.size() << "   vpMapPoints[0]->mnId: " << vpMapPoints[0]->mnId << "    vpMapPoints[-1]->mnId: " << vpMapPoints[vpMapPoints.size()-1]->mnId << std::endl;
-    // cout << "vpMatchedMapPoints.size(): " << vpMatchedMapPoints.size() << std::endl;
-    // cout << "__________________________________________\n";
     int num_matches = matcher.SearchByProjection(pCurrentKF, mScw, vpMapPoints, vpMatchedMapPoints, 3, 1.5);
-    timing << "Yes\n";
+
     return num_matches;
 }
 

@@ -16,20 +16,26 @@ namespace LOOP_CLOSING_DATA_WRAPPER
     }
 
     CudaMapPoint::CudaMapPoint(ORB_SLAM3::MapPoint* mp) {
-        if (mp)
-            isEmpty = false;
-        else {
-            isEmpty = true;
-            return;
-        }
+        isEmpty = false;
         mnId = mp->mnId;
-        mWorldPos = mp->GetWorldPos();
-        mfMaxDistance = mp->GetMaxDistance();
-        mfMinDistance = mp->GetMinDistance();
-        mNormalVector = mp->GetNormal();
-        const cv::Mat& descriptor = mp->GetDescriptor();
-        std::memcpy(mDescriptor, descriptor.ptr<uint8_t>(0), descriptor.cols * sizeof(uint8_t));
-        mbBad = mp->isBad();
+
+        // cv::Mat descriptor;
+        mp->AssignWorldPos_MaxD_MinD_Normal_Descriptor(
+            mWorldPos,
+            mfMaxDistance,
+            mfMinDistance,
+            mNormalVector,
+            mDescriptor
+        );
+        
+        // mWorldPos = mp->GetWorldPos();
+        // mfMaxDistance = mp->GetMaxDistance();
+        // mfMinDistance = mp->GetMinDistance();
+        // mNormalVector = mp->GetNormal();
+        // const cv::Mat& descriptor = mp->GetDescriptor();
+        // cout << descriptor.cols << "    " << descriptor.cols * sizeof(uint8_t) << endl;
+        // std::memcpy(mDescriptor, descriptor.ptr<uint8_t>(0), descriptor.cols * sizeof(uint8_t));
+        mbBad = false;
     }
 
     bool CudaMapPoint::isBad(){
