@@ -1690,14 +1690,14 @@ void LoopClosing::CorrectLoop()
     //cout << "Optimize essential graph" << endl;
     if(pLoopMap->IsInertial() && pLoopMap->isImuInitialized())
     {
-        {
-            std::cout << "CPU: Loop closing PGO!" << std::endl;
-            auto start_cpu = std::chrono::steady_clock::now();
-            Optimizer::OptimizeEssentialGraph4DoF(pLoopMap, mpLoopMatchedKF, mpCurrentKF, NonCorrectedSim3, CorrectedSim3, LoopConnections);
-            auto end_cpu = std::chrono::steady_clock::now();
-            std::chrono::duration<double, std::milli> elapsed_cpu = end_cpu - start_cpu;
-            std::cout << "CPU: Completed loop closing PGO in " << elapsed_cpu.count() << " ms." << std::endl;
-        }
+        // {
+        //     std::cout << "CPU: Loop closing PGO!" << std::endl;
+        //     auto start_cpu = std::chrono::steady_clock::now();
+        //     Optimizer::OptimizeEssentialGraph4DoF(pLoopMap, mpLoopMatchedKF, mpCurrentKF, NonCorrectedSim3, CorrectedSim3, LoopConnections);
+        //     auto end_cpu = std::chrono::steady_clock::now();
+        //     std::chrono::duration<double, std::milli> elapsed_cpu = end_cpu - start_cpu;
+        //     std::cout << "CPU: Completed loop closing PGO in " << elapsed_cpu.count() << " ms." << std::endl;
+        // }
 
         {
             std::cout << "GPU: Loop closing PGO!" << std::endl;
