@@ -99,7 +99,7 @@ namespace ORB_SLAM3 {
     PoseGraphOptimizer::PoseGraphOptimizer(const unsigned int max_poses, const unsigned int max_edges):
     // solver(true), // cuDSS solver
     // solver(10, 1e-6, std::numeric_limits<double>::infinity(), &preconditioner),
-    streams(2), poses(max_poses), edge_desc(&pose_desc, &pose_desc) {
+    streams(4), poses(max_poses), edge_desc(&pose_desc, &pose_desc) {
         this->reserve(max_poses, max_edges);
         // set up a simple PGO problem and optimize it to deal with startup overhead
         // if (max_poses > 1) {
@@ -161,6 +161,8 @@ namespace ORB_SLAM3 {
         options.initial_damping = lambda; // note: original code uses g2o to autocompute initial lambda
         options.streams = &streams;
         options.verbose = verbose;
+
+        graph.scale_system(false);
 
         graphite::optimizer::levenberg_marquardt2(&graph, &options);
 

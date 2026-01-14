@@ -98,6 +98,8 @@ void LoopClosing::Run()
 {
     std::ofstream timing("./test/timing.txt", std::ios::app);
     mbFinished =false;
+    
+    init_pgo(1000, 1000);
 
     while(1)
     {
@@ -360,6 +362,7 @@ void LoopClosing::Run()
     //     outfile << pKF->mnId << " " << t[0] << " " << t[1] << " " << t[2] << std::endl;
     // }
     SetFinish();
+    cleanup_pgo();
 }
 
 void LoopClosing::InsertKeyFrame(KeyFrame *pKF)
@@ -1687,14 +1690,14 @@ void LoopClosing::CorrectLoop()
     //cout << "Optimize essential graph" << endl;
     if(pLoopMap->IsInertial() && pLoopMap->isImuInitialized())
     {
-        // {
-        //     std::cout << "CPU: Loop closing PGO!" << std::endl;
-        //     auto start_cpu = std::chrono::steady_clock::now();
-        //     Optimizer::OptimizeEssentialGraph4DoF(pLoopMap, mpLoopMatchedKF, mpCurrentKF, NonCorrectedSim3, CorrectedSim3, LoopConnections);
-        //     auto end_cpu = std::chrono::steady_clock::now();
-        //     std::chrono::duration<double, std::milli> elapsed_cpu = end_cpu - start_cpu;
-        //     std::cout << "CPU: Completed loop closing PGO in " << elapsed_cpu.count() << " ms." << std::endl;
-        // }
+        {
+            std::cout << "CPU: Loop closing PGO!" << std::endl;
+            auto start_cpu = std::chrono::steady_clock::now();
+            Optimizer::OptimizeEssentialGraph4DoF(pLoopMap, mpLoopMatchedKF, mpCurrentKF, NonCorrectedSim3, CorrectedSim3, LoopConnections);
+            auto end_cpu = std::chrono::steady_clock::now();
+            std::chrono::duration<double, std::milli> elapsed_cpu = end_cpu - start_cpu;
+            std::cout << "CPU: Completed loop closing PGO in " << elapsed_cpu.count() << " ms." << std::endl;
+        }
 
         {
             std::cout << "GPU: Loop closing PGO!" << std::endl;
