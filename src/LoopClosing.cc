@@ -847,7 +847,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
 
                 //std::cout << "There are " << vpKeyFrames.size() <<" KFs which view all the mappoints" << std::endl;
 
-                if(LoopClosingKernelController::mergedSearchByProjectionOnGPU)
+                if(LoopClosingKernelController::is_active)
                 {
                     auto start57 = std::chrono::high_resolution_clock::now();
 
@@ -883,7 +883,17 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     std::chrono::duration<double, std::milli> elapsed57 = end57 - start57;
                     // timing << "- vpMatchedKF: " << elapsed57.count() << " ms" << std::endl;
 
-                    if(false){
+                    if(LoopClosingKernelController::mergedSearchByProjectionOnGPU){
+                        auto start6 = std::chrono::high_resolution_clock::now();
+                        matcher.MergedSearchByProjection(mpCurrentKF, vpMapPoints, mScw1,
+                                                        vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5,
+                                                        vpMatchedMP1, 5, 1.0,
+                                                        numProjMatches, numProjOptMatches);
+                        auto end6 = std::chrono::high_resolution_clock::now();
+                        std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+                        timing << "- Merged Search By Projection: " << elapsed6.count() << " ms" << std::endl;
+                    }
+                    else{
                         // auto start6 = std::chrono::high_resolution_clock::now();
                         numProjMatches = matcher.SearchByProjection(mpCurrentKF, mScw1, vpMapPoints, vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5);
                         // auto end6 = std::chrono::high_resolution_clock::now();
@@ -895,17 +905,6 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                         // auto end8 = std::chrono::high_resolution_clock::now();
                         // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
                         // std::cout << "+ SearchByProjection: " << elapsed8.count() << " ms" << std::endl;
-
-                    }
-                    else{
-                        auto start6 = std::chrono::high_resolution_clock::now();
-                        matcher.MergedSearchByProjection(mpCurrentKF, vpMapPoints, mScw1,
-                                                        vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5,
-                                                        vpMatchedMP1, 5, 1.0,
-                                                        numProjMatches, numProjOptMatches);
-                        auto end6 = std::chrono::high_resolution_clock::now();
-                        std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-                        timing << "- Merged Search By Projection: " << elapsed6.count() << " ms" << std::endl;
                     }
                     if(numProjMatches >= nProjMatches)
                     {
@@ -976,6 +975,7 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                 auto start9 = std::chrono::high_resolution_clock::now();
 
                                 if(LoopClosingKernelController::merged3SearchByProjectionOnGPU){
+                                    auto start100 = std::chrono::high_resolution_clock::now();
                                     vector<KeyFrame*> currentCovKFs;
                                     vector<Sophus::Sim3f> currentCovmScws;
                                     bool bValid[3];
@@ -989,12 +989,19 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                         Sophus::Sim3f mScw = Converter::toSophus(gSjw);
                                         currentCovmScws.push_back(mScw); 
                                     }
+                                    auto end100 = std::chrono::high_resolution_clock::now();
+                                    std::chrono::duration<double, std::milli> elapsed100 = end100 - start100;
+                                    timing << "100: " << elapsed100.count() << " ms" << std::endl;
 
+                                    auto start101 = std::chrono::high_resolution_clock::now();
                                     GPUDetectCommonRegionsFromLastKF(currentCovKFs, currentCovmScws, pMostBoWMatchesKF, vpMapPoints, num_matches);
-                                    
+                                    auto end101 = std::chrono::high_resolution_clock::now();
+                                    std::chrono::duration<double, std::milli> elapsed101 = end101 - start101;
+                                    timing << "101: " << elapsed101.count() << " ms" << std::endl;
+
+                                    auto start102 = std::chrono::high_resolution_clock::now();
                                     int nProjMatches = 30;
                                     for(int i=0; i<3; i++){
-                                        // cout << num_matches[i] << std::endl;
                                         if(num_matches[i] >= nProjMatches){
                                             bValid[i] = true;
                                             Sophus::SE3f Tc_w = mpCurrentKF->GetPose();
@@ -1005,6 +1012,11 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                         }
                                         bValid[i] = false;
                                     }
+                                    auto end102 = std::chrono::high_resolution_clock::now();
+                                    std::chrono::duration<double, std::milli> elapsed102 = end102 - start102;
+                                    timing << "102: " << elapsed102.count() << " ms" << std::endl;
+
+                                    auto start103 = std::chrono::high_resolution_clock::now();
                                     j=3;
                                     // cout << nNumKFs << std::endl;
                                     while(nNumKFs < 3 && j<vpCurrentCovKFs.size())
@@ -1030,6 +1042,10 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                         }
                                         j++;
                                     }
+                                    auto end103 = std::chrono::high_resolution_clock::now();
+                                    std::chrono::duration<double, std::milli> elapsed103 = end103 - start103;
+                                    timing << "103: " << elapsed103.count() << " ms" << std::endl;
+
                                 }
                                 else{
                                     while(nNumKFs < 3 && j<vpCurrentCovKFs.size())
@@ -1260,9 +1276,8 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
 
 void LoopClosing::GPUDetectCommonRegionsFromLastKF(vector<KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, KeyFrame* pMatchedKFw, vector<MapPoint*> &vpMapPoints, int* num_matches)
 {
-    std::ofstream timing("./test/timing.txt", std::ios::app);
-
     auto start5 = std::chrono::high_resolution_clock::now();
+    std::ofstream timing("./test/timing.txt", std::ios::app);
     ORBmatcher matcher(0.9, true);
     int nNumCovisibles = 10;
     vector<KeyFrame*> vpCovKFm = pMatchedKFw->GetBestCovisibilityKeyFrames(nNumCovisibles);
@@ -1349,9 +1364,13 @@ void LoopClosing::GPUDetectCommonRegionsFromLastKF(vector<KeyFrame*> currentCovK
     // cout << num_matches[2] << std::endl;
     auto end5 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
-    // timing << "? pre: " << elapsed5.count() << " ms" << std::endl;
+    timing << "? pre: " << elapsed5.count() << " ms" << std::endl;
 
+    auto start6 = std::chrono::high_resolution_clock::now();
     matcher.Merged3SearchByProjection(currentCovKFs, currentCovmScws, vpMapPoints, vpMatchedMapPoints0, vpMatchedMapPoints1, vpMatchedMapPoints2, 3, 1.5, num_matches);
+    auto end6 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    timing << "? after: " << elapsed6.count() << " ms" << std::endl;
 }
 
 bool LoopClosing::DetectCommonRegionsFromLastKF(KeyFrame* pCurrentKF, KeyFrame* pMatchedKF, g2o::Sim3 &gScw, int &nNumProjMatches,
