@@ -232,7 +232,7 @@ __global__ void searchByProjectionKernel2(Eigen::Vector3f Ow, Sophus::SE3f Tcw,
     bestDists[idx] = 256;
     bestIdxs[idx] = -1;
     
-    LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[idx];
+    LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint& pMP = mapPoints[idx];
 
     const float &fx = connectedKF->fx;
     const float &fy = connectedKF->fy;
@@ -762,7 +762,7 @@ __global__ void mergedSearchByProjectionKernel(Eigen::Vector3f Ow1, Sophus::SE3f
 int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
                     std::vector<ORB_SLAM3::MapPoint*> &vpMatched, int th, float ratioHamming)
 {
-    std::ofstream timing("./test/timing.txt", std::ios::app);
+    // std::ofstream timing("./test/timing.txt", std::ios::app);
 
     // auto start1 = std::chrono::high_resolution_clock::now();
     if (!memory_is_initialized)
@@ -869,11 +869,12 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
 
     // auto start8 = std::chrono::high_resolution_clock::now();
     const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
+    int a = TH_LOW*ratioHamming;
 
     for(size_t iMP = 0; iMP < mapPointVecSize; iMP++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[iMP];
 
-        if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
+        if (!pMP || pMP->isBad())
             continue;
         
         int bestDist = bestDists[iMP];
@@ -881,8 +882,11 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
 
         if (bestDist == 256 || bestIdx == -1)
             continue;
+        
+        if (spAlreadyFound.count(pMP))
+            continue;
 
-        if (bestDist <= TH_LOW*ratioHamming) {
+        if (bestDist <= a) {
             vpMatched[bestIdx] = pMP;
             nmatches++;
         }
