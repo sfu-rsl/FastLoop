@@ -60,8 +60,8 @@ int main(int argc, char **argv)
 
     LoopClosingKernelController::activate();
     bool mergedSearchByProjectionEnabled = false;
-    bool merged3SearchByProjectionEnabled = true;
-    bool searchAndFuseEnabled = false;
+    bool merged3SearchByProjectionEnabled = false;
+    bool searchAndFuseEnabled = true;
     bool singleSearchByProjectionEnabled = false;
     LoopClosingKernelController::setGPURunMode(mergedSearchByProjectionEnabled, merged3SearchByProjectionEnabled, searchAndFuseEnabled, singleSearchByProjectionEnabled);
 

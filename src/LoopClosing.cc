@@ -2752,9 +2752,9 @@ void LoopClosing::SearchAndFuse(const vector<KeyFrame*> &vConectedKFs, vector<Ma
 
 void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vector<MapPoint*> &vpMapPoints)
 {
-    std::ofstream timing("./test/timing.txt", std::ios::app);
+    // std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    auto start = std::chrono::high_resolution_clock::now();
+    // auto start = std::chrono::high_resolution_clock::now();
 
     ORBmatcher matcher(0.8);
     vector<KeyFrame*> vpConnectedKFs;
@@ -2770,18 +2770,18 @@ void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vec
     }
     vector<MapPoint*> vpReplacePoints(vpMapPoints.size(),static_cast<MapPoint*>(NULL));
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end - start;
+    // auto end = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed = end - start;
     // timing << "1 Prepare Data: " << elapsed.count() << " ms" << std::endl;
 
-    auto start2 = std::chrono::high_resolution_clock::now();
+    // auto start2 = std::chrono::high_resolution_clock::now();
     matcher.GPUFuse(vpConnectedKFs, vpConnectedScws, vpMapPoints, threshold, vpReplacePoints);
-    auto end2 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+    // auto end2 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
     // timing << "1 LoopClosing::GPUSearchAndFuse: " << elapsed2.count() << " ms" << std::endl;
 
 
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // auto start1 = std::chrono::high_resolution_clock::now();
     
     const int nLP = vpMapPoints.size();
     // #pragma omp parallel for
@@ -2796,8 +2796,8 @@ void LoopClosing::GPUSearchAndFuse(const KeyFrameAndPose &CorrectedPosesMap, vec
 
     total_replaces += num_replaces;
 
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
     // timing << "1 After GPUFuse: " << elapsed1.count() << " ms" << std::endl;
 
 }

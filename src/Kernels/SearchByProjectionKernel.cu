@@ -1195,13 +1195,16 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
 
             int idx = iKF*numValidPoints + iMP;
 
-            if (!pMP || pMP->isBad() || spAlreadyFound.count(pMP))
+            if (!pMP || pMP->isBad())
                 continue;
             
             int bestDist = bestDists[idx];
             int bestIdx = bestIdxs[idx];
 
             if (bestDist == 256 || bestIdx == -1)
+                continue;
+
+            if(spAlreadyFound.count(pMP))
                 continue;
 
             if (bestDist <= TH_LOW*ratioHamming) {
