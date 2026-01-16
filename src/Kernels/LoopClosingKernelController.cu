@@ -102,14 +102,14 @@ int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::Key
 }
 
 
-void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
-                                Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
-                                Sophus::Sim3<float> &Scw1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints, Sophus::Sim3<float> &Scw1,
+                                const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs, std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                                 int &numProjMatches, int &numProjOptMatches)
 {
-    mpSearchByProjectionKernel->mergedlaunch(pKF, vpPoints,
-                        Scw, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
-                        Scw1, vpMatched1, th1, ratioHamming1,
+    mpSearchByProjectionKernel->mergedlaunch(pKF, vpPoints, Scw1,
+                        vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming,
+                        vpMatched1, th1, ratioHamming1,
                         numProjMatches, numProjOptMatches);
     
     return;

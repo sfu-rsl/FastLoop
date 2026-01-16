@@ -121,6 +121,24 @@ void MapPoint::SetWorldPos(const Eigen::Vector3f &Pos) {
     mWorldPos = Pos;
 }
 
+void MapPoint::AssignWorldPos_MaxD_MinD_Normal_Descriptor(
+    Eigen::Vector3f& worldPos,
+    float& maxDistance,
+    float& minDistance,
+    Eigen::Vector3f& normalVector,
+    uint8_t* descriptorArray
+) const
+{
+    unique_lock<mutex> lock(mLockAssign);
+
+    worldPos     = mWorldPos;
+    maxDistance  = mfMaxDistance;
+    minDistance  = mfMinDistance;
+    normalVector = mNormalVector;
+    std::memcpy(descriptorArray, mDescriptor.ptr<uint8_t>(0), mDescriptor.cols * sizeof(uint8_t));
+}
+
+
 Eigen::Vector3f MapPoint::GetWorldPos() {
     unique_lock<mutex> lock(mMutexPos);
     return mWorldPos;

@@ -59,10 +59,10 @@ int main(int argc, char **argv)
         cout << "Running FastMap...\n";
 
     LoopClosingKernelController::activate();
-    bool mergedSearchByProjectionEnabled = true;
-    bool merged3SearchByProjectionEnabled = true;
-    bool searchAndFuseEnabled = true;
-    bool singleSearchByProjectionEnabled = false;
+    bool mergedSearchByProjectionEnabled = false;
+    bool merged3SearchByProjectionEnabled = false;
+    bool searchAndFuseEnabled = false;
+    bool singleSearchByProjectionEnabled = true;
     LoopClosingKernelController::setGPURunMode(mergedSearchByProjectionEnabled, merged3SearchByProjectionEnabled, searchAndFuseEnabled, singleSearchByProjectionEnabled);
 
     

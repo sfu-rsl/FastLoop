@@ -114,7 +114,7 @@ __global__ void searchAndFuseKernel(Eigen::Vector3f* Ow, Sophus::SE3f *Tcw,
     bestDists[idx] = 256;
     bestIdxs[idx] = -1;
 
-    LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint pMP = mapPoints[mapPointIdx];
+    LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint& pMP = mapPoints[mapPointIdx];
     CudaKeyFrame *connectedKF = connectedKFs[connectedKFIdx];
 
     // for (int i = 0; i < connectedKF->mapPointsId_size; ++i) {
@@ -312,9 +312,9 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     // std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
     // timing << "? cudaMemcpy: " << elapsed5.count() << " ms" << std::endl;
 
+    // auto start6 = std::chrono::high_resolution_clock::now();
     int threads = 256;
     int blocks = (connectedKFSize * numValidPoints + threads - 1) / threads;
-    // auto start6 = std::chrono::high_resolution_clock::now();
     searchAndFuseKernel<<<blocks, threads>>>(d_Ow, d_Tcw, d_KeyFrames, d_MapPoints, 
                                     0, connectedKFSize, 0, numValidPoints, th, 
                                     d_bestDists, d_bestIdxs);
@@ -367,15 +367,13 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     int nFused = 0;
     for (int iKF = 0; iKF < connectedKFSize; iKF++)
     {
-        const set<ORB_SLAM3::MapPoint*> spAlreadyFound = connectedKFs[iKF]->GetMapPoints();
+        ORB_SLAM3::KeyFrame* pKF = connectedKFs[iKF];
+        const set<ORB_SLAM3::MapPoint*> spAlreadyFound = pKF->GetMapPoints();
 
         for (int iMP = 0; iMP < numValidPoints; iMP++)
         {
             ORB_SLAM3::MapPoint* pMP = vpMapPoints[iMP];
             if (!pMP || pMP->isBad())
-                continue;
-
-            if(spAlreadyFound.count(pMP))
                 continue;
             
             int idx = iKF*numValidPoints + iMP;
@@ -384,22 +382,26 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
 
             if (bestDist == 256 || bestIdx == -1)
                 continue;
+            
+            if(spAlreadyFound.count(pMP))
+                continue;
 
             if (bestDist <= TH_LOW) {
-                ORB_SLAM3::MapPoint* pMPinKF = connectedKFs[iKF]->GetMapPoint(bestIdx);
+                ORB_SLAM3::MapPoint* pMPinKF = pKF->GetMapPoint(bestIdx);
                 if (pMPinKF) {
                     if (!pMPinKF->isBad()) {
                         vpReplacePoints[iMP] = pMPinKF;
                     }
                 }
                 else{
-                    pMP->AddObservation(connectedKFs[iKF],bestIdx);
-                    connectedKFs[iKF]->AddMapPoint(pMP, bestIdx);
+                    pMP->AddObservation(pKF,bestIdx);
+                    pKF->AddMapPoint(pMP, bestIdx);
                 }
                 nFused++;
             }
         }
     }
+    // timing << "nFused: " << nFused << "\n";
     // auto end8 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
     // timing << "? result: " << elapsed8.count() << " ms" << std::endl;

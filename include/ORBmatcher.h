@@ -62,9 +62,9 @@ namespace ORB_SLAM3
         // Used in Place Recognition (Loop Closing and Merging)
         int SearchByProjection(KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<MapPoint*> &vpPoints, const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming=1.0);
 
-        void MergedSearchByProjection(KeyFrame* pKF, const std::vector<MapPoint*> &vpPoints,
-                                    Sophus::Sim3<float> &Scw, const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
-                                    Sophus::Sim3<float> &Scw1, std::vector<MapPoint*> &vpMatched1, int th1, float ratioHamming1,
+        void MergedSearchByProjection(KeyFrame* pKF, const std::vector<MapPoint*> &vpPoints, Sophus::Sim3<float> &Scw1,
+                                    const std::vector<KeyFrame*> &vpPointsKFs, std::vector<MapPoint*> &vpMatched, std::vector<KeyFrame*> &vpMatchedKF, int th, float ratioHamming,
+                                    std::vector<MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                                     int &numProjMatches, int &numProjOptMatches);
         
         void Merged3SearchByProjection(vector<KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, const std::vector<MapPoint*> &vpMapPoints,
