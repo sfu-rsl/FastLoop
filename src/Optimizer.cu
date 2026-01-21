@@ -165,6 +165,7 @@ namespace ORB_SLAM3 {
         graph.scale_system(false);
 
         graphite::optimizer::levenberg_marquardt2(&graph, &options);
+        std::cout << "Optimized pose graph with " << pose_desc.count() << " poses and " << edge_desc.active_count() << " edges." << std::endl; 
 
     }
 } // namespace ORB_SLAM3
