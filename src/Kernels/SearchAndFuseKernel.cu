@@ -8,7 +8,7 @@ void SearchAndFuseKernel::initialize()
         return;
 
     size_t mapPointVecSize = 1500;
-    size_t connectedKFSize = 60;
+    size_t connectedKFSize = 100;
 
     cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
     cudaMallocHost((void**)&h_KeyFrames, connectedKFSize * sizeof(CudaKeyFrame));

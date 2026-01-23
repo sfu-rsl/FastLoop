@@ -804,7 +804,6 @@ int SearchByProjectionKernel::launch2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<flo
     // auto start4 = std::chrono::high_resolution_clock::now();
     CudaKeyFrame* tempKF = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
     if (tempKF == nullptr){
-        // timing << "No " << pKF->mnId << std::endl;
         tempKF = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
     }
     cudaMemcpy(d_KeyFrame, tempKF, sizeof(CudaKeyFrame), cudaMemcpyDeviceToDevice);
@@ -1068,9 +1067,9 @@ void SearchByProjectionKernel::mergedlaunch(ORB_SLAM3::KeyFrame* pKF, const std:
 void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
                         std::vector<ORB_SLAM3::MapPoint*> &vpMatched0, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched2, int th, float ratioHamming, int* num_matches)
 {
-    std::ofstream timing("./test/timing.txt", std::ios::app);
+    // std::ofstream timing("./test/timing.txt", std::ios::app);
 
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // auto start1 = std::chrono::high_resolution_clock::now();
     if (!memory_is_initialized)
         initialize();
 
@@ -1078,9 +1077,9 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
     const int TH_LOW = 50;
 
     size_t mapPointVecSize = vpPoints.size();
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-    timing << "? Initialization 1: " << elapsed1.count() << " ms" << std::endl;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // timing << "? Initialization 1: " << elapsed1.count() << " ms" << std::endl;
 
     // Sophus::SE3f Tcw0 = Sophus::SE3f(currentCovmScws[0].rotationMatrix(),currentCovmScws[0].translation()/currentCovmScws[0].scale());
     // Eigen::Vector3f Ow0 = Tcw0.inverse().translation();
@@ -1089,16 +1088,16 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
     // Sophus::SE3f Tcw2 = Sophus::SE3f(currentCovmScws[2].rotationMatrix(),currentCovmScws[2].translation()/currentCovmScws[2].scale());
     // Eigen::Vector3f Ow2 = Tcw2.inverse().translation();
 
-    auto start4 = std::chrono::high_resolution_clock::now();
+    // auto start4 = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i<3; i++) {
         h_Tcw[i] = Sophus::SE3f(currentCovmScws[i].rotationMatrix(),currentCovmScws[i].translation()/currentCovmScws[i].scale());
         h_Ow[i] = h_Tcw[i].inverse().translation();
     }
-    auto end4 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
-    timing << "? Tcw: " << elapsed4.count() << " ms" << std::endl;
+    // auto end4 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
+    // timing << "? Tcw: " << elapsed4.count() << " ms" << std::endl;
 
-    auto start5 = std::chrono::high_resolution_clock::now();
+    // auto start5 = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < mapPointVecSize; i++) {
         ORB_SLAM3::MapPoint* pMP = vpPoints[i];
         if (!pMP || pMP->isBad()) 
@@ -1108,11 +1107,11 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
             numValidPoints++;
         }
     }
-    auto end5 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
-    timing << "? CudaMapPoint: " << elapsed5.count() << " ms" << std::endl;
+    // auto end5 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed5 = end5 - start5;
+    // timing << "? CudaMapPoint: " << elapsed5.count() << " ms" << std::endl;
 
-    auto start6 = std::chrono::high_resolution_clock::now();
+    // auto start6 = std::chrono::high_resolution_clock::now();
     for (int i=0; i<3; i++){
         ORB_SLAM3::KeyFrame* pKF = currentCovKFs[i];
         h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
@@ -1120,44 +1119,44 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
             h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
         }
     }
-    auto end6 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-    timing << "? h_KeyFrame Merged: " << elapsed6.count() << " ms" << std::endl;
+    // auto end6 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
+    // timing << "? h_KeyFrame Merged: " << elapsed6.count() << " ms" << std::endl;
 
-    auto start7 = std::chrono::high_resolution_clock::now();
+    // auto start7 = std::chrono::high_resolution_clock::now();
     cudaMemcpy(d_MapPoints, h_MapPoints, numValidPoints * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint), cudaMemcpyHostToDevice); //todo2
     cudaMemcpy(d_KeyFrames, h_KeyFrames, 3 * sizeof(CudaKeyFrame), cudaMemcpyHostToDevice);
     cudaMemcpy(d_Ow, h_Ow, 3 * sizeof(Eigen::Vector3f), cudaMemcpyHostToDevice);
     cudaMemcpy(d_Tcw, h_Tcw, 3 * sizeof(Sophus::SE3f), cudaMemcpyHostToDevice);
-    auto end7 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
-    timing << "? cudaMemcpy: " << elapsed7.count() << " ms" << std::endl;
+    // auto end7 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed7 = end7 - start7;
+    // timing << "? cudaMemcpy: " << elapsed7.count() << " ms" << std::endl;
 
     int threads = 256;
     int blocks = (3 * numValidPoints + threads - 1) / threads;
 
-    auto start75 = std::chrono::high_resolution_clock::now();
+    // auto start75 = std::chrono::high_resolution_clock::now();
     searchByProjectionKernel3<<<blocks, threads>>>(d_Ow, d_Tcw,
                                         d_KeyFrames, d_MapPoints,
                                         numValidPoints, th, 
                                         d_bestDists, d_bestIdxs);
     
     cudaDeviceSynchronize();
-    auto end75 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed75 = end75 - start75;
-    timing << "? Merged Kernel 1: " << elapsed75.count() << " ms" << "\n";
+    // auto end75 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed75 = end75 - start75;
+    // timing << "? Merged Kernel 1: " << elapsed75.count() << " ms" << "\n";
     
     cudaError_t err = cudaGetLastError();
     if (err != cudaSuccess) {
         printf("CUDA error: %s\n", cudaGetErrorString(err));
     }
 
-    auto start8 = std::chrono::high_resolution_clock::now();
+    // auto start8 = std::chrono::high_resolution_clock::now();
     checkCudaError(cudaMemcpy(bestDists, d_bestDists, numValidPoints * 3 * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestDists back to host6");
     checkCudaError(cudaMemcpy(bestIdxs, d_bestIdxs, numValidPoints * 3 * sizeof(int), cudaMemcpyDeviceToHost), "Failed to copy d_bestIdxs back to host");
-    auto end8 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
-    timing << "? back cudaMemcpy: " << elapsed8.count() << " ms" << std::endl;
+    // auto end8 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
+    // timing << "? back cudaMemcpy: " << elapsed8.count() << " ms" << std::endl;
 
     
     // std::ofstream gpuOutFile("./test/GPU-Side.txt", std::ios::app);    
@@ -1187,7 +1186,7 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
     // cpuOutFile << "**********************************************************\n";
 
 
-    auto start10 = std::chrono::high_resolution_clock::now();
+    // auto start10 = std::chrono::high_resolution_clock::now();
     for (int iKF = 0; iKF < 3; iKF++)
     {
         int nmatches=0;
@@ -1218,9 +1217,9 @@ void SearchByProjectionKernel::merged3launch(vector<ORB_SLAM3::KeyFrame*> curren
         }
         num_matches[iKF] = nmatches;
     }
-    auto end10 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
-    timing << "? result: " << elapsed10.count() << " ms" << std::endl;
+    // auto end10 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed10 = end10 - start10;
+    // timing << "? result: " << elapsed10.count() << " ms" << std::endl;
 
 }
 

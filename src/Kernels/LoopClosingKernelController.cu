@@ -88,14 +88,14 @@ void LoopClosingKernelController::shutdownKernels(bool _localMappingFinished, bo
 int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
                                             vector<ORB_SLAM3::MapPoint*> vpMapPoints, vector<ORB_SLAM3::MapPoint*> &vpReplacePoints)
 {
-    std::ofstream timing("./test/timing.txt", std::ios::app);
-    auto start1 = std::chrono::high_resolution_clock::now();
+    // std::ofstream timing("./test/timing.txt", std::ios::app);
+    // auto start1 = std::chrono::high_resolution_clock::now();
     int nFused = 0;
     nFused = mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
                         vpMapPoints, vpReplacePoints);
     
-    auto end1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
+    // auto end1 = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
     // timing << "3 LoopClosingKernelController::launchSearchAndFuseKernel: " << elapsed1.count() << " ms" << std::endl;
     
     return nFused;

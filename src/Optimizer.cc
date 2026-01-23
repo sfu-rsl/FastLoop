@@ -5612,7 +5612,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
                                        const map<KeyFrame *, set<KeyFrame *> > &LoopConnections)
 {
 
-    std::cout << "Setting up Graphite PGO..." << std::endl;
+    // std::cout << "Setting up Graphite PGO..." << std::endl;
     using FP = double;
     using SP = double;
 
@@ -5736,7 +5736,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             sInsertedEdges.insert(make_pair(min(nIDi,nIDj),max(nIDi,nIDj)));
         }
     }
-    std::cout << "Added loop edges" << std::endl;
+    // std::cout << "Added loop edges" << std::endl;
 
     // 1. Set normal edges
     for(size_t i=0, iend=vpKFs.size(); i<iend; i++)
@@ -5870,14 +5870,14 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
             }
         }
     }
-    std::cout << "Added edges" << std::endl;
-    std::cout << "Optimizing..." << std::endl;
-    auto topt0 = std::chrono::steady_clock::now();
+    // std::cout << "Added edges" << std::endl;
+    // std::cout << "Optimizing..." << std::endl;
+    // auto topt0 = std::chrono::steady_clock::now();
     optimizer.optimize(20, 1e-4, true);
-    auto topt1 = std::chrono::steady_clock::now();
-    std::chrono::duration<double> time_used = topt1 - topt0;
-    std::cout << "Optimization took " << time_used.count() << " seconds." << std::endl;
-    std::cout << "Reading back results..." << std::endl;    
+    // auto topt1 = std::chrono::steady_clock::now();
+    // std::chrono::duration<double> time_used = topt1 - topt0;
+    // std::cout << "Optimization took " << time_used.count() << " seconds." << std::endl;
+    // std::cout << "Reading back results..." << std::endl;    
 
     // pgo early return for testing
     // return;
@@ -5901,7 +5901,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
     }
 
     // Correct points. Transform to "non-optimized" reference keyframe pose and transform back with optimized pose
-    std::cout << "Correcting points..." << std::endl;
+    // std::cout << "Correcting points..." << std::endl;
     for(size_t i=0, iend=vpMPs.size(); i<iend; i++)
     {
         MapPoint* pMP = vpMPs[i];
@@ -5924,7 +5924,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
         pMP->UpdateNormalAndDepth();
     }
     pMap->IncreaseChangeIndex();
-    std::cout << "Finished point correction." << std::endl;
+    // std::cout << "Finished point correction." << std::endl;
 }
 }
 

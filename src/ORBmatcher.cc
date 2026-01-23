@@ -1489,9 +1489,9 @@ namespace ORB_SLAM3
     int ORBmatcher::GPUFuse(vector<KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, vector<MapPoint*> vpMapPoints, const float th, vector<MapPoint*> &vpReplacePoints)
     {
         
-        std::ofstream timing("./test/timing.txt", std::ios::app);
+        // std::ofstream timing("./test/timing.txt", std::ios::app);
 
-        auto start2 = std::chrono::high_resolution_clock::now();
+        // auto start2 = std::chrono::high_resolution_clock::now();
 
         int nFused=0;
         // int numPoints = vpMapPoints.size();
@@ -1502,8 +1502,8 @@ namespace ORB_SLAM3
         // int bestIdxs[outSize];
         nFused = LoopClosingKernelController::launchSearchAndFuseKernel(connectedKFs, connectedScws, th, vpMapPoints, vpReplacePoints);
 
-        auto end2 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
+        // auto end2 = std::chrono::high_resolution_clock::now();
+        // std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
         // timing << "2 ORBmatcher::GPUFuse: " << elapsed2.count() << " ms" << std::endl;
 
 
