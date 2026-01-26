@@ -891,14 +891,10 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                     // timing << "- vpMatchedKF: " << elapsed57.count() << " ms" << std::endl;
 
                     if(LoopClosingKernelController::mergedSearchByProjectionOnGPU){
-                        auto start6 = std::chrono::high_resolution_clock::now();
                         matcher.MergedSearchByProjection(mpCurrentKF, vpMapPoints, mScw1,
                                                         vpKeyFrames, vpMatchedMP, vpMatchedKF, 8, 1.5,
                                                         vpMatchedMP1, 5, 1.0,
                                                         numProjMatches, numProjOptMatches);
-                        auto end6 = std::chrono::high_resolution_clock::now();
-                        std::chrono::duration<double, std::milli> elapsed6 = end6 - start6;
-                        timing << "- 2D Search By Projection: " << elapsed6.count() << " ms" << std::endl;
                     }
                     else{
                         // auto start6 = std::chrono::high_resolution_clock::now();
@@ -979,7 +975,6 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                 int j = 0;
 
                                 if(LoopClosingKernelController::merged3SearchByProjectionOnGPU){
-                                    auto start9 = std::chrono::high_resolution_clock::now();
 
                                     vector<KeyFrame*> currentCovKFs;
                                     vector<Sophus::Sim3f> currentCovmScws;
@@ -1033,9 +1028,6 @@ bool LoopClosing::DetectCommonRegionsFromBoW(std::vector<KeyFrame*> &vpBowCand, 
                                         }
                                         j++;
                                     }
-                                    auto end9 = std::chrono::high_resolution_clock::now();
-                                    std::chrono::duration<double, std::milli> elapsed9 = end9 - start9;
-                                    timing << "- DetectCommonRegionsFromLastKF: " << elapsed9.count() << " ms" << std::endl;
                                 }
                                 else{
                                     while(nNumKFs < 3 && j<vpCurrentCovKFs.size())
