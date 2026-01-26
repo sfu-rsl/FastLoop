@@ -45,9 +45,9 @@
 
 #--------------------------------------------Corridor-----------------------------------------------------
 # echo "Run corridor1" >> ./test/timing.txt
-# for i in {1..12}
+# for i in {1..4}
 # do
-#     echo "Run $i/12"
+#     echo "Run $i/4"
 #     ./tum_vi_eval_examples.sh 0 0 corridor 1 ../Results/ >> ./test/terminal_log.txt 2>&1
 # done
 
@@ -82,9 +82,9 @@
 
 #--------------------------------------------Magistrale-----------------------------------------------------
 # echo "Run magistrale1" >> ./test/timing.txt
-# for i in {1..12}
+# for i in {1..4}
 # do
-#     echo "Run $i/12"
+#     echo "Run $i/4"
 #     ./tum_vi_eval_examples.sh 0 0 magistrale 1 ../Results/ >> ./test/terminal_log.txt 2>&1
 # done
 
@@ -132,12 +132,12 @@
 #     ./tum_vi_eval_examples.sh 0 0 outdoors 4 ../Results/ >> ./test/terminal_log.txt 2>&1
 # done
 
-echo "Run outdoors5" >> ./test/timing.txt
-for i in {1..12}
-do
-    echo "Run $i/12"
-    ./tum_vi_eval_examples.sh 0 0 outdoors 5 ../Results/ >> ./test/terminal_log.txt 2>&1
-done
+# echo "Run outdoors5" >> ./test/timing.txt
+# for i in {1..12}
+# do
+#     echo "Run $i/12"
+#     ./tum_vi_eval_examples.sh 0 0 outdoors 5 ../Results/ >> ./test/terminal_log.txt 2>&1
+# done
 
 # echo "Run outdoors6" >> ./test/timing.txt
 # for i in {1..12}

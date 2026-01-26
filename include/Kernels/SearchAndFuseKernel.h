@@ -10,7 +10,7 @@
 #include <Eigen/Core>
 #include <csignal> 
 
-#define MAX_CONNECTED_KF_COUNT 100
+#define MAX_CONNECTED_KF_COUNT 85
 
 
 class SearchAndFuseKernel{
