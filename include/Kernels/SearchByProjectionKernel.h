@@ -26,7 +26,7 @@ class SearchByProjectionKernel{
                         std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, int th1, float ratioHamming1,
                         int &numProjMatches, int &numProjOptMatches);
         void merged3launch(vector<ORB_SLAM3::KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
-                        std::vector<ORB_SLAM3::MapPoint*> &vpMatched0, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched2, int th, float ratioHamming, int* num_matches);
+                        int th, float ratioHamming, int* num_matches, int covKFsSize);
         void origSearchByProjection(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs,
                                        std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming);
         void origSearchByProjection2(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw, const std::vector<ORB_SLAM3::MapPoint*> &vpPoints,
@@ -35,8 +35,6 @@ class SearchByProjectionKernel{
     
     private:
         bool memory_is_initialized;
-        // int *d_bestDists1, *d_bestIdxs1;
-        // int *bestDists1, *bestIdxs1;
         int *d_bestDists, *d_bestIdxs;
         int *bestDists, *bestIdxs;
         LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;

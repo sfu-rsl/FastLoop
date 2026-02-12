@@ -9,7 +9,7 @@
 #include <mutex>
 #include <queue>
 
-#define CUDA_KEYFRAME_STORAGE_SIZE 4000
+#define CUDA_KEYFRAME_STORAGE_SIZE 1000
 
 using ckd_buffer_index_t = int;
 

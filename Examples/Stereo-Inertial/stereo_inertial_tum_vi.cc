@@ -284,8 +284,6 @@ int main(int argc, char **argv)
     LocalMappingStats::getInstance().saveStats(strStatsFile);
 #endif
 
-    // Tracking time statistics
-
     // Save camera trajectory
     std::chrono::system_clock::time_point scNow = std::chrono::system_clock::now();
     std::time_t now = std::chrono::system_clock::to_time_t(scNow);

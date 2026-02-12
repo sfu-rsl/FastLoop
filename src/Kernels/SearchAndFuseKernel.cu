@@ -7,7 +7,7 @@ void SearchAndFuseKernel::initialize()
     if (memory_is_initialized)
         return;
 
-    size_t mapPointVecSize = 1500;
+    size_t mapPointVecSize = 3000;
     size_t connectedKFSize = 100;
 
     cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
@@ -24,11 +24,6 @@ void SearchAndFuseKernel::initialize()
     cudaMalloc(&d_bestDists, connectedKFSize * mapPointVecSize * sizeof(int));
     cudaMalloc(&d_bestIdxs, connectedKFSize * mapPointVecSize * sizeof(int));
 
-    // for (int i=0; i < connectedKFSize; i++)
-    // {
-    //     h_KeyFrames[i] = CudaKeyFrame();
-    // }
-
     memory_is_initialized = true;
 }
 
@@ -36,12 +31,6 @@ void SearchAndFuseKernel::shutdown()
 {
     if (!memory_is_initialized) 
         return;
-
-    // size_t connectedKFSize = 30;
-    // for (int i=0; i < connectedKFSize; i++)
-    // {
-    //     h_KeyFrames[i].freeMemory();
-    // }
 
     cudaFreeHost(h_MapPoints);
     cudaFreeHost(h_KeyFrames);
@@ -61,21 +50,26 @@ void SearchAndFuseKernel::shutdown()
 
 __device__ inline Eigen::Vector2f KannalaBrandt8Project(const Eigen::Vector3f &v3D, float* mvParameters)
 {
-    const float x2_plus_y2 = v3D[0] * v3D[0] + v3D[1] * v3D[1];
-    const float theta = atan2f(sqrtf(x2_plus_y2), v3D[2]);
-    const float psi = atan2f(v3D[1], v3D[0]);
+    // const float x2_plus_y2 = v3D[0] * v3D[0] + v3D[1] * v3D[1];
+    // const float theta = atan2f(sqrtf(x2_plus_y2), v3D[2]);
+    // const float psi = atan2f(v3D[1], v3D[0]);
 
-    const float theta2 = theta * theta;
-    const float theta3 = theta * theta2;
-    const float theta5 = theta3 * theta2;
-    const float theta7 = theta5 * theta2;
-    const float theta9 = theta7 * theta2;
-    const float r = theta + mvParameters[4] * theta3 + mvParameters[5] * theta5
-                         + mvParameters[6] * theta7 + mvParameters[7] * theta9;
+    // const float theta2 = theta * theta;
+    // const float theta3 = theta * theta2;
+    // const float theta5 = theta3 * theta2;
+    // const float theta7 = theta5 * theta2;
+    // const float theta9 = theta7 * theta2;
+    // const float r = theta + mvParameters[4] * theta3 + mvParameters[5] * theta5
+    //                      + mvParameters[6] * theta7 + mvParameters[7] * theta9;
+
+    // Eigen::Vector2f res;
+    // res[0] = mvParameters[0] * r * cos(psi) + mvParameters[2];
+    // res[1] = mvParameters[1] * r * sin(psi) + mvParameters[3];
+    // return res;
 
     Eigen::Vector2f res;
-    res[0] = mvParameters[0] * r * cos(psi) + mvParameters[2];
-    res[1] = mvParameters[1] * r * sin(psi) + mvParameters[3];
+    res[0] = mvParameters[0] * v3D[0] / v3D[2] + mvParameters[2];
+    res[1] = mvParameters[1] * v3D[1] / v3D[2] + mvParameters[3];
     return res;
 }
 
@@ -117,11 +111,6 @@ __global__ void searchAndFuseKernel(Eigen::Vector3f* Ow, Sophus::SE3f *Tcw,
     LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint& pMP = mapPoints[mapPointIdx];
     CudaKeyFrame *connectedKF = connectedKFs[connectedKFIdx];
 
-    // for (int i = 0; i < connectedKF->mapPointsId_size; ++i) {
-    //     if (connectedKF->mapPointsId[i] == pMP.mnId) {
-    //         return;
-    //     }
-    // }
     // printf("idx: %llu, pMP.mnId: %llu, keyframe.mnId: %llu, connectedKF->mapPointsId_size: %d\n", idx, pMP.mnId, connectedKF->mnId, connectedKF->mapPointsId_size);
 
     Sophus::SE3f currTcw = Tcw[connectedKFIdx];
@@ -240,34 +229,11 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     int connectedKFSize = connectedKFs.size();
     size_t mapPointVecSize = vpMapPoints.size();
     timing << "connectedKFSize: " << connectedKFSize << std::endl;
-    // cout << "mapPointVecSize: " << mapPointVecSize << std::endl;
-
-    // LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint *h_MapPoints, *d_MapPoints;
-    // CudaKeyFrame *h_KeyFrames, *d_KeyFrames;
-    // Eigen::Vector3f *h_Ow, *d_Ow;
-    // Sophus::SE3f *h_Tcw, *d_Tcw;
-    // int *d_bestDists, *d_bestIdxs;
-    // int *bestDists, *bestIdxs;
-    
-    // cudaMallocHost((void**)&h_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMallocHost((void**)&h_KeyFrames, connectedKFSize * sizeof(CudaKeyFrame));
-    // cudaMallocHost((void**)&h_Ow, connectedKFSize * sizeof(Eigen::Vector3f));
-    // cudaMallocHost((void**)&h_Tcw, connectedKFSize * sizeof(Sophus::SE3f));
-    // cudaMallocHost((void**)&bestDists, mapPointVecSize * sizeof(int));
-    // cudaMallocHost((void**)&bestIdxs, mapPointVecSize * sizeof(int));
-
-    // cudaMalloc(&d_MapPoints, mapPointVecSize * sizeof(LOOP_CLOSING_DATA_WRAPPER::CudaMapPoint));
-    // cudaMalloc(&d_KeyFrames, connectedKFSize * sizeof(CudaKeyFrame));
-    // cudaMalloc(&d_Ow, connectedKFSize * sizeof(Eigen::Vector3f));
-    // cudaMalloc(&d_Tcw, connectedKFSize * sizeof(Sophus::SE3f));
-    // cudaMalloc(&d_bestDists, connectedKFSize * mapPointVecSize * sizeof(int));
-    // cudaMalloc(&d_bestIdxs, connectedKFSize * mapPointVecSize * sizeof(int));
 
     // auto start2 = std::chrono::high_resolution_clock::now();
     for (size_t i = 0; i < connectedKFSize; i++) {
         h_Tcw[i] = Sophus::SE3f(connectedScws[i].rotationMatrix(),connectedScws[i].translation()/connectedScws[i].scale());
         h_Ow[i] = h_Tcw[i].inverse().translation();
-        // printf("i: %llu, h_Ow: %f\n", i, h_Ow[i][1]);
     }
     // auto end2 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed2 = end2 - start2;
@@ -286,18 +252,14 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
     // auto end3 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed3 = end3 - start3;
     // timing << "? h_MapPoints: " << elapsed3.count() << " ms" << std::endl;
-    // cout << "numValidPoints: " << numValidPoints << std::endl;
 
     // auto start4 = std::chrono::high_resolution_clock::now();
     for (int i=0; i < connectedKFSize; i++){
         ORB_SLAM3::KeyFrame* pKF = connectedKFs[i];
-        // h_KeyFrames[i] = CudaKeyFrame();
-        // h_KeyFrames[i].setMemory(pKF);
         h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::getCudaKeyFrame(pKF->mnId);
         if (h_KeyFrames[i] == nullptr){
             h_KeyFrames[i] = LoopClosingCudaKeyFrameStorage::addCudaKeyFrame(pKF);
         }
-        // h_KeyFrames[i]->addspAlreadyFound(pKF);
     }
     // auto end4 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed4 = end4 - start4;
@@ -401,26 +363,12 @@ int SearchAndFuseKernel::launch(std::vector<ORB_SLAM3::KeyFrame*> connectedKFs, 
             }
         }
     }
-    // timing << "nFused: " << nFused << "\n";
     // auto end8 = std::chrono::high_resolution_clock::now();
     // std::chrono::duration<double, std::milli> elapsed8 = end8 - start8;
     // timing << "? result: " << elapsed8.count() << " ms" << std::endl;
 
 
     return nFused;
-
-    // cudaFreeHost(h_MapPoints);
-    // cudaFreeHost(h_KeyFrames);
-    // cudaFreeHost(h_Ow);
-    // cudaFreeHost(h_Tcw);
-    // cudaFreeHost(bestDists);
-    // cudaFreeHost(bestIdxs);
-    // cudaFree(d_MapPoints);
-    // cudaFree(d_KeyFrames);
-    // cudaFree(d_Ow);
-    // cudaFree(d_Tcw);
-    // cudaFree(d_bestDists);
-    // cudaFree(d_bestIdxs);
 
 }
 

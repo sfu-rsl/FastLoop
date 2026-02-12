@@ -80,7 +80,6 @@ void LoopClosingKernelController::shutdownKernels(bool _localMappingFinished, bo
     }
     CudaUtils::shutdown();
     cudaDeviceSynchronize();
-    // memory_is_initialized = false;
 
 }
 
@@ -88,15 +87,9 @@ void LoopClosingKernelController::shutdownKernels(bool _localMappingFinished, bo
 int LoopClosingKernelController::launchSearchAndFuseKernel(vector<ORB_SLAM3::KeyFrame*> connectedKFs, vector<Sophus::Sim3f> connectedScws, const float th,
                                             vector<ORB_SLAM3::MapPoint*> vpMapPoints, vector<ORB_SLAM3::MapPoint*> &vpReplacePoints)
 {
-    // std::ofstream timing("./test/timing.txt", std::ios::app);
-    // auto start1 = std::chrono::high_resolution_clock::now();
     int nFused = 0;
     nFused = mpSearchAndFuseKernel->launch(connectedKFs, connectedScws, th,
                         vpMapPoints, vpReplacePoints);
-    
-    // auto end1 = std::chrono::high_resolution_clock::now();
-    // std::chrono::duration<double, std::milli> elapsed1 = end1 - start1;
-    // timing << "3 LoopClosingKernelController::launchSearchAndFuseKernel: " << elapsed1.count() << " ms" << std::endl;
     
     return nFused;
 }
@@ -116,10 +109,10 @@ void LoopClosingKernelController::launchSearchByProjectionKernel(ORB_SLAM3::KeyF
 }
 
 void LoopClosingKernelController::launch3SearchByProjectionKernel(vector<ORB_SLAM3::KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, const std::vector<ORB_SLAM3::MapPoint*> &vpMapPoints,
-                                    std::vector<ORB_SLAM3::MapPoint*> &vpMatched0, std::vector<ORB_SLAM3::MapPoint*> &vpMatched1, std::vector<ORB_SLAM3::MapPoint*> &vpMatched2, int th, float ratioHamming, int* num_matches)
+                                    int th, float ratioHamming, int* num_matches, int covKFsSize)
 {
     mpSearchByProjectionKernel->merged3launch(currentCovKFs, currentCovmScws, vpMapPoints,
-                                    vpMatched0, vpMatched1, vpMatched2, th, ratioHamming, num_matches);
+                                    th, ratioHamming, num_matches, covKFsSize);
     
     return;
 }
@@ -132,6 +125,14 @@ int LoopClosingKernelController::launchSingleSearchByProjectionKernel2(ORB_SLAM3
 
 }
 
+int LoopClosingKernelController::launchSingleSearchByProjectionKernel(ORB_SLAM3::KeyFrame* pKF, Sophus::Sim3<float> &Scw,
+                                const std::vector<ORB_SLAM3::MapPoint*> &vpPoints, const std::vector<ORB_SLAM3::KeyFrame*> &vpPointsKFs,
+                                std::vector<ORB_SLAM3::MapPoint*> &vpMatched, std::vector<ORB_SLAM3::KeyFrame*> &vpMatchedKF, int th, float ratioHamming)
+{
+    return mpSearchByProjectionKernel->launch(pKF, Scw, vpPoints, vpPointsKFs, vpMatched, vpMatchedKF, th, ratioHamming);
+
+}
+    
 
 int LoopClosingKernelController::launchSearchByBoWKernel(ORB_SLAM3::KeyFrame *pKF1, ORB_SLAM3::KeyFrame *pKF2, vector<ORB_SLAM3::MapPoint *> &vpMatches12)
 {

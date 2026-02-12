@@ -68,7 +68,7 @@ namespace ORB_SLAM3
                                     int &numProjMatches, int &numProjOptMatches);
         
         void Merged3SearchByProjection(vector<KeyFrame*> currentCovKFs, vector<Sophus::Sim3f> currentCovmScws, const std::vector<MapPoint*> &vpMapPoints,
-                                    std::vector<MapPoint*> &vpMatched0, std::vector<MapPoint*> &vpMatched1, std::vector<MapPoint*> &vpMatched2, int th, float ratioHamming, int* num_matches);
+                                    int th, float ratioHamming, int* num_matches, int covKFsSize);
 
         // Search matches between MapPoints in a KeyFrame and ORB in a Frame.
         // Brute force constrained to ORB that belong to the same vocabulary node (at a certain level)
