@@ -26,6 +26,10 @@
 #include<opencv2/core/core.hpp>
 
 #include<System.h>
+// #include<Stats/TrackingStats.h>
+// #include<Stats/LocalMappingStats.h>
+// #include "Kernels/TrackingKernelController.h"
+// #include "Kernels/MappingKernelController.h"
 #include "ImuTypes.h"
 
 using namespace std;
@@ -38,18 +42,56 @@ void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::P
 double ttrack_tot = 0;
 int main(int argc, char **argv)
 {
+    int min_num_argc = 7 + 3;
+    if(argc < min_num_argc) {
+        cerr << endl << "Usage: ./stereo_inertial_tum_vi path_to_vocabulary path_to_settings path_to_image_folder_1 path_to_image_folder_2 path_to_times_file path_to_imu_data (trajectory_file_name)" 
+                    << "strStatsFile <[0] for ORB-SLAM3, [1] for FastTrack, [2] for FastMap> FastMapMode"  << endl;
+        return 1;
+    }
+
+    bool run_ORBSLAM = (strcmp(argv[argc-2], "0") == 0);
+    bool run_FastTrack = (strcmp(argv[argc-2], "1") == 0);
+    bool run_FastMap = (strcmp(argv[argc-2], "2") == 0);
+    string strStatsFile = argv[argc-3];
+    
+    if (run_ORBSLAM)
+        cout << "Running the original ORB-SLAM3 code...\n";
+    if (run_FastTrack)
+        cout << "Running FastTrack...\n";
+    if (run_FastMap)
+        cout << "Running FastMap...\n";
+    
+    // if (run_FastTrack) {
+    //     TrackingKernelController::activate();
+    // }
+    
+    // if (run_FastMap) {
+    //     MappingKernelController::activate();
+    //     bool searchForTriangulationEnabled = (argv[argc-1][0] == '1');
+    //     bool fuseEnabled = (argv[argc-1][1] == '1');
+    //     bool keyframeCullingEnabled = (argv[argc-1][2] == '1');
+    //     bool LBAEnabled = (argv[argc-1][3] == '1');
+    //     cout << "Activated FastMap Kernels are: (";
+    //     if (searchForTriangulationEnabled)
+    //         cout << "SearchForTriangulation ";
+    //     if (fuseEnabled)
+    //         cout << "Fuse ";
+    //     if (keyframeCullingEnabled)
+    //         cout << "KeyframeCulling ";
+    //     if (LBAEnabled)
+    //         cout << "LBA";
+    //     cout << ")\n";
+        
+    //     MappingKernelController::setGPURunMode(searchForTriangulationEnabled, fuseEnabled, keyframeCullingEnabled, LBAEnabled);
+    // }
+    
+    argc-=3;
     const int num_seq = (argc-3)/4;
     cout << "num_seq = " << num_seq << endl;
     bool bFileName= (((argc-3) % 4) == 1);
     string file_name;
     if (bFileName)
         file_name = string(argv[argc-1]);
-
-    if(argc < 7) 
-    {
-        cerr << endl << "Usage: ./stereo_inertial_tum_vi path_to_vocabulary path_to_settings path_to_image_folder_1 path_to_image_folder_2 path_to_times_file path_to_imu_data (trajectory_file_name)" << endl;
-        return 1;
-    }
 
 
     // Load all sequences:
@@ -118,8 +160,8 @@ int main(int argc, char **argv)
     cout << "Images in the sequence: " << nImages << endl;
     cout << "IMU data in the sequence: " << nImu << endl << endl;*/
 
-    // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_STEREO, true, 0, file_name);
+    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_STEREO, false, 0, file_name);
+    
     float imageScale = SLAM.GetImageScale();
 
     double t_resize = 0.f;
@@ -216,6 +258,11 @@ int main(int argc, char **argv)
             std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
     #endif
 
+#ifdef REGISTER_TRACKING_STATS
+            t_track = t_resize + std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(t2 - t1).count();
+            TrackingStats::getInstance().tracking_time.emplace_back((long unsigned int)ni, t_track);
+#endif
+
 #ifdef REGISTER_TIMES
             t_track = t_resize + std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(t2 - t1).count();
             SLAM.InsertTrackTime(t_track);
@@ -248,6 +295,13 @@ int main(int argc, char **argv)
 
     // Stop all threads
     SLAM.Shutdown();
+#ifdef REGISTER_TRACKING_STATS
+    TrackingStats::getInstance().saveStats(strStatsFile);
+#endif
+
+#ifdef REGISTER_LOCAL_MAPPING_STATS
+    LocalMappingStats::getInstance().saveStats(strStatsFile);
+#endif
 
     // Tracking time statistics
 
@@ -259,8 +313,10 @@ int main(int argc, char **argv)
 
     if (bFileName)
     {
-        const string kf_file =  "kf_" + string(argv[argc-1]) + ".txt";
-        const string f_file =  "f_" + string(argv[argc-1]) + ".txt";
+        // const string kf_file =  "kf_" + string(argv[argc-1]) + ".txt";
+        // const string f_file =  "f_" + string(argv[argc-1]) + ".txt";
+        const string kf_file =  "kf_" + file_name + ".txt";
+        const string f_file =  "f_" + file_name + ".txt";
         SLAM.SaveTrajectoryEuRoC(f_file);
         SLAM.SaveKeyFrameTrajectoryEuRoC(kf_file);
     }

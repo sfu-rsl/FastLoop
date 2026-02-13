@@ -40,13 +40,17 @@ void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::P
 
 
 int main(int argc, char **argv)
-{
-    if(argc < 5)
+{   
+    int min_num_argc = 6 + 4;
+
+    if(argc < min_num_argc)
     {
-        cerr << endl << "Usage: ./stereo_inertial_euroc path_to_vocabulary path_to_settings path_to_sequence_folder_1 path_to_times_file_1 (path_to_image_folder_2 path_to_times_file_2 ... path_to_image_folder_N path_to_times_file_N) " << endl;
+        cerr << endl << "Usage: ./stereo_inertial_euroc path_to_vocabulary path_to_settings path_to_sequence_folder_1 path_to_times_file_1 (path_to_image_folder_2 path_to_times_file_2 ... path_to_image_folder_N path_to_times_file_N) " 
+            << "strStatsFile <[0] for ORB-SLAM3, [1] for FastTrack, [2] for TurboMap, [3] for FastTrack & TurboMap> kernel_status_FT kernel_status_TM"  << endl;
         return 1;
     }
 
+    argc-=4;
     const int num_seq = (argc-3)/2;
     cout << "num_seq = " << num_seq << endl;
     bool bFileName= (((argc-3) % 2) == 1);
@@ -131,16 +135,18 @@ int main(int argc, char **argv)
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_STEREO, false);
 
+    int proccIm = 0;
+
     cv::Mat imLeft, imRight;
     for (seq = 0; seq<num_seq; seq++)
     {
         // Seq loop
         vector<ORB_SLAM3::IMU::Point> vImuMeas;
+        proccIm = 0;
         double t_rect = 0.f;
         double t_resize = 0.f;
         double t_track = 0.f;
         int num_rect = 0;
-        int proccIm = 0;
         for(int ni=0; ni<nImages[seq]; ni++, proccIm++)
         {
             // Read left and right images from file
@@ -190,6 +196,11 @@ int main(int argc, char **argv)
             std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
     #endif
 
+#ifdef REGISTER_TRACKING_STATS
+            t_track = t_rect + t_resize + std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(t2 - t1).count();
+            TrackingStats::getInstance().tracking_time.emplace_back((long unsigned int)ni, t_track);
+#endif
+
 #ifdef REGISTER_TIMES
             t_track = t_rect + t_resize + std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(t2 - t1).count();
             SLAM.InsertTrackTime(t_track);
@@ -221,6 +232,13 @@ int main(int argc, char **argv)
     }
     // Stop all threads
     SLAM.Shutdown();
+#ifdef REGISTER_TRACKING_STATS
+    TrackingStats::getInstance().saveStats(strStatsFile);
+#endif
+
+#ifdef REGISTER_LOCAL_MAPPING_STATS
+    LocalMappingStats::getInstance().saveStats(strStatsFile);
+#endif
 
 
     // Save camera trajectory
@@ -236,6 +254,17 @@ int main(int argc, char **argv)
         SLAM.SaveTrajectoryEuRoC("CameraTrajectory.txt");
         SLAM.SaveKeyFrameTrajectoryEuRoC("KeyFrameTrajectory.txt");
     }
+
+    sort(vTimesTrack.begin(),vTimesTrack.end());
+    // vTimesTrack.pop_back();
+
+    float totaltime = 0;
+    for (int ni=0; ni<vTimesTrack.size(); ni++)
+        totaltime += vTimesTrack[ni];
+
+    cout << "-------" << endl << endl;
+    cout << "median tracking time: " << vTimesTrack[nImages[0]/2] << endl;
+    cout << "mean tracking time: " << totaltime/proccIm << endl;
 
     return 0;
 }
