@@ -5315,7 +5315,7 @@ void Optimizer::OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFram
 
     // Setup optimizer
     g2o::SparseOptimizer optimizer;
-    optimizer.setVerbose(true);
+    optimizer.setVerbose(false);
     g2o::BlockSolverX::LinearSolverType * linearSolver =
             new g2o::LinearSolverEigen<g2o::BlockSolverX::PoseMatrixType>();
     g2o::BlockSolverX * solver_ptr = new g2o::BlockSolverX(linearSolver);
@@ -5873,7 +5873,7 @@ void OptimizeEssentialGraph4DoF(Map* pMap, KeyFrame* pLoopKF, KeyFrame* pCurKF,
     // std::cout << "Added edges" << std::endl;
     // std::cout << "Optimizing..." << std::endl;
     // auto topt0 = std::chrono::steady_clock::now();
-    optimizer.optimize(20, 1e-4, true);
+    optimizer.optimize(20, 1e-4, false);
     // auto topt1 = std::chrono::steady_clock::now();
     // std::chrono::duration<double> time_used = topt1 - topt0;
     // std::cout << "Optimization took " << time_used.count() << " seconds." << std::endl;
