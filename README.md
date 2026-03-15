@@ -1,1 +1,1 @@
-# ّFastLoop
+# FastLoop
