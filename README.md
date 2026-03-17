@@ -94,7 +94,7 @@ Installation options:
 Start by cloning the project repository:
 
 ```bash
-git clone git@github.com:sfu-rsl/FastLoop.git
+git clone [git@github.com:sfu-rsl/FastLoop.git](https://github.com/sfu-rsl/FastLoop.git)
 ```
 ## Install GPU Block Solver
 Once the repository is cloned, follow the instructions provided [here](https://github.com/sfu-rsl/gpu-block-solver/blob/master/INTEGRATION.md) to install the accelerated GPU block solver.
