@@ -85,9 +85,8 @@ Installation options:
 - **Ubuntu/Debian:**  
   ```bash
   sudo apt install libpython2.7-dev
-
-
-  ---
+  
+---
 
 ## Build
 
