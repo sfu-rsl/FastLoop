@@ -78,10 +78,40 @@ Python is required for aligning the estimated trajectory with the ground truth.
 
 **Required dependency:**  
 - `NumPy`
-
+  
 Installation options:
 
 - **Windows:** http://www.python.org/downloads/windows  
 - **Ubuntu/Debian:**  
   ```bash
   sudo apt install libpython2.7-dev
+
+
+  ---
+
+## Build
+
+## Clone the Repository
+Start by cloning the project repository:
+
+```bash
+git clone git@github.com:sfu-rsl/FastLoop.git
+```
+## Install GPU Block Solver
+Once the repository is cloned, follow the instructions provided [here](https://github.com/sfu-rsl/gpu-block-solver/blob/master/INTEGRATION.md) to install the accelerated GPU block solver.
+
+## Build the Project
+This project is built on top of ORB-SLAM3, which includes a script called `build.sh` to compile both the Thirdparty libraries and ORB-SLAM3 itself.
+
+Then run the following commands:
+
+```
+cd FastLoop
+chmod +x build.sh
+./build.sh
+```
+## Output
+After a successful build:
+
+- The shared library libORB_SLAM3.so will be generated in the lib directory
+- Executable files will be available in the Examples directory
